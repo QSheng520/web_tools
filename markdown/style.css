@@ -46,6 +46,13 @@ body {
     margin-right: 4px;
 }
 
+/* 操作按钮组（右侧） */
+.toolbar-actions {
+    margin-left: auto;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bae6fd;
+}
+
 .toolbar-btn {
     background: transparent;
     border: none;
@@ -73,6 +80,84 @@ body {
 
 .toolbar-btn:active {
     transform: translateY(1px);
+}
+
+/* 示例模版按钮特殊样式 */
+.toolbar-btn[data-action="sample"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    padding: 0 14px !important;
+    width: auto !important;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.toolbar-btn[data-action="sample"] i {
+    margin-right: 6px;
+    font-size: 0.95rem;
+}
+
+.toolbar-btn[data-action="sample"] span {
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.toolbar-btn[data-action="sample"]:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    color: #ffffff;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.toolbar-btn[data-action="sample"]:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 0 2px 16px rgba(102, 126, 234, 0.6);
+    }
+}
+
+/* 下载按钮特殊样式 */
+.toolbar-btn-save {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    border: none;
+    padding: 0 16px !important;
+    width: auto !important;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s ease;
+}
+
+.toolbar-btn-save i {
+    margin-right: 6px;
+    font-size: 0.95rem;
+}
+
+.toolbar-btn-save span {
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+}
+
+.toolbar-btn-save:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: #ffffff;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5);
+}
+
+.toolbar-btn-save:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
 }
 
 .toolbar-sep {
