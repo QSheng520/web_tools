@@ -95,6 +95,33 @@ $(function() {
         $("[view=data_detail]").hide();
         $("[view=calc_result]").show()
     });
+    // 跳转到提前还款计算器
+    $("#go_to_early_repay").on("click", function() {
+        window.scrollTo("0", "0");
+        $("[view=calc_input]").hide();
+        $("[view=early_repayment_calc]").show();
+    });
+    // 从提前还款计算器返回
+    $("#back_to_main_calc").on("click", function() {
+        window.scrollTo("0", "0");
+        $("[view=early_repayment_calc]").hide();
+        $("[view=calc_input]").show();
+    });
+    // 提前还款期限选择更新
+    $("#early_original_period").on("change", function() {
+        var periods = parseInt($(this).val());
+        var years = periods / 12;
+        $("#early_original_period_bar").text($(this).find("option:selected").text());
+        $("#early_original_period_bar").val(periods);
+    });
+    // 计算提前还款
+    $("#calculate_early_repay").on("click", function() {
+        if (validateEarlyRepayInput()) {
+            calculateEarlyRepayment();
+            window.scrollTo("0", "0");
+            $("#early_repay_result").show();
+        }
+    });
     // 组合贷明细切换
     $(".mix-loan-tabs .tab").on("click", function() {
         var tabsContainer = $(this).closest(".mix-loan-tabs");
@@ -454,3 +481,218 @@ function calculate_debj_doubleLoan(a, b, d, f) {
         "元");
     return h
 };
+
+// 提前还款计算器相关函数
+function validateEarlyRepayInput() {
+    var loanAmount = $.trim($("#early_loan_amount").val());
+    var interestRate = $.trim($("#early_interest_rate").val());
+    var paidPeriods = $.trim($("#early_paid_periods").val());
+    var repayAmount = $.trim($("#early_repay_amount").val());
+    var pattern = /^\d*[\.]?\d*$/;
+    
+    if (!loanAmount || !pattern.test(loanAmount) || parseFloat(loanAmount) <= 0) {
+        alert("请输入有效的贷款总额");
+        $("#early_loan_amount").focus();
+        return false;
+    }
+    if (!interestRate || !pattern.test(interestRate) || parseFloat(interestRate) <= 0) {
+        alert("请输入有效的年利率");
+        $("#early_interest_rate").focus();
+        return false;
+    }
+    if (!paidPeriods || !/^\d+$/.test(paidPeriods) || parseInt(paidPeriods) <= 0) {
+        alert("请输入有效的已还期数");
+        $("#early_paid_periods").focus();
+        return false;
+    }
+    if (!repayAmount || !pattern.test(repayAmount) || parseFloat(repayAmount) <= 0) {
+        alert("请输入有效的提前还款金额");
+        $("#early_repay_amount").focus();
+        return false;
+    }
+    
+    var totalPeriods = parseInt($("#early_original_period").val());
+    if (parseInt(paidPeriods) >= totalPeriods) {
+        alert("已还期数不能大于或等于总期数");
+        $("#early_paid_periods").focus();
+        return false;
+    }
+    
+    var remainingPrincipal = calculateRemainingPrincipal(
+        parseFloat(loanAmount) * 10000,
+        parseFloat(interestRate) / 1200,
+        totalPeriods,
+        parseInt(paidPeriods),
+        $('input[name="earlyRepayType"]:checked').val()
+    );
+    
+    if (parseFloat(repayAmount) * 10000 >= remainingPrincipal) {
+        alert("提前还款金额不能大于或等于剩余本金");
+        $("#early_repay_amount").focus();
+        return false;
+    }
+    
+    return true;
+}
+
+function calculateRemainingPrincipal(principal, monthlyRate, totalPeriods, paidPeriods, repayType) {
+    if (repayType == "1") {
+        // 等额本息
+        var monthlyPayment = principal * monthlyRate * Math.pow(1 + monthlyRate, totalPeriods) / 
+                            (Math.pow(1 + monthlyRate, totalPeriods) - 1);
+        var remainingPrincipal = principal * (Math.pow(1 + monthlyRate, totalPeriods) - 
+                                             Math.pow(1 + monthlyRate, paidPeriods)) / 
+                                (Math.pow(1 + monthlyRate, totalPeriods) - 1);
+        return Math.round(100 * remainingPrincipal) / 100;
+    } else {
+        // 等额本金
+        var monthlyPrincipal = principal / totalPeriods;
+        var remainingPrincipal = principal - monthlyPrincipal * paidPeriods;
+        return Math.round(100 * remainingPrincipal) / 100;
+    }
+}
+
+function calculateEarlyRepayment() {
+    var loanAmount = parseFloat($("#early_loan_amount").val()) * 10000; // 转换为元
+    var annualRate = parseFloat($("#early_interest_rate").val());
+    var monthlyRate = annualRate / 1200;
+    var totalPeriods = parseInt($("#early_original_period").val());
+    var paidPeriods = parseInt($("#early_paid_periods").val());
+    var earlyRepayAmount = parseFloat($("#early_repay_amount").val()) * 10000; // 转换为元
+    var repayType = $('input[name="earlyRepayType"]:checked').val();
+    var repayMethod = $('input[name="earlyRepayMethod"]:checked').val();
+    
+    // 计算原计划总利息
+    var originalTotalInterest = calculateOriginalTotalInterest(loanAmount, monthlyRate, totalPeriods, repayType);
+    
+    // 计算剩余本金
+    var remainingPrincipal = calculateRemainingPrincipal(loanAmount, monthlyRate, totalPeriods, paidPeriods, repayType);
+    
+    // 提前还款后的新本金
+    var newPrincipal = remainingPrincipal - earlyRepayAmount;
+    
+    // 计算提前还款后已还的利息（前paidPeriods期的利息）
+    var paidInterest = calculatePaidInterest(loanAmount, monthlyRate, totalPeriods, paidPeriods, repayType);
+    
+    var newTotalInterest, newMonthlyPayment, newPeriods;
+    
+    if (repayMethod == "shorten") {
+        // 缩短期限：保持月供不变，减少期数
+        if (repayType == "1") {
+            // 等额本息
+            var originalMonthlyPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalPeriods) / 
+                                        (Math.pow(1 + monthlyRate, totalPeriods) - 1);
+            
+            // 计算新的期数
+            newPeriods = Math.log(originalMonthlyPayment / (originalMonthlyPayment - newPrincipal * monthlyRate)) / 
+                        Math.log(1 + monthlyRate);
+            newPeriods = Math.ceil(newPeriods);
+            
+            // 计算新的总利息
+            var remainingInterest = originalMonthlyPayment * newPeriods - newPrincipal;
+            newTotalInterest = paidInterest + remainingInterest;
+            newMonthlyPayment = originalMonthlyPayment;
+        } else {
+            // 等额本金
+            var originalMonthlyPrincipal = loanAmount / totalPeriods;
+            // 保持每月本金不变，计算新的期数
+            newPeriods = Math.ceil(newPrincipal / originalMonthlyPrincipal);
+            
+            // 计算新的总利息
+            var remainingInterest = newPrincipal * monthlyRate * (newPeriods + 1) / 2;
+            newTotalInterest = paidInterest + remainingInterest;
+            
+            // 新月供（第一期）
+            newMonthlyPayment = originalMonthlyPrincipal + newPrincipal * monthlyRate;
+        }
+    } else {
+        // 减少月供：保持期数不变，减少月供
+        var remainingPeriods = totalPeriods - paidPeriods;
+        newPeriods = remainingPeriods;
+        
+        if (repayType == "1") {
+            // 等额本息
+            newMonthlyPayment = newPrincipal * monthlyRate * Math.pow(1 + monthlyRate, remainingPeriods) / 
+                               (Math.pow(1 + monthlyRate, remainingPeriods) - 1);
+            var remainingInterest = newMonthlyPayment * remainingPeriods - newPrincipal;
+            newTotalInterest = paidInterest + remainingInterest;
+        } else {
+            // 等额本金
+            var newMonthlyPrincipal = newPrincipal / remainingPeriods;
+            // 第一个月的月供
+            newMonthlyPayment = newMonthlyPrincipal + newPrincipal * monthlyRate;
+            var remainingInterest = newPrincipal * monthlyRate * (remainingPeriods + 1) / 2;
+            newTotalInterest = paidInterest + remainingInterest;
+        }
+    }
+    
+    // 格式化显示结果
+    originalTotalInterest = Math.round(100 * originalTotalInterest) / 100;
+    newTotalInterest = Math.round(100 * newTotalInterest) / 100;
+    var savedInterest = originalTotalInterest - newTotalInterest;
+    savedInterest = Math.round(100 * savedInterest) / 100;
+    
+    $("#original_total_interest").text(originalTotalInterest.toFixed(2) + "元");
+    $("#new_total_interest").text(newTotalInterest.toFixed(2) + "元");
+    $("#saved_interest").text(savedInterest.toFixed(2) + "元");
+    
+    // 原计划月供
+    var originalMonthlyPayment;
+    if (repayType == "1") {
+        originalMonthlyPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalPeriods) / 
+                                (Math.pow(1 + monthlyRate, totalPeriods) - 1);
+    } else {
+        originalMonthlyPayment = loanAmount / totalPeriods + loanAmount * monthlyRate;
+    }
+    originalMonthlyPayment = Math.round(100 * originalMonthlyPayment) / 100;
+    
+    $("#original_monthly_payment").text(originalMonthlyPayment.toFixed(2) + "元");
+    $("#new_monthly_payment").text(Math.round(100 * newMonthlyPayment) / 100 + "元");
+    
+    $("#original_periods").text(totalPeriods + "期（" + (totalPeriods / 12).toFixed(1) + "年）");
+    $("#new_periods").text(newPeriods + "期（" + (newPeriods / 12).toFixed(1) + "年）");
+    
+    var shortenedPeriods = totalPeriods - paidPeriods - newPeriods;
+    if (shortenedPeriods > 0) {
+        $("#shortened_time").text(shortenedPeriods + "期（" + (shortenedPeriods / 12).toFixed(1) + "年）");
+    } else {
+        $("#shortened_time").text("0期（期限不变）");
+    }
+}
+
+function calculateOriginalTotalInterest(principal, monthlyRate, totalPeriods, repayType) {
+    if (repayType == "1") {
+        // 等额本息
+        var totalPayment = principal * totalPeriods * monthlyRate * Math.pow(1 + monthlyRate, totalPeriods) / 
+                          (Math.pow(1 + monthlyRate, totalPeriods) - 1);
+        var totalInterest = totalPayment - principal;
+        return totalInterest;
+    } else {
+        // 等额本金
+        var totalInterest = principal * monthlyRate * (totalPeriods + 1) / 2;
+        return totalInterest;
+    }
+}
+
+function calculatePaidInterest(principal, monthlyRate, totalPeriods, paidPeriods, repayType) {
+    var paidInterest = 0;
+    if (repayType == "1") {
+        // 等额本息
+        var monthlyPayment = principal * monthlyRate * Math.pow(1 + monthlyRate, totalPeriods) / 
+                            (Math.pow(1 + monthlyRate, totalPeriods) - 1);
+        for (var i = 1; i <= paidPeriods; i++) {
+            var interest = principal * monthlyRate * (Math.pow(1 + monthlyRate, totalPeriods) - 
+                         Math.pow(1 + monthlyRate, i - 1)) / 
+                         (Math.pow(1 + monthlyRate, totalPeriods) - 1);
+            paidInterest += interest;
+        }
+    } else {
+        // 等额本金
+        var monthlyPrincipal = principal / totalPeriods;
+        for (var i = 1; i <= paidPeriods; i++) {
+            var interest = principal * monthlyRate * (totalPeriods - i + 1) / totalPeriods;
+            paidInterest += interest;
+        }
+    }
+    return paidInterest;
+}
