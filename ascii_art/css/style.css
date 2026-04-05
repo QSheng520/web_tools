@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(145deg, #0b0e1a 0%, #12162a 100%);
+    font-family: 'Segoe UI', 'Fira Code', 'Courier New', monospace;
+    padding: 2rem 1.5rem;
+    color: #e3e6f0;
+    min-height: 100vh;
+}
+
+/* 主容器 */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    backdrop-filter: blur(2px);
+}
+
+/* 标题区 */
+.hero {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.hero h1 {
+    font-size: 2.8rem;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, #c0e0ff, #9f7eff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-weight: 700;
+}
+.hero p {
+    color: #9aa4c2;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+/* 选项卡 */
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #2a2f45;
+    padding-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0.6rem 1.8rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #9aa4c2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 40px;
+    backdrop-filter: blur(4px);
+}
+.tab-btn.active {
+    background: #2a2f55;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    border: 1px solid #4c5b9a;
+}
+.tab-btn:hover:not(.active) {
+    color: #cfdcff;
+    background: #1e223b;
+}
+
+/* 双面板 (每个模式单独内容, 用display控制) */
+.mode-panel {
+    display: none;
+    animation: fadeIn 0.25s ease;
+}
+.mode-panel.active-panel {
+    display: block;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+/* 通用卡片样式 */
+.card {
+    background: rgba(18, 22, 42, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 32px;
+    padding: 1.5rem;
+    margin-bottom: 1.8rem;
+    border: 1px solid rgba(72, 85, 120, 0.4);
+    box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+}
+
+.grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1.8rem;
+}
+@media (max-width: 760px) {
+    .grid-2col {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    body {
+        padding: 1rem;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+
+/* 控件组 */
+.control-group {
+    margin-bottom: 1.3rem;
+}
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #bfc9f0;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+input, select, textarea {
+    width: 100%;
+    background: #0c0f1c;
+    border: 1px solid #2e3456;
+    padding: 0.7rem 1rem;
+    border-radius: 20px;
+    color: #f0f3ff;
+    font-family: monospace;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #7f92ff;
+    box-shadow: 0 0 0 2px rgba(127, 146, 255, 0.2);
+}
+button {
+    background: #2c315c;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 40px;
+    font-weight: bold;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+button.primary {
+    background: #6d5dfe;
+    box-shadow: 0 4px 12px rgba(109, 93, 254, 0.3);
+}
+button.primary:hover {
+    background: #8a7cff;
+    transform: translateY(-2px);
+}
+button:hover {
+    background: #3d4379;
+    transform: translateY(-1px);
+}
+.flex-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+}
+
+/* 预览区域 */
+.preview-img {
+    background: #090c18;
+    border-radius: 24px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px dashed #3d4370;
+}
+.preview-img img {
+    max-width: 100%;
+    max-height: 220px;
+    border-radius: 16px;
+    object-fit: contain;
+}
+.upload-area {
+    border: 2px dashed #4a5080;
+    background: #0b0e1c;
+    border-radius: 28px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.upload-area:hover {
+    border-color: #8f9eff;
+    background: #11162c;
+}
+
+/* ascii 结果区 */
+.result-box {
+    background: #03050c;
+    border-radius: 24px;
+    padding: 1.2rem;
+    border: 1px solid #2f3560;
+}
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+pre {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.3;
+    white-space: pre;
+    overflow-x: auto;
+    background: #010101;
+    padding: 1rem;
+    border-radius: 20px;
+    max-height: 500px;
+    color: #d3deff;
+    border: 1px solid #262d4a;
+}
+.info-tip {
+    font-size: 0.75rem;
+    color: #7b84af;
+    margin-top: 0.5rem;
+}
+.range-value {
+    display: inline-block;
+    background: #1f253f;
+    padding: 0.2rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    margin-left: 8px;
+}
+hr {
+    border-color: #2a2f4e;
+    margin: 0.5rem 0;
+}
+.char-preview {
+    font-family: monospace;
+    letter-spacing: 2px;
+}
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    color: #5f6990;
+}

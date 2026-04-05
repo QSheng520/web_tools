@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ASCII艺术工坊 | 图片/文字转字符画</title>
+    <!-- 引入 Figlet.js 用于文本转ASCII艺术字 (轻量级库) -->
+    <script src="https://cdn.jsdelivr.net/npm/figlet@1.5.2/lib/figlet.min.js"></script>
+    <!-- 引入自定义脚本 -->
+    <script src="js/script.js" defer></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <h1>◢ ASCII 艺术工坊 ◣</h1>
+        <p>图像像素转字符画 · 文字幻化成酷炫大字符</p>
+    </div>
+
+    <!-- 选项卡切换 -->
+    <div class="tabs">
+        <button class="tab-btn active" data-mode="img">🖼️ 图片转 ASCII</button>
+        <button class="tab-btn" data-mode="text">✍️ 文本转 ASCII 艺术字</button>
+    </div>
+
+    <!-- 模式1: 图片转 ASCII -->
+    <div id="imgPanel" class="mode-panel active-panel">
+        <div class="grid-2col">
+            <!-- 左侧控制区 -->
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">📤 上传图片</h3>
+                <div class="upload-area" id="dropZone">
+                    <p>📁 点击或拖拽图片至此</p>
+                    <p style="font-size: 12px; margin-top: 5px;">支持 JPG, PNG, GIF, WebP</p>
+                    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                </div>
+                <div class="preview-img" id="imgPreviewArea" style="margin-top: 1rem;">
+                    <img id="previewImage" src="https://placehold.co/400x200/1a1f35/7e8bd0?text=等待图片加载" alt="预览图">
+                </div>
+                <hr>
+                <div class="control-group">
+                    <label>🎚️ 输出宽度 (字符数) <span id="widthVal" class="range-value">80</span></label>
+                    <input type="range" id="asciiWidth" min="20" max="200" value="80" step="2">
+                </div>
+                <div class="control-group">
+                    <label>🔣 字符集 (暗→亮 / 密→疏)</label>
+                    <select id="charSetSelect">
+                        <option value="default">经典 · @%#*+=-:. </option>
+                        <option value="dense">浓密 · $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft</option>
+                        <option value="simple">简约 · █▓▒░  </option>
+                        <option value="numbers">数字 · 0123456789</option>
+                        <option value="custom">✏️ 自定义字符集</option>
+                    </select>
+                    <input type="text" id="customCharset" placeholder="输入自定义字符 (从暗到亮排序)" style="margin-top: 8px; display: none;">
+                </div>
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="reverseBrightness" style="width: auto; margin-right: 8px;"> 🔄 反转亮度 (亮区变暗字符)
+                    </label>
+                </div>
+                <div class="flex-btns">
+                    <button id="convertImgBtn" class="primary">✨ 转换为 ASCII</button>
+                </div>
+                <div class="info-tip">💡 字符集越靠前代表越暗的像素，宽度决定输出细节。建议宽度 60~120 效果最佳。</div>
+            </div>
+            <!-- 右侧结果区 -->
+            <div class="card result-box">
+                <div class="result-header">
+                    <strong>🖨️ ASCII 画作输出</strong>
+                    <div class="flex-btns" style="margin-top:0">
+                        <button id="copyImgResult">📋 复制</button>
+                        <button id="downloadImgResult">⬇️ 下载 .txt</button>
+                    </div>
+                </div>
+                <pre id="imgAsciiPre">✨ 上传图片并点击「转换为 ASCII」生成字符画 ✨</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模式2: 文本转 ASCII 艺术字 (figlet) -->
+    <div id="textPanel" class="mode-panel">
+        <div class="grid-2col">
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">📝 输入文字</h3>
+                <textarea id="inputText" rows="3" placeholder="输入英文 / 数字 / 符号...&#10;例如: ASCII ART" style="resize: vertical;">ASCII ART</textarea>
+                <div class="control-group" style="margin-top: 1rem;">
+                    <label>🎨 艺术字体风格</label>
+                    <select id="figletFont">
+                        <option value="standard">Standard (标准)</option>
+                        <option value="slant">Slant (斜体)</option>
+                        <option value="bubble">Bubble (泡泡)</option>
+                        <option value="digital">Digital (数码)</option>
+                        <option value="block">Block (方块)</option>
+                        <option value="lean">Lean (倾斜)</option>
+                        <option value="mini">Mini (迷你)</option>
+                    </select>
+                </div>
+                <div class="flex-btns">
+                    <button id="convertTextBtn" class="primary">🎭 生成艺术字</button>
+                </div>
+                <div class="info-tip">🔤 基于 Figlet 引擎，支持多种字体风格，仅限ASCII字符最佳。</div>
+            </div>
+            <div class="card result-box">
+                <div class="result-header">
+                    <strong>✍️ ASCII 艺术字结果</strong>
+                    <div class="flex-btns" style="margin-top:0">
+                        <button id="copyTextResult">📋 复制</button>
+                        <button id="downloadTextResult">⬇️ 下载 .txt</button>
+                    </div>
+                </div>
+                <pre id="textAsciiPre">✨ 输入文字并点击生成按钮 ✨</pre>
+            </div>
+        </div>
+    </div>
+    <footer>⚡ 基于 HTML5 Canvas + Figlet 构建 | 像素转字符 | 自由创作复古字符画</footer>
+</div>
+</body>
+</html>
