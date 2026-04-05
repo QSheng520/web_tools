@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>随机点名器 · AoaoStar 工具箱风格</title>
+    <!-- 使用 Font Awesome 6 免费图标库，提升视觉体验 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-chalkboard-user"></i>
+            随机点名器
+            <i class="fas fa-dice-d6"></i>
+        </h1>
+        <p>公平抽选 · 课堂互动 · 趣味点名</p>
+    </div>
+
+    <div class="main-grid">
+        <!-- 左侧抽选区域 -->
+        <div class="roll-area">
+            <div class="result-card">
+                <div class="result-label"><i class="fas fa-star-of-life"></i> 今日幸运星 <i class="fas fa-star-of-life"></i></div>
+                <div class="result-name" id="resultName">✨ 待点名 ✨</div>
+            </div>
+            <button class="call-btn" id="callBtn">
+                <i class="fas fa-hand-peace"></i> 开始点名
+            </button>
+            <div class="stats-info" id="statsInfo">
+                <i class="fas fa-users"></i> 当前学生：<span id="studentCount">0</span> 人
+            </div>
+        </div>
+
+        <!-- 右侧管理区域 -->
+        <div class="manage-area">
+            <div class="section-title">
+                <i class="fas fa-user-graduate"></i> 花名册管理
+            </div>
+            <!-- 单条添加 -->
+            <div class="add-group">
+                <input type="text" id="studentNameInput" placeholder="输入学生姓名, 例如: 欧阳若曦" autocomplete="off">
+                <button id="addStudentBtn" class="primary"><i class="fas fa-plus-circle"></i> 添加</button>
+            </div>
+
+            <!-- 批量导入区域 -->
+            <div class="batch-area">
+                <div style="font-size:0.8rem; margin-bottom:6px;"><i class="fas fa-cloud-upload-alt"></i> 批量导入 (一行一个姓名 或 逗号分割)</div>
+                <textarea id="batchNamesInput" rows="2" placeholder="例如：&#10;张小凡&#10;陆雪琪&#10;林惊羽,田灵儿,曾书书"></textarea>
+                <div class="batch-actions">
+                    <button id="batchAddBtn"><i class="fas fa-plus-square"></i> 追加名单</button>
+                    <button id="resetDefaultBtn" class="warning"><i class="fas fa-undo-alt"></i> 重置默认</button>
+                    <button id="clearAllBtn" class="danger"><i class="fas fa-trash-alt"></i> 全部清空</button>
+                </div>
+            </div>
+
+            <!-- 学生列表展示 + 删除 -->
+            <div class="section-title" style="margin-top: 5px;">
+                <i class="fas fa-list-ul"></i> 学生列表
+                <span style="font-size:0.75rem; margin-left:auto;">点击 ✖️ 可删除</span>
+            </div>
+            <div class="student-list-container" id="studentListContainer">
+                <!-- 动态渲染 -->
+                <div class="empty-list">暂无学生，请添加～</div>
+            </div>
+            <div class="toolbar-buttons">
+                <button id="deleteSelectedAll" class="danger" style="flex:1"><i class="fas fa-user-minus"></i> 删除全部</button>
+                <small style="color:#a0aec0; font-size: 0.7rem;"><i class="fas fa-save"></i> 名单自动保存至本地</small>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <i class="fas fa-dice"></i> 公平随机 | 点名动画特效 | 数据本地存储 · 课堂必备
+    </footer>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

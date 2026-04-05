@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>九年义务教育试卷生成器 | 数学·语文·英语</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="exam-container">
+    <div class="paper-header">
+        <div class="seal-area">
+            <div class="school-info">
+                <span>学校：__________________</span>
+                <span>班级：__________</span>
+                <span>姓名：__________</span>
+                <span>考号：__________</span>
+            </div>
+            <div style="font-size:12px; color:#9b7c54;">☆ 密封线内严禁答题 ☆</div>
+        </div>
+        <div class="exam-title">
+            <h1>2024~2025学年第二学期期中检测卷</h1>
+            <div class="sub">【九年义务教育 新课标卷】</div>
+        </div>
+        <div class="meta-info">
+            <span>考试时间：90分钟</span>
+            <span>满分：100分</span>
+            <span>命题人：教研室</span>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="subject-selector">
+            <label>📚 选择科目：</label>
+            <select id="subjectSelect">
+                <option value="math">🧮 数学</option>
+                <option value="chinese">📖 语文</option>
+                <option value="english">🇬🇧 英语</option>
+            </select>
+        </div>
+        <button class="generate-btn" id="generateBtn">✍️ 生成试卷 & 答案</button>
+        <div style="font-size:13px; color:#7e6a48;">※ 题目与答案独立分区，分开呈现</div>
+    </div>
+
+    <div class="content-split">
+        <!-- 题目区域（仅显示试题） -->
+        <div class="questions-area" id="questionsArea">
+            <div class="section-title">📋 一、积累与运用 · 试题部分</div>
+            <div id="questionsList">加载中...</div>
+        </div>
+
+        <!-- 答案区域（完全独立） -->
+        <div class="answers-area" id="answersArea">
+            <div class="answer-title">🔍 参考答案 & 详解</div>
+            <div id="answersList">请点击生成试卷，答案将独立展示于此</div>
+        </div>
+    </div>
+    <footer>本试卷由试卷生成器自动编排 | 题目与答案分别印刷，便于批阅与复习</footer>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
