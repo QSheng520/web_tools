@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>专业二维码生成器 - 支持Logo与配色</title>
+    <!-- QRCode.js 库 (v1.5.1) 提供稳定二维码生成能力 -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="qr-card">
+    <div class="header">
+        <div class="header-left">
+            <h1>QR Canvas 大师</h1>
+            <p>自定义配色 · 嵌入 Logo · 高容错设计</p>
+        </div>
+        <a href="../index.html" class="btn-home">🏠 返回首页</a>
+    </div>
+    <div class="content">
+        <!-- 左侧配置区域 -->
+        <div class="controls">
+            <!-- 文本输入 -->
+            <div class="input-group">
+                <label><i>📝</i> 内容 / 链接</label>
+                <textarea id="qrText" rows="3" placeholder="输入网址、文本或任何信息...&#10;例如: https://github.com 或  Hello World">https://www.zhuoqiusheng.cn</textarea>
+            </div>
+
+            <!-- 配色方案 -->
+            <div class="input-group">
+                <label><i>🎨</i> 二维码配色</label>
+                <div class="color-row">
+                    <div class="color-picker-wrapper">
+                        <span>前景色</span>
+                        <input type="color" id="fgColor" value="#1E293B">
+                    </div>
+                    <div class="color-picker-wrapper">
+                        <span>背景色</span>
+                        <input type="color" id="bgColor" value="#FFFFFF">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logo 上传 + 管理 -->
+            <div class="upload-zone">
+                <label style="font-weight: 600; margin-bottom: 8px; display: block;"><i>🖼️</i> 中心 Logo</label>
+                <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/jpg, image/svg+xml, image/webp">
+                <label for="logoUpload" class="file-label">📂 选择图片</label>
+                <div class="logo-preview" id="logoPreviewArea" style="display: none;">
+                    <div class="logo-thumb">
+                        <img id="logoPreviewImg" alt="logo预览">
+                    </div>
+                    <button id="clearLogoBtn" class="btn-clear-logo">移除 Logo</button>
+                </div>
+                <div class="info-tip" style="margin-top: 10px; text-align: left;">✓ 建议 PNG 透明背景，自动缩放至合适大小<br>✓ 高容错级别(H)保证扫码识别</div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="downloadBtn" class="btn-download">⬇️ 下载二维码 (PNG)</button>
+            </div>
+            <hr>
+            <div class="info-tip">
+                💡 提示：颜色对比度建议明显，Logo 会覆盖中心区域，但高容错仍可正常扫描。
+            </div>
+        </div>
+
+        <!-- 右侧预览区域 -->
+        <div class="preview-area">
+            <div class="qr-canvas-wrapper">
+                <canvas id="qrCanvas" width="300" height="300" style="width: 300px; height: 300px;"></canvas>
+            </div>
+            <div class="info-tip">
+                ✨ 实时更新 · 支持透明背景logo
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 自定义脚本 -->
+<script src="js/script.js"></script>
+</body>
+</html>
