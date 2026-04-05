@@ -34,6 +34,33 @@ body {
     backdrop-filter: blur(2px);
     z-index: 10;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    margin-right: 8px;
+}
+
+.back-home-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.back-home-btn i {
+    font-size: 0.9rem;
 }
 
 .toolbar-group {
@@ -644,4 +671,23 @@ textarea:focus {
 
 .template-card[data-type="changelog"]::before {
     background: linear-gradient(90deg, #6366f1, #a855f7);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .toolbar {
+        padding: 6px 12px;
+    }
+    /* 移动端返回首页按钮调整 */
+    .back-home-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        margin-right: 4px;
+    }
+    .back-home-btn span {
+        display: none;
+    }
+    .toolbar-group {
+        padding: 3px 6px;
+    }
 }

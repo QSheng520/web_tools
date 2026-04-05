@@ -21,6 +21,37 @@ body {
     border: 1px solid #cfd8c6;
     overflow: hidden;
     transition: all 0.2s;
+    position: relative;
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(45, 106, 79, 0.1);
+    color: #2d6a4f;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(45, 106, 79, 0.2);
+    z-index: 10;
+}
+
+.back-home-btn:hover {
+    background: rgba(45, 106, 79, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.2);
+}
+
+.back-icon {
+    font-size: 1.1rem;
 }
 
 /* 试卷头部 — 密封线+校训风格 */
@@ -318,6 +349,16 @@ footer {
     .toolbar {
         flex-direction: column;
         align-items: stretch;
+    }
+    /* 移动端返回首页按钮调整 */
+    .back-home-btn {
+        top: 10px;
+        right: 12px;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    .back-text {
+        display: none;
     }
 }
 

@@ -33,6 +33,38 @@ body {
     padding: 1.5rem 2rem;
     color: white;
     text-align: center;
+    position: relative;
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 10;
+}
+
+.back-home-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.back-home-btn i {
+    font-size: 1rem;
 }
 
 .header h1 {
@@ -356,6 +388,16 @@ textarea {
     }
     body {
         padding: 0.8rem;
+    }
+    /* 移动端返回首页按钮调整 */
+    .back-home-btn {
+        top: 0.8rem;
+        left: 0.8rem;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    .back-home-btn span {
+        display: none;
     }
 }
 

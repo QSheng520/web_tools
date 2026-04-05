@@ -29,9 +29,34 @@ body {
     align-items: center;
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
+    position: relative;
 }
 .app-header h1 { font-size: 1.1rem; font-weight: 500; }
 .header-actions { display: flex; gap: 10px; align-items: center; }
+
+/* 返回首页按钮 */
+.back-home-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(74, 144, 226, 0.15);
+    color: var(--accent);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(74, 144, 226, 0.3);
+}
+.back-home-btn:hover {
+    background: rgba(74, 144, 226, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+.back-icon {
+    font-size: 1rem;
+}
 
 button, .file-upload {
     background: var(--bg-panel);
@@ -109,4 +134,12 @@ canvas {
     }
     .toolbar { border-bottom: 1px solid var(--border); }
     .filter-panel { border-top: 1px solid var(--border); }
+    /* 移动端返回首页按钮调整 */
+    .back-home-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    .back-text {
+        display: none;
+    }
 }

@@ -29,6 +29,36 @@ body {
     padding: 1.8rem 2rem 1.2rem 2rem;
     background: linear-gradient(135deg, #ffffff 0%, #fef9e8 100%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+    position: absolute;
+    top: 1.2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(243, 156, 18, 0.1);
+    color: #e67e22;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+.back-home-btn:hover {
+    background: rgba(243, 156, 18, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2);
+}
+
+.back-icon {
+    font-size: 1.1rem;
 }
 
 h1 {
@@ -310,6 +340,16 @@ h1:before {
         flex-direction: column;
         gap: 6px;
         align-items: flex-start;
+    }
+    /* 移动端返回首页按钮调整 */
+    .back-home-btn {
+        top: 0.8rem;
+        right: 1.2rem;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    .back-text {
+        display: none;
     }
 }
 
