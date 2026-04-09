@@ -10,7 +10,37 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>PDF 全能工具箱 - 图片合并PDF | PDF合并 | PDF拆分</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>PDF工具箱 | 图片合并/合并/拆分PDF - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="PDF工具,PDF合并,PDF拆分,图片转PDF,PDF编辑,在线PDF,PDF工作站">
+    <meta name="description" content="PDF全能工具箱，支持图片合成PDF、多个PDF合并、智能拆分PDF。纯本地处理，安全无上传，保护隐私。免费在线使用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/pdf_edit/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/pdf_edit/">
+    <meta property="og:title" content="PDF工具箱 | 合并/拆分/转换">
+    <meta property="og:description" content="免费在线PDF处理工具，纯本地安全处理">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/pdf_edit/';
+            
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/pdf_edit/';
+        });
+    </script>
     <!-- PDF-Lib 核心库 (客户端PDF处理) -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <!-- JSZip 用于打包拆分后的多个PDF -->

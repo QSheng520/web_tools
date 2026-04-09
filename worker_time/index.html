@@ -9,7 +9,37 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>毫秒倒计时 | 紧凑显示</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>倒计时工具 | 毫秒级精度倒计时 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="倒计时,定时器,倒计时工具,番茄钟,时间管理,毫秒计时器,在线倒计时">
+    <meta name="description" content="毫秒级精度倒计时工具，支持自定义时间设置、快捷预设（5分钟/10分钟/30分钟/1小时）。空格键控制开始/暂停，适合学习、工作、休息等场景。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/worker_time/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/worker_time/">
+    <meta property="og:title" content="倒计时工具 | 毫秒级精度">
+    <meta property="og:description" content="免费在线倒计时工具，支持毫秒精度">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/worker_time/';
+            
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/worker_time/';
+        });
+    </script>
     <link rel="stylesheet" href="css/style.css">
 
 </head>

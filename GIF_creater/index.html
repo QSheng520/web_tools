@@ -8,7 +8,37 @@
     <!-- 统计PV -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>专业GIF生成器 - 图片序列/视频转GIF</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>GIF生成器 | 图片序列/视频转GIF - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="GIF生成器,GIF制作,图片转GIF,视频转GIF,在线GIF,GIF工具,动图制作">
+    <meta name="description" content="专业GIF魔法工坊，支持图片序列转GIF、视频片段转GIF。完全前端处理，隐私安全，可自定义帧延迟、尺寸和质量。免费在线使用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/GIF_creater/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/GIF_creater/">
+    <meta property="og:title" content="GIF生成器 | 图片序列/视频转GIF">
+    <meta property="og:description" content="免费在线制作GIF动图，支持图片和视频转换">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/GIF_creater/';
+            
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/GIF_creater/';
+        });
+    </script>
     <!-- 引入 gif.js 核心库 (使用CDN，并指定worker路径) -->
     <script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
     <!-- 引入自定义样式 -->

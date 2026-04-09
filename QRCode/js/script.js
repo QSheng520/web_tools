@@ -291,7 +291,11 @@
         bindEvents();
         // 默认样例内容: 可读文本
         if (textarea.value === "") {
-            textarea.value = "https://www.zhuoqiusheng.cn";
+            // 使用配置中的域名，如果未加载config.js则使用默认值
+            const defaultUrl = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.domain) 
+                ? SITE_CONFIG.domain 
+                : "https://www.zhuoqiusheng.cn";
+            textarea.value = defaultUrl;
         }
         // 清空任何遗留的logo内存
         clearLogo();     // 清除残留预览

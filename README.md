@@ -104,6 +104,22 @@ npx http-server -p 8080
 
 直接访问部署后的网站即可使用所有工具。
 
+### 🔧 修改域名配置
+
+如需修改网站域名，只需 **1 步**：
+
+**编辑配置文件** `config.js`：
+```javascript
+const SITE_CONFIG = {
+    domain: "https://your-new-domain.com",  // 修改这里
+    // ... 其他配置
+};
+```
+
+**所有页面的SEO标签会自动使用新域名！**
+
+> **注意**：sitemap.xml 和 robots.txt 是静态文件，如需修改请手动全局替换其中的域名。
+
 ## 📂 项目结构
 
 ```

@@ -16,7 +16,41 @@
     <meta name="baidu_union_verify" content="e7fadfc75bd903dfa86b9df560e33528">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>饺子与肉包</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>饺子与肉包 - 在线工具箱 | 精选实用工具，提升工作效率</title>
+    <meta name="keywords" content="在线工具,网页工具,工具箱,房贷计算器,BMI计算器,Markdown编辑器,二维码生成器,GIF制作,PDF编辑,ASCII艺术,密码生成器,免费工具,效率工具">
+    <meta name="description" content="饺子与肉包在线工具箱，提供房贷计算器、BMI健康评估、Markdown编辑器、二维码生成、GIF制作、PDF编辑等实用工具。纯前端实现，隐私安全，无需安装，即开即用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="" id="canonicalLink">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="" id="ogUrl">
+    <meta property="og:title" content="饺子与肉包 - 在线工具箱">
+    <meta property="og:description" content="精选实用在线工具，包含金融计算、生活工具、办公助手等，提升您的工作效率。">
+    <meta property="og:image" content="" id="ogImage">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="" id="twitterUrl">
+    <meta name="twitter:title" content="饺子与肉包 - 在线工具箱">
+    <meta name="twitter:description" content="精选实用在线工具，提升工作效率">
+    <meta name="twitter:image" content="" id="twitterImage">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -223,9 +257,55 @@
     </main>
 
     <footer>
-        <p>&copy; <span id="year"></span> 在线工具箱 · 让工作更高效</p>
-        <p><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备17122668号-1</a></p>
+        <p>&copy; <span id="year"></span> 饺子与肉包在线工具箱 · 让工作更高效</p>
+        <p><a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">粤ICP备17122668号-1</a></p>
     </footer>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "饺子与肉包在线工具箱",
+        "url": "https://qsheng520.github.io/web_tools/",
+        "description": "精选实用在线工具，提升工作效率",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://qsheng520.github.io/web_tools/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "饺子与肉包"
+        }
+    }
+    </script>
+
+    <!-- 动态设置域名配置 -->
+    <script>
+        // 使用配置文件中的域名
+        const DOMAIN = SITE_CONFIG.domain;
+        
+        // 设置 canonical link
+        document.getElementById('canonicalLink').href = DOMAIN + '/';
+        
+        // 设置 Open Graph URLs
+        document.getElementById('ogUrl').content = DOMAIN + '/';
+        document.getElementById('ogImage').content = DOMAIN + '/og-image.png';
+        
+        // 设置 Twitter URLs
+        document.getElementById('twitterUrl').content = DOMAIN + '/';
+        document.getElementById('twitterImage').content = DOMAIN + '/og-image.png';
+        
+        // 更新 JSON-LD 结构化数据中的 URL
+        const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
+        if (jsonLdScript) {
+            const jsonData = JSON.parse(jsonLdScript.textContent);
+            jsonData.url = DOMAIN + '/';
+            jsonData.potentialAction.target = DOMAIN + '/?q={search_term_string}';
+            jsonLdScript.textContent = JSON.stringify(jsonData, null, 4);
+        }
+    </script>
 
     <script src="script.js"></script>
 

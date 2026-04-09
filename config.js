@@ -4,6 +4,9 @@
  */
 
 const SITE_CONFIG = {
+    // 网站域名配置
+    domain: "https://www.zhuoqiusheng.cn",
+    
     // 51.la 统计配置 --- 发布到github
     analytics: {
         id: "3PX8Y5WsT8DlC0L2",

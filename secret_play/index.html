@@ -9,7 +9,37 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>角色扮演 · 加密通讯工具</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>卧底密信 | 暗语生成器加密通讯 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="加密工具,暗语生成器,密文加密,角色扮演,密码工具,中文加密,隐写术">
+    <meta name="description" content="卧底密信·暗语生成器，将文本加密为中文密文，适合角色扮演和趣味通讯。支持中英文数字emoji等各种字符，完美可逆加密解密。纯前端处理，安全隐私。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/secret_play/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/secret_play/">
+    <meta property="og:title" content="卧底密信 | 暗语生成器">
+    <meta property="og:description" content="免费在线加密工具，将文本转换为中文密文">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/secret_play/';
+            
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/secret_play/';
+        });
+    </script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

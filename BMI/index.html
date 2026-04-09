@@ -9,7 +9,39 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>智能BMI计算器 · 健康生活方案</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>BMI计算器 | 智能身体质量指数评估 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="BMI计算器,身体质量指数,BMI计算,健康评估,体重管理,健康指数,BMI标准">
+    <meta name="description" content="智能BMI计算器，科学计算身体质量指数，提供个性化健康生活方案，包括饮食建议、运动计划和理想体重目标。免费在线使用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/BMI/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/BMI/">
+    <meta property="og:title" content="BMI计算器 | 智能身体质量指数评估">
+    <meta property="og:description" content="科学计算BMI，获取个性化健康方案">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置 canonical
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/BMI/';
+            
+            // 设置 Open Graph
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/BMI/';
+        });
+    </script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

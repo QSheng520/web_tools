@@ -322,7 +322,7 @@
             <span class="back-text">首页</span>
         </a>
         <div class="logo">
-            <a href=/web_tools/fangdai/index.html><img src="./images/logo.png" style="width: 240px;height: 60px;" title="房贷计算器"></a>
+            <a href=/web_tools/fangdai/index.html><img src="./images/logo.png" style="width: 240px;height: 60px;" alt="房贷计算器Logo - 饺子与肉包工具箱" title="房贷计算器"></a>
         </div>
     </div>
 </div>
@@ -1048,6 +1048,38 @@
 <div class="footer">
     <a href="https://beian.miit.gov.cn" target="_blank">粤ICP备17122668号-1</a>
 
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "房贷计算器2026",
+        "url": "https://qsheng520.github.io/web_tools/fangdai/",
+        "description": "专业精准的2026年房贷计算工具，支持商业贷款、公积金贷款、组合贷款，提供等额本息和等额本金两种还款方式",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        }
+    }
+    </script>
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 更新 JSON-LD
+            var jsonLdScript = document.querySelector('script[type="application/ld+json"]');
+            if (jsonLdScript) {
+                var jsonData = JSON.parse(jsonLdScript.textContent);
+                jsonData.url = DOMAIN + '/fangdai/';
+                jsonLdScript.textContent = JSON.stringify(jsonData, null, 4);
+            }
+        });
+    </script>
+    
     <script>
     </script>
 </div>

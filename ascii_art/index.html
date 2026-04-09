@@ -8,7 +8,37 @@
     <!-- 统计PV -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ASCII艺术工坊 | 图片/文字转字符画</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>ASCII艺术工坊 | 图片/文字转字符画 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="ASCII艺术,字符画,图片转ASCII,文字转ASCII,ASCII art,字符艺术,复古艺术">
+    <meta name="description" content="ASCII艺术工坊，支持图片转字符画、文本转ASCII艺术字。228+种字体风格可选，可自定义字符集和输出宽度。免费在线创作复古字符画。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/ascii_art/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/ascii_art/">
+    <meta property="og:title" content="ASCII艺术工坊 | 图片/文字转字符画">
+    <meta property="og:description" content="免费在线创作ASCII字符画，支持多种字体风格">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/ascii_art/';
+            
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/ascii_art/';
+        });
+    </script>
     <!-- 引入 Figlet.js 用于文本转ASCII艺术字 (本地文件) -->
     <script src="js/figlet.min.js"></script>
     <!-- 引入自定义脚本 -->
@@ -49,7 +79,7 @@
                     <input type="file" id="imageUpload" accept="image/*" style="display: none;">
                 </div>
                 <div class="preview-img" id="imgPreviewArea" style="margin-top: 1rem;">
-                    <img id="previewImage" src="https://placehold.co/400x200/1a1f35/7e8bd0?text=等待图片加载" alt="预览图">
+                    <img id="previewImage" src="https://placehold.co/400x200/1a1f35/7e8bd0?text=等待图片加载" alt="图片预览 - 上传后将显示您的图片">
                 </div>
                 <hr>
                 <div class="control-group">

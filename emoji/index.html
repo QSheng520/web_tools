@@ -8,7 +8,37 @@
     <!-- 统计PV -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Emoji表情大全 - 一键复制表情符号</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>Emoji表情大全 | 一键复制表情符号 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="Emoji表情,表情符号,emoji复制,表情大全,emoji搜索,特殊符号">
+    <meta name="description" content="Emoji表情大全，收录常用表情符号，支持分类筛选和关键词搜索。点击即可复制到剪贴板，方便快捷。包含笑脸、动物、爱心等各种表情。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/emoji/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/emoji/">
+    <meta property="og:title" content="Emoji表情大全 | 一键复制">
+    <meta property="og:description" content="免费在线使用和复制Emoji表情符号">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/emoji/';
+            
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/emoji/';
+        });
+    </script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
