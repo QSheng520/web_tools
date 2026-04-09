@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>毫秒倒计时 | 紧凑显示</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div class="timer-card">
+    <div class="countdown-display">
+        <div class="timer-digits" id="timerDisplay">01:00.000</div>
+        <div class="timer-label">剩余时间 (毫秒精度)</div>
+    </div>
+
+    <div class="progress-section">
+        <div class="progress-bar-bg">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <div class="time-input-group" id="inputGroup">
+        <div class="input-fields">
+            <div class="input-item">
+                <label>小时</label>
+                <input type="number" id="hoursInput" value="0" min="0" max="99" step="1">
+            </div>
+            <div class="input-item">
+                <label>分钟</label>
+                <input type="number" id="minutesInput" value="1" min="0" max="59" step="1">
+            </div>
+            <div class="input-item">
+                <label>秒</label>
+                <input type="number" id="secondsInput" value="0" min="0" max="59" step="1">
+            </div>
+        </div>
+    </div>
+
+    <div class="presets" id="presetsGroup">
+        <button class="preset-btn" data-seconds="300">🍅 5分钟</button>
+        <button class="preset-btn" data-seconds="600">📘 10分钟</button>
+        <button class="preset-btn" data-seconds="1800">☕ 30分钟</button>
+        <button class="preset-btn" data-seconds="3600">⏰ 1小时</button>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn btn-primary" id="startBtn">▶ 开始</button>
+        <button class="btn btn-secondary" id="pauseBtn" disabled>⏸ 暂停</button>
+        <button class="btn btn-warning" id="resetBtn">🔄 重置</button>
+    </div>
+     <div class="home-btn-container">
+            <a href="../index.html" class="btn-home">🏠 返回首页</a>
+    </div>
+    <div class="info-text">
+        💡 毫秒级精度 · 空格键 开始/暂停 · 格式: HH:MM:SS.mmm
+        <span class="key-hint">␣ 空格键</span>
+    </div>
+</div>
+
+<div id="toastMsg" class="toast-notify">⏰ 时间到啦！</div>
+
+<!-- 倒计时结束弹窗 -->
+<div id="timeUpModal" class="time-up-modal">
+    <div class="modal-content">
+        <div class="modal-icon">🔔</div>
+        <h2 class="modal-title">时间到啦！</h2>
+        <p class="modal-message">倒计时已结束，请及时处理您的事务。</p>
+        <button id="closeModalBtn" class="modal-close-btn">我知道了</button>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
