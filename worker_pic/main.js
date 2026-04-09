@@ -20,6 +20,7 @@ let canvasHeight = 413;
 let photoScale = 100;
 let photoYOffset = 0;
 let clothesScale = 100;
+let clothesYOffset = 0;
 
 // 美颜参数
 let beautyLevel = 0;    // 美颜 0-100
@@ -261,6 +262,11 @@ function initEventListeners() {
         updateClothesOverlay();
     });
     
+    setupSlider('clothesYOffset', 'clothesYOffsetValue', 'px', (val) => {
+        clothesYOffset = val;
+        updateClothesOverlay();
+    });
+    
     // 美颜滑块
     setupSlider('beautyLevel', 'beautyLevelValue', '', (val) => {
         beautyLevel = val;
@@ -480,7 +486,7 @@ function updateClothesOverlay() {
             position: relative;
             width: ${baseWidth * scale}px;
             height: ${baseHeight * scale}px;
-            bottom: ${canvasHeight * 0.05}px;
+            bottom: ${canvasHeight * 0.05 - clothesYOffset}px;
         ">
             ${currentClothes.svg.replace('<svg', `<svg style="width:100%;height:100%;"`)}
         </div>
@@ -690,12 +696,15 @@ function resetAll() {
     photoScale = 100;
     photoYOffset = 0;
     clothesScale = 100;
+    clothesYOffset = 0;
     document.getElementById('photoScale').value = 100;
     document.getElementById('photoYOffset').value = 0;
     document.getElementById('clothesScale').value = 100;
+    document.getElementById('clothesYOffset').value = 0;
     document.getElementById('photoScaleValue').textContent = '100%';
     document.getElementById('photoYOffsetValue').textContent = '0px';
     document.getElementById('clothesScaleValue').textContent = '100%';
+    document.getElementById('clothesYOffsetValue').textContent = '0px';
     
     // 重置背景色
     currentBgColor = '#FFFFFF';
