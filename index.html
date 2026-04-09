@@ -17,207 +17,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>饺子与肉包</title>
-    <style>
-        /* 基础重置与排版 */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* 顶部导航 */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            padding: 2rem 1rem;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        header h1 { 
-            font-size: 2.2rem; 
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        header p { 
-            font-size: 1rem; 
-            color: #666;
-        }
-
-        /* 主体内容 */
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        /* 分类区块 */
-        .category-section {
-            margin-bottom: 2.5rem;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .category-title {
-            color: white;
-            font-size: 1.6rem;
-            margin-bottom: 1.2rem;
-            padding-left: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .category-icon {
-            font-size: 1.8rem;
-        }
-
-        /* 工具卡片网格 */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.2rem;
-        }
-
-        /* 工具按钮卡片 */
-        .tool-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.8rem;
-            text-decoration: none;
-            color: #333;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-        }
-
-        .tool-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .tool-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .tool-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2d3748;
-        }
-
-        .tool-desc {
-            font-size: 0.9rem;
-            color: #718096;
-            line-height: 1.5;
-        }
-
-        .tool-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-top: auto;
-            align-self: flex-start;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .tools-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 1rem;
-            }
-
-            .category-title {
-                font-size: 1.3rem;
-            }
-
-            main {
-                padding: 0 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 页脚 */
-        footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            background-color: rgba(0, 0, 0, 0.3);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.9rem;
-            margin-top: 3rem;
-        }
-
-        footer a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        footer a:hover {
-            color: white;
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <h1>🛠️ 饺子与肉包</h1>
         <p>在线工具箱：精选实用工具，提升工作效率</p>
+        <div class="search-container">
+            <input type="text" class="search-input" id="toolSearch" placeholder="🔍 搜索工具...">
+        </div>
     </header>
 
     <!-- 饺子与肉包 -->
@@ -235,6 +44,22 @@
                 <div class="tool-desc">是我领养的一只宠物狗，名字叫"肉包"。</div>
             </div>
         </div>
+    </main>
+
+    <!-- 历史记录 -->
+    <main id="historyMain" style="display: none;">
+        <section class="history-section">
+            <div class="history-header">
+                <h2 class="history-title">
+                    <span>⏱️</span>
+                    最近访问
+                </h2>
+                <button class="clear-history-btn" onclick="clearHistory()">清空历史</button>
+            </div>
+            <div class="history-grid" id="historyGrid">
+                <!-- 历史记录将在这里动态生成 -->
+            </div>
+        </section>
     </main>
 
     <main>
@@ -402,10 +227,7 @@
         <p><a href="https://beian.miit.gov.cn" target="_blank">粤ICP备17122668号-1</a></p>
     </footer>
 
-    <script>
-        // 自动更新年份
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
