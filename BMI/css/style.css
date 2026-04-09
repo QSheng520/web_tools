@@ -1,0 +1,455 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
+}
+
+/* 引入 Font Awesome 图标库 */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(145deg, #e0f0ff 0%, #c8e2fc 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+/* 主卡片容器 */
+.card {
+    max-width: 620px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(2px);
+    border-radius: 2.5rem;
+    box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    z-index: 100;
+}
+
+.back-home-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.back-home-btn i {
+    font-size: 1rem;
+}
+
+/* 头部渐变区域 */
+.hero {
+    background: linear-gradient(135deg, #1d4e89 0%, #2b6a9f 100%);
+    padding: 2rem 1.8rem 1.8rem;
+    color: white;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.hero h1 span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.7rem;
+    border-radius: 60px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.hero p {
+    margin-top: 0.7rem;
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+/* 主体内容 */
+.content {
+    padding: 2rem 1.8rem 2rem;
+}
+
+/* 输入组 */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #1e2f3e;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.input-group label i {
+    font-style: normal;
+    font-weight: 400;
+    background: #eef3fc;
+    padding: 0.1rem 0.4rem;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    color: #1d4e89;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+    background: #f8fafd;
+    border: 1.5px solid #e2edf7;
+    border-radius: 1.5rem;
+    padding: 0.2rem 1rem;
+    transition: all 0.2s;
+}
+
+.input-field:focus-within {
+    border-color: #2b6a9f;
+    box-shadow: 0 0 0 3px rgba(43, 106, 159, 0.2);
+    background: white;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 0.9rem 0;
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #0a2a3b;
+    outline: none;
+}
+
+.input-field input::placeholder {
+    color: #b9cfec;
+    font-weight: 400;
+    font-size: 0.95rem;
+}
+
+.input-unit {
+    font-weight: 600;
+    color: #5c7f9c;
+    background: #eef3fc;
+    padding: 0.2rem 0.7rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+}
+
+/* 按钮 */
+.calc-btn {
+    width: 100%;
+    background: linear-gradient(100deg, #1d4e89, #2f7fb5);
+    border: none;
+    border-radius: 3rem;
+    padding: 1rem;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 0.8rem;
+    margin-bottom: 1.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 8px 18px rgba(29, 78, 137, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.calc-btn:hover {
+    background: linear-gradient(100deg, #103e68, #23658f);
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.calc-btn:active {
+    transform: scale(0.96);
+}
+
+/* 结果卡片区域 */
+.result-area {
+    background: #f0f6fe;
+    border-radius: 1.8rem;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.8rem;
+    border: 1px solid rgba(43, 106, 159, 0.15);
+}
+
+.bmi-number {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 0.8rem;
+}
+
+.bmi-number .label {
+    font-weight: 600;
+    color: #1f4e6e;
+    font-size: 1rem;
+}
+
+.bmi-number .value {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #134b73;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+/* BMI状态颜色 - 偏瘦（蓝色警示） */
+.bmi-number .value.underweight {
+    color: #3b82f6;
+}
+
+.status-badge.underweight {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #1e40af;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.result-area.underweight {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* BMI状态颜色 - 正常（绿色健康） */
+.bmi-number .value.normal {
+    color: #10b981;
+}
+
+.status-badge.normal {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.result-area.normal {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* BMI状态颜色 - 超重（橙色警告） */
+.bmi-number .value.overweight {
+    color: #f59e0b;
+}
+
+.status-badge.overweight {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.result-area.overweight {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* BMI状态颜色 - 肥胖（红色危险） */
+.bmi-number .value.obese {
+    color: #ef4444;
+    animation: pulse-warning 2s ease-in-out infinite;
+}
+
+.status-badge.obese {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.4);
+    animation: pulse-badge 2s ease-in-out infinite;
+}
+
+.result-area.obese {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+}
+
+@keyframes pulse-warning {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.85;
+    }
+}
+
+@keyframes pulse-badge {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 2px 12px rgba(239, 68, 68, 0.4);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 4px 16px rgba(239, 68, 68, 0.6);
+    }
+}
+
+.bmi-number .unit {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #5a7e9c;
+}
+
+.assessment {
+    background: white;
+    border-radius: 2rem;
+    padding: 0.8rem 1.2rem;
+    margin-top: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.status-badge {
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 0.3rem 1rem;
+    border-radius: 40px;
+    background: #eef2fa;
+    color: #1e4663;
+}
+
+.status-desc {
+    font-size: 0.85rem;
+    color: #2c5a7a;
+}
+
+/* 健康方案专区 */
+.plan-section {
+    background: #ffffff;
+    border-radius: 1.8rem;
+    padding: 1.2rem 1.4rem;
+    border: 1px solid #dde9f5;
+    box-shadow: 0 6px 12px -8px rgba(0, 0, 0, 0.05);
+}
+
+.plan-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1f5a3e;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid #2f9e68;
+    padding-left: 0.9rem;
+}
+
+.plan-title::before {
+    content: "🌿";
+    font-size: 1.3rem;
+}
+
+.ideal-weight {
+    background: #eef7e9;
+    padding: 0.7rem 1rem;
+    border-radius: 1.2rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.9rem;
+    color: #1c5a2d;
+    font-weight: 500;
+}
+
+.advice-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.advice-item {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+}
+
+.advice-icon {
+    font-size: 1.3rem;
+    min-width: 32px;
+    text-align: center;
+}
+
+.advice-text {
+    color: #2c3e45;
+    line-height: 1.4;
+    font-size: 0.92rem;
+}
+
+.advice-text strong {
+    color: #1f5e3a;
+    font-weight: 700;
+}
+
+.error-message {
+    color: #c23d2e;
+    background: #ffe9e5;
+    padding: 0.9rem;
+    border-radius: 1.2rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+hr {
+    margin: 1rem 0;
+    border: none;
+    height: 1px;
+    background: #d9e5f0;
+}
+
+footer {
+    font-size: 0.7rem;
+    text-align: center;
+    color: #6f8eaa;
+    padding: 1rem 1rem 1.2rem;
+    border-top: 1px solid #e2edf7;
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding: 1.5rem;
+    }
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+    .bmi-number .value {
+        font-size: 2rem;
+    }
+    .plan-title {
+        font-size: 1.15rem;
+    }
+}

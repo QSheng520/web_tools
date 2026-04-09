@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>智能BMI计算器 · 健康生活方案</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="card">
+    <a href="../index.html" class="back-home-btn" title="返回首页">
+        <i class="fas fa-home"></i>
+        <span>首页</span>
+    </a>
+    <div class="hero">
+        <h1>
+            ⚖️ BMI 身体质量指数
+            <span>健康评估</span>
+        </h1>
+        <p>科学计算 · 精准评估 · 定制健康生活方案</p>
+    </div>
+    <div class="content">
+        <!-- 身高体重输入区 -->
+        <div class="input-group">
+            <label>📏 身高 <i>cm</i></label>
+            <div class="input-field">
+                <input type="number" id="heightCm" placeholder="例如 175" step="0.1" min="50" value="170">
+                <span class="input-unit">cm</span>
+            </div>
+        </div>
+        <div class="input-group">
+            <label>⚖️ 体重 <i>kg</i></label>
+            <div class="input-field">
+                <input type="number" id="weightKg" placeholder="例如 68" step="0.1" min="10" value="68">
+                <span class="input-unit">kg</span>
+            </div>
+        </div>
+
+        <button class="calc-btn" id="calculateBtn">✨ 计算 BMI & 获取方案 ✨</button>
+
+        <!-- BMI 结果展示区 -->
+        <div class="result-area" id="resultArea">
+            <div class="bmi-number">
+                <span class="label">📊 您的 BMI 指数</span>
+                <div><span class="value" id="bmiValue">--</span><span class="unit"> kg/m²</span></div>
+            </div>
+            <div class="assessment" id="assessmentBlock">
+                <span class="status-badge" id="statusBadge">待评估</span>
+                <span class="status-desc" id="statusDesc">输入身高体重后点击计算</span>
+            </div>
+        </div>
+
+        <!-- 健康生活方案区域 (动态核心) -->
+        <div class="plan-section" id="planSection">
+            <div class="plan-title">健康生活方案 · 个性化定制</div>
+            <div id="planContent">
+                <div style="text-align: center; color: #6f8eaa; padding: 1rem;">
+                    🌱 点击「计算 BMI」获取专属健康建议<br>涵盖饮食、运动及理想体重目标
+                </div>
+            </div>
+        </div>
+        <footer>
+            💡 成人BMI标准: 偏瘦<18.5 | 正常18.5~24 | 超重24~28 | 肥胖≥28<br>
+            🧾 根据您的身体数据定制健康方案
+        </footer>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
