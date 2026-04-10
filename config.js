@@ -5,8 +5,8 @@
 
 const SITE_CONFIG = {
     // 网站域名配置
-    domain: "https://www.zhuoqiusheng.cn",
-    // domain: https://qsheng520.github.io
+    // domain: "https://www.zhuoqiusheng.cn",
+    domain: "https://qsheng520.github.io/web_tools",
 
 
     // 51.la 统计配置 --- 发布到github
