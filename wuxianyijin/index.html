@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>五险一金计算器2026 | 社保公积金缴纳比例查询 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="五险一金计算器,社保计算器,公积金计算器,五险一金缴纳比例,社保公积金查询,五险一金计算,个人社保缴纳,企业社保缴纳,北京社保,上海社保,深圳社保">
+    <meta name="description" content="在线五险一金计算器，支持北京、上海、广州、深圳、杭州等城市，自动计算个人和企业社保公积金缴纳明细，实时显示缴费基数上下限，精准计算到手工资。免费在线使用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qsheng520.github.io/web_tools/wuxianyijin/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qsheng520.github.io/web_tools/wuxianyijin/">
+    <meta property="og:title" content="五险一金计算器2026 | 社保公积金缴纳比例查询">
+    <meta property="og:description" content="智能五险一金计算器，支持多城市社保公积金缴纳明细计算">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置 canonical
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/wuxianyijin/';
+            
+            // 设置 Open Graph
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/wuxianyijin/';
+        });
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="calculator">
+    <a href="../index.html" class="back-home-btn" title="返回首页">🏠 返回首页</a>
+    <h1>🧾 五险一金 · 计算器</h1>
+    <div class="subhead">个人/企业缴纳明细 · 基数动态钳制 · 支持手动基数</div>
+
+    <!-- 输入区域 -->
+    <div class="input-panel">
+        <div class="form-group">
+            <label>💰 税前月工资 (元)</label>
+            <input type="number" id="salaryInput" value="12000" min="0" step="100" placeholder="例如 12000">
+        </div>
+
+        <div class="form-group">
+            <label>📍 参保城市</label>
+            <select id="citySelect">
+                <option value="beijing" selected>北京</option>
+                <option value="shanghai">上海</option>
+                <option value="guangzhou">广州</option>
+                <option value="shenzhen">深圳</option>
+                <option value="hangzhou">杭州</option>
+            </select>
+        </div>
+
+        <div style="flex:2; min-width: 260px;">
+            <label style="margin-bottom: 10px;">⚙️ 缴费基数模式</label>
+            <div class="mode-group">
+                <div class="radio-item">
+                    <input type="radio" name="baseMode" id="modeAuto" value="auto" checked>
+                    <label for="modeAuto">自动 (按工资，受上下限限制)</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="baseMode" id="modeManual" value="manual">
+                    <label for="modeManual">手动自定义基数</label>
+                </div>
+            </div>
+            <div class="manual-base-wrapper" id="manualBaseWrapper">
+                <input type="number" id="manualBaseInput" value="12000" min="0" step="100" disabled
+                       placeholder="自定义基数" style="margin-top: 12px; width: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <!-- 操作栏 + 实时基数展示 -->
+    <div class="action-bar">
+        <button class="btn btn-primary" id="calcBtn">🧮 计算 / 刷新</button>
+        <button class="btn btn-outline" id="resetHintBtn" type="button">⟲ 重置为默认</button>
+        <div class="base-indicator" id="actualBaseDisplay">⚡ 实际缴费基数: 12,000</div>
+    </div>
+
+    <!-- 结果表格 (六项 + 汇总) -->
+    <div class="result-table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>险种 / 公积金</th>
+                    <th>个人缴纳 (元)</th>
+                    <th>企业缴纳 (元)</th>
+                    <th>小计</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody">
+                <!-- 动态填充js -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 底部汇总卡片 -->
+    <div class="summary-bar">
+        <div class="summary-item">
+            <span class="summary-label">🧑 个人合计扣款</span>
+            <span class="summary-value" id="personalTotal">0.00</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">🏢 企业合计缴纳</span>
+            <span class="summary-value" id="companyTotal">0.00</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">💵 实发工资 <span style="font-weight:400; opacity:0.8;">(未计个税)</span></span>
+            <span class="summary-value" id="netSalary">0.00</span>
+        </div>
+    </div>
+
+    <!-- 扩展说明及个税预留注释 -->
+    <div class="disclaimer">
+        <strong>📌 政策说明：</strong> 比例与上下限基于2024-2025常见参考值，实际可能调整，请以当地官方公布为准。<br>
+        <strong>🧩 个税预留：</strong> 本计算器暂未包含个人所得税，实发工资 = 税前工资 - 个人五险一金总和。个税计算接口已预留（见JS注释）。
+    </div>
+    <div class="small-note">
+        * 医疗个人部分含固定附加(如北京+3元)，根据城市配置。工伤/生育个人不缴费。
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
