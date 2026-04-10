@@ -294,7 +294,7 @@
             // 使用配置中的域名，如果未加载config.js则使用默认值
             const defaultUrl = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.domain) 
                 ? SITE_CONFIG.domain 
-                : "https://www.zhuoqiusheng.cn";
+                : "https://qsheng520.github.io/web_tools";
             textarea.value = defaultUrl;
         }
         // 清空任何遗留的logo内存

@@ -8,7 +8,7 @@
 
 ## 预览
 
-https://qsheng520.github.io/fangdai/
+https://www.zhuoqiusheng.cn
 
 ## 代码结构
 

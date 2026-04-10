@@ -1,13 +1,13 @@
 # robots.txt for 饺子与肉包在线工具箱
 # 注意：如需修改域名，请同时修改 config.js 中的 domain 配置和下面的 Sitemap URL
-# https://qsheng520.github.io/web_tools/
+# https://www.zhuoqiusheng.cn/
 
 User-agent: *
 Allow: /
 
 # Sitemap location
 # 注意：修改域名时需同步更新此URL
-Sitemap: https://qsheng520.github.io/web_tools/sitemap.xml
+Sitemap: https://www.zhuoqiusheng.cn/sitemap.xml
 
 # Crawl-delay (optional, uncomment if needed)
 # Crawl-delay: 10
