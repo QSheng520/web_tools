@@ -64,20 +64,17 @@ h1 span {
   padding-left: 0.3rem;
 }
 
-/* 双列布局:汉字→拼音 / 拼音→汉字 */
-.convert-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+/* 单列布局:汉字→拼音 */
+.convert-section {
+  display: block;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 @media (max-width: 700px) {
   body { padding: 1rem; }
   .main-card { padding: 1.5rem; }
-  .convert-grid {
-    grid-template-columns: 1fr;
-    gap: 2.2rem;
-  }
+  .convert-section { max-width: 100%; }
   h1 { font-size: 1.8rem; }
 }
 
