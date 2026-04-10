@@ -1,18 +1,70 @@
 <!DOCTYPE html>
-
-
 <html lang="zh-CN">
 <head>
+
+
+    <!-- 统计PV -->
+    <script src="./config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-  <title>汉字 · 拼音转换 | 声调标注工具</title>
+  
+  <!-- SEO Meta Tags -->
+  <title>汉字转拼音 | 在线拼音转换工具 - 声调标注 · Unicode输出</title>
+  <meta name="keywords" content="汉字转拼音,拼音转换,声调标注,Unicode拼音,中文拼音,在线工具,拼音生成器,多音字处理">
+  <meta name="description" content="免费在线汉字转拼音工具，支持声调标注、Unicode输出，智能处理多音字，保留标点符号和数字英文，即开即用，无需安装。">
+  <meta name="author" content="饺子与肉包">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="" id="canonicalLink">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="" id="ogUrl">
+  <meta property="og:title" content="汉字转拼音 | 在线拼音转换工具">
+  <meta property="og:description" content="免费在线汉字转拼音工具，支持声调标注、Unicode输出，智能处理多音字">
+  <meta property="og:site_name" content="饺子与肉包工具箱">
+  <meta property="og:locale" content="zh_CN">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="汉字转拼音 | 在线拼音转换工具">
+  <meta name="twitter:description" content="免费在线汉字转拼音工具，支持声调标注、Unicode输出">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#9aab9a">
+  
   <!-- 引入轻量级拼音库 pinyin-pro (本地) -->
+  <script src="../config.js"></script>
   <script src="js/pinyin-pro.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
+  <!-- 动态设置域名 -->
+  <script>
+    const DOMAIN = SITE_CONFIG.domain;
+    document.addEventListener('DOMContentLoaded', function() {
+      // 设置 canonical
+      var canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.href = DOMAIN + '/pinyin/';
+      
+      // 设置 Open Graph
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.content = DOMAIN + '/pinyin/';
+    });
+  </script>
 </head>
 <body>
 <div class="tool-wrapper">
   <div class="main-card">
+    <!-- 返回首页按钮 -->
+    <a href="../index.html" class="back-home-btn" title="返回首页"> 🏠首页</a>
+    
     <h1>
       🔤 汉字转拼音
       <span>声调标注 · Unicode</span>

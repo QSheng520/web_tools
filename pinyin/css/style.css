@@ -15,6 +15,33 @@ body {
   padding: 1.5rem;
 }
 
+/* 返回首页按钮 */
+.back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid #d4cdc0;
+  border-radius: 50px;
+  color: #2e3b3b;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1rem;
+}
+
+.back-home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(154, 171, 154, 0.4);
+  border-color: #9aab9a;
+  background: rgba(255, 255, 255, 1);
+}
+
 .tool-wrapper {
   max-width: 1300px;
   width: 100%;
@@ -76,6 +103,12 @@ h1 span {
   .main-card { padding: 1.5rem; }
   .convert-section { max-width: 100%; }
   h1 { font-size: 1.8rem; }
+  
+  /* 移动端调整返回首页按钮 */
+  .back-home-btn {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.8rem;
+  }
 }
 
 /* 卡片内分区 */
