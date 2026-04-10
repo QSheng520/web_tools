@@ -248,6 +248,43 @@ const music = [
 ];
 addEmoji("music", music);
 
+// ========= 12. 新增: 金钱 & 金融 =========
+const money = [
+    { emoji: "💰", name: "钱袋" }, { emoji: "💴", name: "日元钞票" }, { emoji: "💵", name: "美元钞票" }, { emoji: "💶", name: "欧元钞票" },
+    { emoji: "💷", name: "英镑钞票" }, { emoji: "💸", name: "飞钱" }, { emoji: "💳", name: "信用卡" }, { emoji: "🧾", name: "收据" },
+    { emoji: "💹", name: "股市上涨" }, { emoji: "💱", name: "货币兑换" }, { emoji: "💲", name: "美元符号" }, { emoji: "🪙", name: "硬币" },
+    { emoji: "🏦", name: "银行" }, { emoji: "💎", name: "钻石" }, { emoji: "⚖️", name: "天平" }, { emoji: "🪙", name: "金币" }
+];
+addEmoji("money", money);
+
+// ========= 13. 新增: 学校 & 教育 =========
+const school = [
+    { emoji: "🏫", name: "学校" }, { emoji: "🏛️", name: "大学建筑" }, { emoji: "📚", name: "书籍" }, { emoji: "📖", name: "打开的书" },
+    { emoji: "📝", name: "考试卷" }, { emoji: "✏️", name: "铅笔" }, { emoji: "🖊️", name: "钢笔" }, { emoji: "🖋️", name: "毛笔" },
+    { emoji: "🎒", name: "书包" }, { emoji: "👩‍🎓", name: "女毕业生" }, { emoji: "👨‍🎓", name: "男毕业生" }, { emoji: "👩‍🏫", name: "女老师" },
+    { emoji: "👨‍🏫", name: "男老师" }, { emoji: "🔬", name: "显微镜" }, { emoji: "🔭", name: "望远镜" }, { emoji: "📐", name: "三角尺" },
+    { emoji: "📏", name: "直尺" }, { emoji: "🧮", name: "算盘" }, { emoji: "🎓", name: "毕业帽" }, { emoji: "📋", name: "剪贴板" },
+    { emoji: "📁", name: "文件夹" }, { emoji: "📂", name: "打开的文件夹" }, { emoji: "🗂️", name: "索引卡" }, { emoji: "📌", name: "图钉" },
+    { emoji: "📍", name: "圆头图钉" }, { emoji: "📎", name: "回形针" }, { emoji: "✂️", name: "剪刀" }, { emoji: "🖍️", name: "蜡笔" },
+    { emoji: "🖌️", name: "画笔" }, { emoji: "🎨", name: "调色板" }, { emoji: "🧪", name: "试管" }, { emoji: "🧫", name: "培养皿" }
+];
+addEmoji("school", school);
+
+// ========= 14. 新增: 娱乐 & 休闲 =========
+const entertainment = [
+    { emoji: "🎬", name: "电影场记板" }, { emoji: "🎥", name: "摄像机" }, { emoji: "📺", name: "电视" }, { emoji: "📻", name: "收音机" },
+    { emoji: "🎮", name: "游戏手柄" }, { emoji: "🕹️", name: "游戏摇杆" }, { emoji: "🎯", name: "靶心" }, { emoji: "🎪", name: "马戏团" },
+    { emoji: "🎭", name: "戏剧面具" }, { emoji: "🎨", name: "艺术调色板" }, { emoji: "🎪", name: "帐篷" }, { emoji: "🎟️", name: "入场券" },
+    { emoji: "🎫", name: "票" }, { emoji: "🎢", name: "过山车" }, { emoji: "🎡", name: "摩天轮" }, { emoji: "🎠", name: "旋转木马" },
+    { emoji: "🏖️", name: "海滩伞" }, { emoji: "🎣", name: "钓鱼竿" }, { emoji: "🎤", name: "麦克风" }, { emoji: "🎧", name: "耳机" },
+    { emoji: "🎼", name: "乐谱" }, { emoji: "🎹", name: "钢琴键盘" }, { emoji: "🥁", name: "鼓" }, { emoji: "🎷", name: "萨克斯风" },
+    { emoji: "🎺", name: "小号" }, { emoji: "🎸", name: "吉他" }, { emoji: "🎻", name: "小提琴" }, { emoji: "🪕", name: "班卓琴" },
+    { emoji: "🎲", name: "骰子" }, { emoji: "♟️", name: "国际象棋" }, { emoji: "🀄", name: "麻将" }, { emoji: "🎴", name: "花牌" },
+    { emoji: "🃏", name: "小丑牌" }, { emoji: "🎰", name: "老虎机" }, { emoji: "🧩", name: "拼图" }, { emoji: "🪀", name: "悠悠球" },
+    { emoji: "🪁", name: "风筝" }, { emoji: "🎈", name: "气球" }, { emoji: "🎉", name: "派对彩带" }, { emoji: "🎊", name: "五彩纸屑" }
+];
+addEmoji("entertainment", entertainment);
+
 // 分类元数据 (显示名称和key)
 const categoriesMeta = [
     { key: "all", label: "✨ 全部" },
@@ -263,7 +300,10 @@ const categoriesMeta = [
     { key: "flags", label: "🏳️ 旗帜" },
     { key: "clothing", label: "👗 服饰 & 配饰" },
     { key: "weather", label: "🌦️ 天气 & 时间" },
-    { key: "music", label: "🎵 乐器 & 音乐" }
+    { key: "music", label: "🎵 乐器 & 音乐" },
+    { key: "money", label: "💰 金钱 & 金融" },
+    { key: "school", label: "🏫 学校 & 教育" },
+    { key: "entertainment", label: "🎬 娱乐 & 休闲" }
 ];
 
 // DOM 元素

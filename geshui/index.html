@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>个税计算器 | 居民个人工资薪金累计预扣法 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="个税计算器,个人所得税计算,工资薪金税,累计预扣法,专项附加扣除,五险一金,税后工资计算,个税税率表">
+    <meta name="description" content="专业个税计算器，采用累计预扣法精确计算居民个人工资薪金所得税。支持自定义起征点、五险一金、专项附加扣除，实时显示月度明细和累计税额。免费在线使用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="个税计算器 | 居民个人工资薪金累计预扣法">
+    <meta property="og:description" content="精确计算个人所得税，支持累计预扣法和专项附加扣除">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置 canonical
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/geshui/';
+            
+            // 设置 Open Graph
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/geshui/';
+        });
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="calculator-card">
+    <a href="../index.html" class="back-home-btn" title="返回首页">🏠 返回首页</a>
+    <h1>
+        <span>🧾 个税计算器</span>
+        <span style="font-size: 0.9rem; background: #e1ebfa; padding: 4px 12px; border-radius: 40px; font-weight: 500; color:#1a4d8c;">累计预扣法 · 工资薪金</span>
+    </h1>
+    <div class="subhead">居民个人 · 每月收入及扣除固定 · 实时更新</div>
+
+    <!-- 输入区域 -->
+    <div class="input-grid">
+        <div class="input-item">
+            <label>💰 税前月收入 <i>(¥)</i></label>
+            <input type="number" id="incomeInput" value="18000" step="100" min="0" placeholder="例如 18000">
+            <span class="hint-badge">支持小数，≥0</span>
+        </div>
+        <div class="input-item">
+            <label>📅 计算月份</label>
+            <select id="monthSelect"></select>
+            <span class="hint-badge">1 ~ 12 月</span>
+        </div>
+        <div class="input-item">
+            <label>🛡️ 五险一金(个人) <i>(¥/月)</i></label>
+            <input type="number" id="insuranceInput" value="2100" step="50" min="0" placeholder="个人缴纳合计">
+        </div>
+        <div class="input-item">
+            <label>➕ 专项附加扣除 <i>(¥/月)</i></label>
+            <input type="number" id="deductionInput" value="3000" step="100" min="0" placeholder="子女教育/房贷等合计">
+        </div>
+        <div class="input-item">
+            <label>⚖️ 起征点/免征额 <i>(¥/月)</i></label>
+            <input type="number" id="thresholdInput" value="5000" step="500" min="0">
+            <span class="hint-badge">现行标准5000，可调</span>
+        </div>
+    </div>
+
+    <!-- 核心结果卡片 -->
+    <div class="results-grid">
+        <div class="result-card highlight">
+            <div class="result-label">📌 当月应缴个税</div>
+            <div class="result-value" id="currentTaxDisplay">¥0</div>
+            <div class="result-sub">本期预扣</div>
+        </div>
+        <div class="result-card">
+            <div class="result-label">💵 当月实发工资</div>
+            <div class="result-value" id="netSalaryDisplay">¥0</div>
+            <div class="result-sub">税后到手</div>
+        </div>
+        <div class="result-card">
+            <div class="result-label">📊 累计已缴个税</div>
+            <div class="result-value" id="accumulatedTaxDisplay">¥0</div>
+            <div class="result-sub">截至本月累计预扣</div>
+        </div>
+        <div class="result-card">
+            <div class="result-label">🏦 累计实发收入</div>
+            <div class="result-value" id="accumulatedNetDisplay">¥0</div>
+            <div class="result-sub">1月～本月税后总和</div>
+        </div>
+    </div>
+
+    <!-- 月度明细表格 -->
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 10px;">
+        <h3 style="font-weight: 600; color: #1f3a57;">📋 月度累计预扣明细</h3>
+        <span style="font-size:0.85rem; color:#58789e;">← 横向滑动查看 →</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="tax-table" id="monthlyTable">
+            <thead>
+                <tr>
+                    <th>月份</th>
+                    <th>累计收入</th>
+                    <th>累计扣除(免征+社保+专项)</th>
+                    <th>累计应纳税所得额</th>
+                    <th>累计预扣税额</th>
+                    <th>当月税额</th>
+                    <th>当月实发</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- 动态填充 -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 使用说明 + 免责 -->
+    <div class="footer">
+        <details>
+            <summary>📘 使用说明 & 配置扩展指引</summary>
+            <div class="instruction-content">
+                <p><strong>✅ 如何修改起征点：</strong> 直接调整上方「起征点」输入框，或修改JS中 <code>DEFAULT_THRESHOLD</code> 常量（第48行附近）。</p>
+                <p><strong>📊 如何修改税率表：</strong> 在JS中搜索 <code>TAX_BRACKETS</code> 数组，按注释调整区间、税率、速算扣除数。支持7级超额累进。</p>
+                <p><strong>🧩 扩展年终奖单独计税模块：</strong> 可新增输入「年终奖」，调用独立计税函数（除以12找月度税率，再用总额×税率−速算扣除）。已在代码预留注释位置（见 <code>// 【扩展点】</code>）。</p>
+                <p><strong>⚙️ 累计预扣法说明：</strong> 每月收入及扣除固定。累计应纳税所得额 = (月收入×月份) − (5000×月份) − (五险一金×月份) − (专项附加×月份)。本期个税 = 累计预扣 − 已预扣税额（上月累计），负数取0。</p>
+                <p>🔍 所有输入均做非负处理，极高收入自动适用45%税率。</p>
+            </div>
+        </details>
+        <div class="disclaimer">
+            ⚠️ 本计算器基于现行税法逻辑开发，数据仅供参考，实际缴纳请以税务机关申报系统为准。
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+
+<!-- 附加说明：逻辑完全符合累计预扣法，税率表、起征点均可配置，无外部依赖 -->
+</body>
+</html>
