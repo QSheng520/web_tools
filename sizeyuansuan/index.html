@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <title>小学生四则运算试卷生成器 | 数学练习题打印 - 饺子与肉包工具箱</title>
+    <meta name="keywords" content="四则运算,数学试卷生成器,小学数学题,加减乘除练习,口算题卡,数学练习题,在线出题,打印试卷">
+    <meta name="description" content="免费的小学生四则运算试卷生成器，支持加减乘除混合运算，可自定义题目数量、数值范围，支持小数和负数，一键生成并打印数学练习题。适合家长和老师使用。">
+    <meta name="author" content="饺子与肉包">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="小学生四则运算试卷生成器 | 数学练习题打印">
+    <meta property="og:description" content="智能生成小学四则运算练习题，支持自定义难度和打印">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- 动态设置域名 -->
+    <script>
+        const DOMAIN = SITE_CONFIG.domain;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置 canonical
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = DOMAIN + '/sizeyuansuan/';
+            
+            // 设置 Open Graph
+            var ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.content = DOMAIN + '/sizeyuansuan/';
+        });
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-container">
+    <a href="../index.html" class="back-home-btn" title="返回首页">🏠 首页</a>
+  <h1>🧮 算术探险家 <span>四则运算·智能出题</span></h1>
+
+  <!-- 配置区 -->
+  <div class="config-panel no-print">
+    <div class="param-group">
+      <label>📋 题目数量</label>
+      <input type="number" id="questionCount" min="1" max="60" value="36">
+    </div>
+    <div class="param-group">
+      <label>🔢 最小值</label>
+      <input type="number" id="minValue" min="0" max="999" value="1">
+    </div>
+    <div class="param-group">
+      <label>🔢 最大值</label>
+      <input type="number" id="maxValue" min="1" max="1000" value="100">
+    </div>
+
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="useAdd" checked> ➕ 加法</label>
+      <label><input type="checkbox" id="useSub" checked> ➖ 减法</label>
+      <label><input type="checkbox" id="useMul" checked> ✖️ 乘法</label>
+      <label><input type="checkbox" id="useDiv" checked> ➗ 除法</label>
+    </div>
+
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="allowNegative"> ⚠️ 允许负数结果</label>
+      <label><input type="checkbox" id="allowDecimal"> 🔹 允许小数 (加减乘可小数,除法仍保整除)</label>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-primary" id="generateBtn">✨ 生成试卷</button>
+    </div>
+  </div>
+
+  <!-- 工具栏 -->
+  <div class="toolbar no-print">
+    <button class="btn" id="toggleAnswerBtn">🙈 隐藏答案</button>
+    <button class="btn" id="printPaperBtn">🖨️ 打印试卷</button>
+    <button class="btn" id="printAnswerBtn">📄 打印答案</button>
+  </div>
+
+  <!-- 核心内容 -->
+  <div class="content-panels">
+    <section class="paper-card quiz-section">
+      <!-- 试卷头部信息 -->
+      <div class="exam-header">
+        <div class="exam-title">小学数学四则运算练习卷</div>
+        <div class="exam-info">
+          <div class="info-row">
+            <span class="info-item">学校：<span class="underline-blank"></span></span>
+            <span class="info-item">班级：<span class="underline-blank"></span></span>
+            <span class="info-item">姓名：<span class="underline-blank"></span></span>
+          </div>
+          <div class="info-row">
+            <span class="info-item">得分：<span class="underline-blank short"></span></span>
+            <span class="info-item">用时：<span class="underline-blank short"></span></span>
+            <span class="info-item">日期：<span class="underline-blank short"></span></span>
+          </div>
+        </div>
+      </div>
+        
+      <div id="quizContainer">
+        <ul class="question-list" id="questionList">
+          <li class="empty-msg">点击"生成试卷"开始练习吧 ✏️</li>
+        </ul>
+      </div>
+    </section>
+
+    <aside class="answer-card answer-section" id="answerPanel">
+      <div class="answer-header">
+        <div class="section-title">参考答案</div>
+        <button class="btn no-print" id="hideAnswerInlineBtn" style="padding:6px 18px;">👀 隐藏</button>
+      </div>
+      <div id="answerContainer">
+        <ul class="answer-list" id="answerList">
+          <li class="empty-msg">— 暂无答案 —</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+
+<!-- 使用说明与扩展方向 (保留在注释中)
+==================================================
+【使用与部署指南】
+1. 直接保存为 index.html，双击运行即可。
+2. 浏览器兼容：Chrome / Edge / Firefox / Safari 最新版。
+3. 若点击按钮无反应，请打开浏览器控制台(F12)查看红色报错信息，
+   本版本已加入错误弹窗，可快速定位问题（如数字范围异常）。
+
+【扩展方向】
+1. 导出为PDF：使用浏览器“打印”功能并选择“另存为PDF”即可。
+2. 限时答题：增加倒计时组件，记录每题作答时间，通过 localStorage 保存进度。
+3. 错题本：在每道题旁添加“答错”按钮，将题目存入 IndexedDB，并提供错题复习页面。
+================================================== -->
+</body>
+</html>
