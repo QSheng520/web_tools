@@ -78,6 +78,19 @@
             <input type="number" id="thresholdInput" value="5000" step="500" min="0">
             <span class="hint-badge">现行标准5000，可调</span>
         </div>
+        <div class="input-item">
+            <label>🎁 年终奖 <i>(¥)</i></label>
+            <input type="number" id="bonusInput" value="0" step="1000" min="0" placeholder="全年一次性奖金">
+            <span class="hint-badge">可选，支持两种计税方式</span>
+        </div>
+        <div class="input-item">
+            <label>🔄 年终奖计税方式</label>
+            <select id="bonusMethodSelect">
+                <option value="separate">单独计税</option>
+                <option value="combined">并入综合所得</option>
+            </select>
+            <span class="hint-badge">系统自动对比推荐</span>
+        </div>
     </div>
 
     <!-- 核心结果卡片 -->
@@ -101,6 +114,54 @@
             <div class="result-label">🏦 累计实发收入</div>
             <div class="result-value" id="accumulatedNetDisplay">¥0</div>
             <div class="result-sub">1月～本月税后总和</div>
+        </div>
+    </div>
+
+    <!-- 年终奖计税结果对比 -->
+    <div id="bonusSection" style="margin: 32px 0 24px;">
+        <h3 style="font-weight: 600; color: #1f3a57; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+            🎁 年终奖计税方案对比
+            <span style="font-size: 0.8rem; background: #fff3cd; padding: 3px 10px; border-radius: 20px; color: #856404;">智能推荐</span>
+        </h3>
+        <div class="bonus-comparison-grid">
+            <div class="bonus-card separate">
+                <div class="bonus-header">
+                    <div class="bonus-title">🔹 方案一：单独计税</div>
+                    <div class="bonus-badge">全年一次性奖金政策</div>
+                </div>
+                <div class="bonus-details">
+                    <div class="bonus-row">
+                        <span class="bonus-label">应纳税额</span>
+                        <span class="bonus-value tax" id="bonusTaxSeparate">¥0.00</span>
+                    </div>
+                    <div class="bonus-row">
+                        <span class="bonus-label">税后奖金</span>
+                        <span class="bonus-value net" id="bonusNetSeparate">¥0.00</span>
+                    </div>
+                </div>
+                <div class="bonus-tip">将年终奖除以12个月确定税率，税额固定</div>
+            </div>
+            
+            <div class="bonus-card combined">
+                <div class="bonus-header">
+                    <div class="bonus-title">🔸 方案二：并入综合所得</div>
+                    <div class="bonus-badge">合并到年度收入</div>
+                </div>
+                <div class="bonus-details">
+                    <div class="bonus-row">
+                        <span class="bonus-label">额外税额</span>
+                        <span class="bonus-value tax" id="bonusTaxCombined">¥0.00</span>
+                    </div>
+                    <div class="bonus-row">
+                        <span class="bonus-label">税后奖金</span>
+                        <span class="bonus-value net" id="bonusNetCombined">¥0.00</span>
+                    </div>
+                </div>
+                <div class="bonus-tip">将年终奖平均到12个月，按累计预扣法计算</div>
+            </div>
+        </div>
+        <div class="bonus-note">
+            💡 <strong>提示：</strong>系统会自动比较两种方式的税负，并在更优的方案上显示「✅ 推荐」标识。一般情况下，中低收入者选择「单独计税」更划算，高收入者可能需要具体测算。
         </div>
     </div>
 

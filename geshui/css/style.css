@@ -304,3 +304,132 @@ summary {
 @media (max-width: 420px) {
     .results-grid { grid-template-columns: 1fr; }
 }
+
+/* ========== 年终奖计税对比区域 ========== */
+.bonus-comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+.bonus-card {
+    background: linear-gradient(135deg, #f8f9fc 0%, #eef1f7 100%);
+    border-radius: 20px;
+    padding: 24px 20px;
+    border: 2px solid #d9e0ed;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.bonus-card.recommended {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #f0fff4 0%, #e6f7ed 100%);
+    box-shadow: 0 4px 16px rgba(40, 167, 69, 0.15);
+}
+
+.bonus-card.recommended::before {
+    content: '✅ 推荐';
+    position: absolute;
+    top: -12px;
+    right: 16px;
+    background: #28a745;
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.bonus-header {
+    margin-bottom: 16px;
+}
+
+.bonus-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1a3a5f;
+    margin-bottom: 6px;
+}
+
+.bonus-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    background: #e1ebfa;
+    color: #1a4d8c;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.bonus-details {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.bonus-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #e8ecf1;
+}
+
+.bonus-row:last-child {
+    border-bottom: none;
+}
+
+.bonus-label {
+    font-size: 0.9rem;
+    color: #4a617c;
+    font-weight: 500;
+}
+
+.bonus-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.bonus-value.tax {
+    color: #dc3545;
+}
+
+.bonus-value.net {
+    color: #28a745;
+}
+
+.bonus-tip {
+    font-size: 0.8rem;
+    color: #6b7f98;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.bonus-note {
+    background: #fff8e6;
+    border-left: 4px solid #ffc107;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: #856404;
+    line-height: 1.6;
+}
+
+.bonus-note strong {
+    color: #533f03;
+}
+
+@media (max-width: 768px) {
+    .bonus-comparison-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bonus-card.recommended::before {
+        font-size: 0.75rem;
+        padding: 3px 10px;
+    }
+}

@@ -23,6 +23,8 @@
     const insuranceInput = document.getElementById('insuranceInput');
     const deductionInput = document.getElementById('deductionInput');
     const thresholdInput = document.getElementById('thresholdInput');
+    const bonusInput = document.getElementById('bonusInput');
+    const bonusMethodSelect = document.getElementById('bonusMethodSelect');
 
     // 展示区
     const currentTaxDisplay = document.getElementById('currentTaxDisplay');
@@ -30,6 +32,12 @@
     const accumulatedTaxDisplay = document.getElementById('accumulatedTaxDisplay');
     const accumulatedNetDisplay = document.getElementById('accumulatedNetDisplay');
     const tableBody = document.getElementById('tableBody');
+    
+    // 年终奖结果展示
+    const bonusTaxSeparateDisplay = document.getElementById('bonusTaxSeparate');
+    const bonusTaxCombinedDisplay = document.getElementById('bonusTaxCombined');
+    const bonusNetSeparateDisplay = document.getElementById('bonusNetSeparate');
+    const bonusNetCombinedDisplay = document.getElementById('bonusNetCombined');
 
     // ---------- 🕒 初始化月份下拉 (1-12，默认当前系统月份) ----------
     function initMonthSelect() {
@@ -129,6 +137,66 @@
         return '¥' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
+    // ---------- 🎁 年终奖计税函数 ----------
+    /**
+     * 年终奖单独计税（全年一次性奖金政策）
+     * 将年终奖除以12个月，按商数确定适用税率和速算扣除数
+     * @param {number} bonus - 年终奖金额
+     * @returns {Object} { tax: 税额, netBonus: 税后奖金 }
+     */
+    function calcBonusTaxSeparate(bonus) {
+        bonus = Math.max(0, Number(bonus) || 0);
+        if (bonus === 0) return { tax: 0, netBonus: 0 };
+
+        // 年终奖除以12找税率
+        const monthlyAvg = bonus / 12;
+        let taxRate = 0;
+        let quickDeduction = 0;
+
+        for (let bracket of TAX_BRACKETS) {
+            if (monthlyAvg <= bracket.limit) {
+                taxRate = bracket.rate;
+                quickDeduction = bracket.quickDeduction;
+                break;
+            }
+        }
+
+        const tax = bonus * taxRate - quickDeduction;
+        const netBonus = bonus - Math.max(0, tax);
+
+        return { tax: Math.max(0, tax), netBonus };
+    }
+
+    /**
+     * 年终奖并入综合所得计税
+     * 将年终奖加到年度总收入中，按累计预扣法计算
+     * @param {number} bonus - 年终奖金额
+     * @param {number} monthlyIncome - 月收入
+     * @param {number} insurance - 月五险一金
+     * @param {number} deduction - 月专项附加扣除
+     * @param {number} threshold - 月起征点
+     * @returns {Object} { additionalTax: 额外税额, netBonus: 税后奖金 }
+     */
+    function calcBonusTaxCombined(bonus, monthlyIncome, insurance, deduction, threshold) {
+        bonus = Math.max(0, Number(bonus) || 0);
+        if (bonus === 0) return { additionalTax: 0, netBonus: 0 };
+
+        // 计算不含年终奖的年度个税
+        const detailsWithoutBonus = computeMonthlyDetails(monthlyIncome, 12, insurance, deduction, threshold);
+        const taxWithoutBonus = detailsWithoutBonus[11].accumTax; // 12月累计税额
+
+        // 计算含年终奖的年度个税（将年终奖平均到12个月）
+        const monthlyIncomeWithBonus = monthlyIncome + (bonus / 12);
+        const detailsWithBonus = computeMonthlyDetails(monthlyIncomeWithBonus, 12, insurance, deduction, threshold);
+        const taxWithBonus = detailsWithBonus[11].accumTax; // 12月累计税额
+
+        // 年终奖带来的额外税额
+        const additionalTax = taxWithBonus - taxWithoutBonus;
+        const netBonus = bonus - Math.max(0, additionalTax);
+
+        return { additionalTax: Math.max(0, additionalTax), netBonus };
+    }
+
     // ---------- 🔄 更新UI (核心渲染) ----------
     function refreshCalculator() {
         // 1. 读取输入并校验
@@ -137,6 +205,8 @@
         const insurance = parseFloat(insuranceInput.value) || 0;
         const deduction = parseFloat(deductionInput.value) || 0;
         const threshold = parseFloat(thresholdInput.value) || DEFAULT_THRESHOLD;
+        const bonus = parseFloat(bonusInput.value) || 0;
+        const bonusMethod = bonusMethodSelect.value;
 
         // 2. 计算明细
         const details = computeMonthlyDetails(monthlyIncome, monthCount, insurance, deduction, threshold);
@@ -158,9 +228,63 @@
         netSalaryDisplay.textContent = formatMoney(currentNetSalary);
         accumulatedTaxDisplay.textContent = formatMoney(accumulatedTax);
         accumulatedNetDisplay.textContent = formatMoney(totalNetIncome);
+        
+        // 如果当月税额为0，添加免税提示
+        if (currentMonthTax === 0) {
+            currentTaxDisplay.innerHTML = formatMoney(0) + '<div style="font-size:0.9rem; margin-top:4px; opacity:0.8;">✅ 免税</div>';
+        }
 
-        // 6. 渲染表格
+        // 6. 计算并显示年终奖税额
+        if (bonus > 0) {
+            const separateResult = calcBonusTaxSeparate(bonus);
+            const combinedResult = calcBonusTaxCombined(bonus, monthlyIncome, insurance, deduction, threshold);
+
+            bonusTaxSeparateDisplay.textContent = formatMoney(separateResult.tax);
+            bonusNetSeparateDisplay.textContent = formatMoney(separateResult.netBonus);
+            bonusTaxCombinedDisplay.textContent = formatMoney(combinedResult.additionalTax);
+            bonusNetCombinedDisplay.textContent = formatMoney(combinedResult.netBonus);
+
+            // 自动比较两种方式，推荐税额更低的方案（与用户选择无关）
+            highlightRecommendedBonus(separateResult.tax, combinedResult.additionalTax);
+        } else {
+            bonusTaxSeparateDisplay.textContent = '¥0.00';
+            bonusNetSeparateDisplay.textContent = '¥0.00';
+            bonusTaxCombinedDisplay.textContent = '¥0.00';
+            bonusNetCombinedDisplay.textContent = '¥0.00';
+            clearBonusHighlight();
+        }
+
+        // 7. 渲染表格
         renderTable(details);
+    }
+
+    /** 高亮推荐年终奖计税方式 */
+    function highlightRecommendedBonus(separateTax, combinedTax) {
+        const separateCard = document.querySelector('.bonus-card.separate');
+        const combinedCard = document.querySelector('.bonus-card.combined');
+        
+        if (!separateCard || !combinedCard) return;
+
+        // 移除之前的高亮
+        separateCard.classList.remove('recommended');
+        combinedCard.classList.remove('recommended');
+
+        // 比较两种方式，税额少的更优（自动推荐，不受用户选择影响）
+        if (separateTax < combinedTax) {
+            separateCard.classList.add('recommended');
+        } else if (combinedTax < separateTax) {
+            combinedCard.classList.add('recommended');
+        }
+        // 如果税额相等，则都不高亮
+    }
+
+    /** 清除年终奖高亮 */
+    function clearBonusHighlight() {
+        const separateCard = document.querySelector('.bonus-card.separate');
+        const combinedCard = document.querySelector('.bonus-card.combined');
+        
+        if (separateCard) separateCard.classList.remove('recommended');
+        if (combinedCard) combinedCard.classList.remove('recommended');
     }
 
     /** 渲染月度明细表格 */
@@ -186,10 +310,11 @@
     }
 
     // ---------- 🎯 事件绑定：实时更新 ----------
-    const inputs = [incomeInput, monthSelect, insuranceInput, deductionInput, thresholdInput];
+    const inputs = [incomeInput, monthSelect, insuranceInput, deductionInput, thresholdInput, bonusInput, bonusMethodSelect];
     inputs.forEach(input => input.addEventListener('input', refreshCalculator));
     // 额外处理change以确保select也能触发
     monthSelect.addEventListener('change', refreshCalculator);
+    bonusMethodSelect.addEventListener('change', refreshCalculator);
 
     // 处理输入非数值/负值等边界 (blur时修正)
     function sanitizeNumberInput(e) {
@@ -206,16 +331,16 @@
         let val = parseFloat(e.target.value);
         if (isNaN(val) || val < 0) e.target.value = DEFAULT_THRESHOLD;
     });
+    bonusInput.addEventListener('blur', sanitizeNumberInput);
 
     // 初始化计算 (默认值触发)
     refreshCalculator();
 
     // ---------- 📌 扩展指引 (通过注释/控制台说明) ----------
-    // 【扩展点】如需增加年终奖单独计税模块:
-    // 1. 添加输入框 <input id="bonusInput">
-    // 2. 编写函数 calcAnnualBonusTax(bonus) 使用月度税率表 (bonus/12找级距，再用总额*税率-速算扣除)
-    // 3. 在UI中展示并独立于累计预扣。
-    // 详见页面底部 <details> 中的说明。
+    // 年终奖计税已实现两种方法：
+    // 1. 单独计税：使用全年一次性奖金政策，除以12找税率
+    // 2. 并入综合所得：将年终奖平均到12个月，重新计算年度个税
+    // 系统会自动比较两种方式，推荐税额更低的方案
 
     // 如果希望程序化修改起征点/税率，可直接编辑上方 TAX_BRACKETS 及 DEFAULT_THRESHOLD。
     // 所有配置集中，便于政策更新。
