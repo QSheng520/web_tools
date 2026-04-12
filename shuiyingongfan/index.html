@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>水印工坊 · 纯本地图片加水印 - 饺子与肉包工具箱</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="免费在线图片水印工具，支持文字水印和图片水印，九宫格定位，实时预览，纯浏览器本地处理，保护隐私安全">
+  <meta name="keywords" content="图片水印,在线加水印,文字水印,图片水印,批量加水印,本地处理,隐私安全">
+  <meta name="author" content="饺子与肉包工具箱">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="水印工坊 · 纯本地图片加水印">
+  <meta property="og:description" content="免费在线图片水印工具，支持文字水印和图片水印，九宫格定位，实时预览，纯浏览器本地处理">
+  <meta property="og:url" content="">
+  <meta property="og:site_name" content="饺子与肉包工具箱">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="">
+  
+  <!-- 动态设置域名 -->
+  <script src="../config.js"></script>
+  <script>
+    const DOMAIN = SITE_CONFIG.domain;
+    document.addEventListener('DOMContentLoaded', function() {
+      // 设置 canonical
+      var canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.href = DOMAIN + '/shuiyingongfan/';
+      
+      // 设置 Open Graph
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.content = DOMAIN + '/shuiyingongfan/';
+    });
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- 返回首页按钮 -->
+<a href="../index.html" class="back-home-btn" title="返回首页">
+  <span class="back-icon">🏠</span>
+  <span class="back-text">首页</span>
+</a>
+
+<div class="app">
+  <h1>水印工坊 · 本地处理</h1>
+  <div class="main-panel">
+    <!-- 左侧控制区 -->
+    <div class="control-panel">
+      <!-- 原图上传 -->
+      <div class="upload-area">
+        <div class="upload-box" id="uploadBox">
+          <p>📁 点击或拖拽上传图片</p>
+          <p style="font-size:0.8rem; color:#6b7280;">支持 JPG / PNG / WEBP</p>
+        </div>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp">
+        <div class="file-info" id="fileInfo"></div>
+      </div>
+
+      <!-- 文字水印设置 -->
+      <div class="section">
+        <div class="section-header">
+          <h3>✏️ 文字水印</h3>
+          <label class="checkbox-label">
+            <input type="checkbox" id="textEnable" checked> 启用
+          </label>
+        </div>
+        <div class="form-group">
+          <input type="text" id="watermarkText" placeholder="输入水印文字" value="我的水印" maxlength="30">
+        </div>
+        <div class="form-row">
+          <label>字体</label>
+          <select id="fontFamily">
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="'Microsoft YaHei', sans-serif">微软雅黑</option>
+            <option value="'PingFang SC', sans-serif">苹方</option>
+            <option value="'Times New Roman', serif">Times</option>
+            <option value="'Courier New', monospace">Courier</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>字号</label>
+          <input type="number" id="fontSize" value="48" min="8" max="200" step="1">
+          <span style="margin-left:auto;">px</span>
+        </div>
+        <div class="form-row">
+          <label>颜色</label>
+          <input type="color" id="textColor" value="#ffffff">
+        </div>
+      </div>
+
+      <!-- 图片水印设置 -->
+      <div class="section">
+        <div class="section-header">
+          <h3>🖼️ 图片水印</h3>
+          <label class="checkbox-label">
+            <input type="checkbox" id="imageEnable" checked> 启用
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="watermarkImageInput" style="display:inline-block; padding:8px 16px; background:#2563eb; color:white; border-radius:12px; cursor:pointer; font-size:0.9rem; margin-bottom:6px;">📷 选择水印图片</label>
+          <input type="file" id="watermarkImageInput" accept="image/png,image/jpeg,image/webp" style="display:none;">
+          <div style="font-size:0.8rem; margin-top:6px;" id="wmImageStatus">未选择水印图片</div>
+        </div>
+        <div class="form-row">
+          <label>缩放</label>
+          <div class="slider-block">
+            <input type="range" id="wmScale" min="0.1" max="2.0" value="0.4" step="0.05">
+            <span class="value-badge" id="scaleValue">0.40x</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 透明度 & 位置调节 -->
+      <div class="section">
+        <h3 style="margin-bottom:12px;">🎚️ 透明度 & 位置</h3>
+        <div class="form-row">
+          <label>透明度</label>
+          <div class="slider-block">
+            <input type="range" id="opacitySlider" min="0" max="1" value="0.7" step="0.05">
+            <span class="value-badge" id="opacityValue">70%</span>
+          </div>
+        </div>
+
+        <div style="margin: 16px 0 8px; font-weight:500;">📍 九宫格定位</div>
+        <div class="grid-9" id="grid9Container">
+          <button class="grid-btn" data-pos="nw">↖ 左上</button>
+          <button class="grid-btn" data-pos="n">⬆ 中上</button>
+          <button class="grid-btn" data-pos="ne">↗ 右上</button>
+          <button class="grid-btn" data-pos="w">⬅ 左中</button>
+          <button class="grid-btn" data-pos="center">⏺ 居中</button>
+          <button class="grid-btn" data-pos="e">➡ 右中</button>
+          <button class="grid-btn" data-pos="sw">↙ 左下</button>
+          <button class="grid-btn" data-pos="s">⬇ 中下</button>
+          <button class="grid-btn" data-pos="se">↘ 右下</button>
+        </div>
+        <div class="offset-inputs">
+          <div style="flex:1;">
+            <label>X偏移</label>
+            <input type="number" id="offsetX" value="20" step="1">
+          </div>
+          <div style="flex:1;">
+            <label>Y偏移</label>
+            <input type="number" id="offsetY" value="20" step="1">
+          </div>
+        </div>
+        <p style="font-size:0.8rem; margin-top:6px; color:#64748b;">偏移量相对于九宫格锚点，单位px</p>
+      </div>
+
+      <!-- 导出按钮 -->
+      <button class="btn-download" id="downloadBtn">⬇ 下载合成图片 (原图分辨率)</button>
+      <div class="note">所有处理均在浏览器本地完成，不上传服务器</div>
+    </div>
+
+    <!-- 右侧预览区 -->
+    <div class="preview-panel">
+      <div class="preview-title">
+        <span>✨ 实时预览</span>
+        <span id="previewSizeLabel"></span>
+      </div>
+      <div class="preview-container">
+        <canvas id="previewCanvas"></canvas>
+      </div>
+      <p style="margin-top:12px; color:#475569; font-size:0.9rem;">预览缩放显示，导出为原始尺寸</p>
+    </div>
+  </div>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>
