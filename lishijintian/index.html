@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 统计PV -->
+    <script src="../config.js"></script>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:SITE_CONFIG.analytics.id,ck:SITE_CONFIG.analytics.ck})</script>
+    <!-- 统计PV -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    
+    <!-- SEO Meta Tags -->
+    <title>历史上的今天 - 探索历史事件 | 时光卡片</title>
+    <meta name="description" content="查看历史上今天发生的重大事件，包括政治、军事、科技、文化等领域的历史时刻。支持日期浏览和缓存功能，快速了解历史大事记。">
+    <meta name="keywords" content="历史上的今天,历史事件,历史大事记,时光卡片,历史查询,今日历史,历史百科">
+    <meta name="author" content="Web Tools">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="历史上的今天 - 探索历史事件">
+    <meta property="og:description" content="查看历史上今天发生的重大事件，支持日期浏览和缓存功能。">
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="饺子与肉包工具箱">
+      
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon.png">
+      
+    <!-- Canonical URL -->
+    <link rel="canonical" href="">
+      
+    <!-- 动态设置域名 -->
+    <script>
+      const DOMAIN = SITE_CONFIG.domain;
+      document.addEventListener('DOMContentLoaded', function() {
+        // 设置 canonical
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.href = DOMAIN + '/lishijintian/';
+          
+        // 设置 Open Graph
+        var ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.content = DOMAIN + '/lishijintian/';
+      });
+    </script>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-container">
+    <!-- 返回首页按钮 -->
+    <a href="../index.html" class="back-home-btn" title="返回首页" aria-label="返回首页">
+        <span class="back-icon">🏠</span>
+        <span class="back-text">返回首页</span>
+    </a>
+    
+    <div class="history-card">
+        <!-- 头部：日期 + 缓存状态 -->
+        <div class="card-header">
+            <div class="date-area">
+                <span class="date-display" id="currentDateLabel">4月12日</span>
+                <div class="date-controls">
+                    <button class="icon-btn" id="prevDayBtn" aria-label="前一天">←</button>
+                    <button class="icon-btn" id="nextDayBtn" aria-label="后一天">→</button>
+                    <button class="icon-btn" id="todayBtn" aria-label="今天" style="font-size:1rem;">📅</button>
+                </div>
+            </div>
+            <div id="cacheStatus" class="cache-badge">
+                <i>📀</i> <span id="cacheLabel">缓存</span>
+            </div>
+        </div>
+
+        <!-- 核心展示区：加载 / 事件 / 错误 -->
+        <div id="eventStage" class="event-stage">
+            <!-- 骨架屏默认显示，加载时展示 -->
+            <div id="skeletonLoader" class="skeleton-loader">
+                <div class="skeleton-line title"></div>
+                <div class="skeleton-line desc"></div>
+                <div class="skeleton-line" style="width:80%"></div>
+            </div>
+            <!-- 实际事件卡片容器 -->
+            <div id="eventContent" class="event-card hidden"></div>
+            <!-- 错误/提示容器 -->
+            <div id="messageArea" class="msg-placeholder hidden"></div>
+        </div>
+
+        <!-- 操作栏 -->
+        <div class="action-bar">
+            <button class="btn" id="refreshOneBtn">🔄 换一条</button>
+            <button class="btn" id="toggleAllBtn">📋 展开今日全部</button>
+            <button class="btn" id="forceRefreshBtn">⚡ 刷新缓存</button>
+        </div>
+
+        <!-- 全部事件列表 (可折叠) -->
+        <div id="allEventsPanel" class="all-events-panel hidden">
+            <div style="font-weight:500; margin-bottom:12px;">📜 全部事件 · 共 <span id="eventCount">0</span> 条</div>
+            <div id="allEventsList" class="all-events-list"></div>
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
