@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>房贷计算器</title>
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<div class="page">
+  <h1>🏠 房贷计算器</h1>
+
+  <div class="card">
+    <div class="field-grid">
+      <label class="field">
+        <span>贷款金额（元）</span>
+        <input type="number" id="amount" value="1000000" min="0" step="10000">
+      </label>
+      <label class="field">
+        <span>贷款期数（月）</span>
+        <input type="number" id="periods" value="360" min="1" step="1">
+      </label>
+      <label class="field">
+        <span>年利率（%）</span>
+        <input type="number" id="rate" value="3.1" min="0" step="0.01">
+      </label>
+      <label class="field">
+        <span>首次还款年月</span>
+        <input type="month" id="startDate" value="2025-01">
+      </label>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="calcBtn">生成还款计划</button>
+      <button class="btn ghost" id="resetBtn">清空提前还款</button>
+    </div>
+  </div>
+
+  <div class="card summary" id="summary"></div>
+
+  <div class="card table-card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>期数</th>
+            <th>还款日期</th>
+            <th class="num">月供(元)</th>
+            <th class="num">还本金(元)</th>
+            <th class="num">还利息(元)</th>
+            <th class="num">剩余本金(元)</th>
+            <th style="text-align:right">剩余期数</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="./js/calculator.js"></script>
+</body>
+</html>
