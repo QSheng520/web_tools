@@ -472,7 +472,7 @@ document.getElementById('calcBtn').addEventListener('click', () => {
     return;
   }
 
-  let startYear = 2025, startMonth = 1;
+  let startYear = 2026, startMonth = 5;
   if (sd) {
     const p = sd.split('-');
     startYear = parseInt(p[0], 10);
