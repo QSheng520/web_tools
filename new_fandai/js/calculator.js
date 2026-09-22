@@ -384,6 +384,198 @@ function updatePreview(form) {
 }
 
 /* =========================================================
+   生成 PDF（浏览器打印 → 另存为 PDF）
+   ========================================================= */
+const nowText = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} `
+       + `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+};
+
+const rptCell = (k, v) =>
+  `<div class="rpt-cell"><span class="k">${k}</span><span class="v">${v}</span></div>`;
+
+const prepayModeText = (p) =>
+  p.mode === 'reducePayment' ? '期数不变 · 减少月供' : '月供不变 · 减少期数';
+
+const prepayEffectText = (p) =>
+  p.mode === 'reducePayment'
+    ? `月供 ${fmt(p.payBefore)} → ${fmt(p.payAfter)}`
+    : `剩余期数 ${p.leftBefore} → ${p.leftAfter} 期`;
+
+/* 按年汇总：年末剩余本金/期数，以及该年的提前还款 */
+function buildYearlyReport(res) {
+  const years = [];
+  const map = new Map();
+
+  for (const row of res.rows) {
+    let y = map.get(row.year);
+    if (!y) {
+      y = {
+        year: row.year, months: 0, interest: 0, payment: 0, prepays: [],
+        endRemaining: row.remaining, endLeft: row.left,
+      };
+      map.set(row.year, y);
+      years.push(y);
+    }
+    y.months++;
+    y.interest += row.interest;
+    y.payment += row.payment;
+    /* 年末口径：若该年 12 月办理了提前还款，以还款后的余额/期数 为准 */
+    y.endRemaining = row.prepay ? row.prepay.remainingAfter : row.remaining;
+    y.endLeft = row.prepay ? row.prepay.leftAfter : row.left;
+    if (row.prepay) y.prepays.push(row.prepay);
+  }
+  return years;
+}
+
+/* --------- 逐年提前还款明细 --------- */
+function yearlyTableHtml(years, prepayCount, prepayTotal) {
+  if (!prepayCount) {
+    return `<div class="rpt-empty">本方案未设置提前还款，各年均按原月供正常还款。</div>`;
+  }
+
+  const html = [];
+
+  for (const y of years) {
+    const prepays = y.prepays;
+    const span = prepays.length || 1;
+
+    if (!prepays.length) {
+      html.push(`<tr>
+        <td class="strong">${y.year} 年</td>
+        <td>否</td>
+        <td class="num">—</td>
+        <td>—</td>
+        <td>—</td>
+        <td class="num">${fmt(y.endRemaining)}</td>
+        <td class="num">${y.endLeft}</td>
+      </tr>`);
+      continue;
+    }
+
+    prepays.forEach((p, i) => {
+      const first = i === 0;
+      html.push(`<tr class="rpt-prepay">
+        ${first ? `<td class="strong" rowspan="${span}">${y.year} 年</td>` : ''}
+        <td class="strong">是</td>
+        <td class="num strong">${fmt(p.amount)}</td>
+        <td>${prepayModeText(p)}</td>
+        <td>${prepayEffectText(p)}</td>
+        ${first ? `<td class="num" rowspan="${span}">${fmt(y.endRemaining)}</td>
+                   <td class="num" rowspan="${span}">${y.endLeft}</td>` : ''}
+      </tr>`);
+    });
+  }
+
+  html.push(`<tr class="total-row">
+    <td colspan="2">合计</td>
+    <td class="num">${fmt(prepayTotal)}</td>
+    <td colspan="4">共 ${prepayCount} 笔提前还款</td>
+  </tr>`);
+
+  return `<table class="rpt-table">
+    <thead><tr>
+      <th>年份</th>
+      <th>是否提前还款</th>
+      <th class="num">提前还款金额(元)</th>
+      <th>调整方式</th>
+      <th>调整效果</th>
+      <th class="num">年末剩余本金(元)</th>
+      <th class="num">年末剩余期数</th>
+    </tr></thead>
+    <tbody>${html.join('')}</tbody>
+  </table>`;
+}
+
+/* --------- 完整还款计划表 --------- */
+function scheduleTableHtml(res) {
+  const html = [];
+  let lastYear = null;
+
+  for (const row of res.rows) {
+    if (row.year !== lastYear) {
+      lastYear = row.year;
+      html.push(`<tr class="rpt-year-row"><td colspan="8">${row.year} 年</td></tr>`);
+    }
+    html.push(`<tr>
+      <td class="muted">${row.n}</td>
+      <td>${row.year}-${pad2(row.month)}</td>
+      <td class="num">${fmt(row.payment)}</td>
+      <td class="num">${fmt(row.principalPart)}</td>
+      <td class="num">${fmt(row.interest)}</td>
+      <td class="num strong">${fmt(row.remaining)}</td>
+      <td class="num">${row.left}</td>
+      <td class="num">${row.prepay ? fmt(row.prepay.amount) : '—'}</td>
+    </tr>`);
+  }
+
+  return `<table class="rpt-table">
+    <thead><tr>
+      <th>期数</th>
+      <th>还款日期</th>
+      <th class="num">月供(元)</th>
+      <th class="num">还本金(元)</th>
+      <th class="num">还利息(元)</th>
+      <th class="num">剩余本金(元)</th>
+      <th class="num">剩余期数</th>
+      <th class="num">提前还款(元)</th>
+    </tr></thead>
+    <tbody>${html.join('')}</tbody>
+  </table>`;
+}
+
+/* --------- 组装打印内容 --------- */
+function renderPrintReport() {
+  const res = state.result;
+  const cfg = state.config;
+  if (!res || !cfg) return;
+
+  const years = buildYearlyReport(res);
+  const prepayCount = years.reduce((s, y) => s + y.prepays.length, 0);
+  const prepayTotal = years.reduce(
+    (s, y) => s + y.prepays.reduce((a, p) => a + p.amount, 0), 0);
+
+  document.getElementById('printArea').innerHTML = `
+    <div class="rpt-head">
+      <h1>🏠 提前还贷还款计划书</h1>
+      <div class="meta">还款方式：等额本息 · 生成时间：${nowText()}</div>
+    </div>
+
+    <div class="rpt-sec">
+      <h2>贷款信息</h2>
+      <div class="rpt-grid">
+        ${rptCell('贷款金额', `${fmt(cfg.principal)} 元`)}
+        ${rptCell('贷款期数', `${cfg.periods} 期`)}
+        ${rptCell('年利率', `${cfg.annualRate}%`)}
+        ${rptCell('首次还款年月', `${cfg.startYear} 年 ${cfg.startMonth} 月`)}
+      </div>
+    </div>
+
+    <div class="rpt-sec">
+      <h2>还款概览</h2>
+      <div class="rpt-grid g3">
+        ${rptCell('首期月供', `${fmt(res.firstPay)} 元`)}
+        ${rptCell('还款总额', `${fmt(res.totalPayment)} 元`)}
+        ${rptCell('支付利息', `${fmt(res.totalInterest)} 元`)}
+        ${rptCell('实际还款期数', `${res.periodsUsed} 期`)}
+        ${rptCell('提前还款合计', `${prepayCount} 笔 · ${fmt(prepayTotal)} 元`)}
+        ${rptCell('预计结清时间', `${res.endYear} 年 ${res.endMonth} 月`)}
+      </div>
+    </div>
+
+    <div class="rpt-sec">
+      <h2>逐年提前还款明细</h2>
+      ${yearlyTableHtml(years, prepayCount, prepayTotal)}
+    </div>
+
+    <div class="rpt-sec page-break">
+      <h2>完整还款计划表</h2>
+      ${scheduleTableHtml(res)}
+    </div>`;
+}
+
+/* =========================================================
    事件绑定
    ========================================================= */
 const tbody = document.getElementById('tbody');
@@ -482,6 +674,16 @@ document.getElementById('calcBtn').addEventListener('click', () => {
   state.config = { principal, periods, annualRate, startYear, startMonth };
   state.openKey = null;
   render();
+});
+
+/* 生成 PDF */
+document.getElementById('pdfBtn').addEventListener('click', () => {
+  if (!state.result) {
+    alert('请先生成还款计划');
+    return;
+  }
+  renderPrintReport();
+  window.print();
 });
 
 /* 清空提前还款 */

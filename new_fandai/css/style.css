@@ -186,3 +186,51 @@ td.muted{color:var(--muted);}
   .prepay-field label{min-width:74px;}
   .prepay-field input{width:110px;}
 }
+
+/* ---------- 生成 PDF（打印） ---------- */
+.print-only{display:none;}
+
+@media print{
+  @page{size:A4;margin:12mm;}
+  body{
+    background:#fff;
+    padding:0;
+    font-size:11px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .page{max-width:none;margin:0;}
+  /* 屏幕上的一切都隐藏，只打印 #printArea */
+  .page > *:not(#printArea){display:none !important;}
+  .print-only{display:block !important;}
+
+  .rpt-head{border-bottom:2px solid var(--text);padding-bottom:8px;margin-bottom:14px;}
+  .rpt-head h1{font-size:18px;margin:0 0 3px;}
+  .rpt-head .meta{font-size:10px;color:var(--muted);}
+
+  .rpt-sec{margin-bottom:14px;}
+  .rpt-sec h2{
+    font-size:12px;margin:0 0 7px;padding-left:8px;
+    border-left:3px solid var(--primary);color:var(--text);
+  }
+  .rpt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+  .rpt-grid.g3{grid-template-columns:repeat(3,1fr);}
+  .rpt-cell{border:1px solid var(--border);border-radius:6px;padding:6px 8px;background:#f8fafc;}
+  .rpt-cell .k{display:block;font-size:9px;color:var(--muted);margin-bottom:2px;}
+  .rpt-cell .v{display:block;font-size:12px;font-weight:600;}
+
+  table.rpt-table{width:100%;min-width:0;font-size:9.5px;border-collapse:collapse;}
+  table.rpt-table th{
+    position:static;background:#eef2f8;color:#33415c;
+    padding:5px 6px;border:1px solid #dbe2ec;font-size:9.5px;white-space:nowrap;
+  }
+  table.rpt-table td{padding:4px 6px;border:1px solid var(--border);white-space:nowrap;}
+  table.rpt-table thead{display:table-header-group;}
+  table.rpt-table tr{page-break-inside:avoid;}
+  table.rpt-table tr.rpt-prepay td{background:#fffdf5;}
+  table.rpt-table tr.rpt-year-row td{background:#eef2f8;font-weight:700;color:#33415c;}
+  table.rpt-table tr.total-row td{background:#f1f5f9;font-weight:700;}
+
+  .rpt-empty{font-size:11px;color:var(--muted);padding:6px 0;}
+  .page-break{page-break-before:always;}
+}

@@ -31,6 +31,7 @@
     </div>
     <div class="actions">
       <button class="btn primary" id="calcBtn">生成还款计划</button>
+      <button class="btn" id="pdfBtn">📄 生成 PDF</button>
       <button class="btn ghost" id="resetBtn">清空提前还款</button>
     </div>
   </div>
@@ -55,6 +56,9 @@
       </table>
     </div>
   </div>
+
+  <!-- 打印 / 另存为 PDF 的内容，仅打印时可见 -->
+  <div id="printArea" class="print-only"></div>
 </div>
 
 <script src="./js/calculator.js"></script>
