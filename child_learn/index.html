@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fff7ed">
+<title>🌈 我的学习小课表</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="hero">
+    <span class="flag">🌈</span>
+    <h1>我的学习小课表</h1>
+    <p class="sub">每天晚上 <b>19:00 – 19:30</b> · 3 个小任务 · 每个 10 分钟</p>
+
+    <div class="today-bar">
+      <div class="tb-text" id="tbText">今天</div>
+      <div class="tb-track"><div class="tb-fill" id="tbFill"></div></div>
+      <div class="tb-count" id="tbCount">0/3</div>
+    </div>
+  </header>
+
+  <section class="stats" id="stats"></section>
+
+  <main class="week" id="week"></main>
+
+  <section class="tips">
+    <h2>👨‍👩‍👧 爸爸妈妈小提示</h2>
+    <ul>
+      <li>每 10 分钟用<b>计时器或小沙漏</b>，时间一到就换科目，不拖堂。</li>
+      <li>形式尽量游戏化：思维用积木桌游，数学用点数卡片，拼音用拼读游戏，英语用儿歌动画，阅读用<b>亲子共读</b>。</li>
+      <li>换科目时喝水、伸懒腰，中间休息尽量控制在 1 分钟内。</li>
+      <li>孩子状态不好时不强迫，优先保留<b>阅读</b>和<b>英语听读</b>，其他内容第二天补。</li>
+      <li>下一周可以把科目顺序稍微调换，保持新鲜感。</li>
+      <li>点一下课程卡片就能打勾✅，全部完成有惊喜哦！</li>
+    </ul>
+  </section>
+
+  <div class="tools">
+    <button class="reset" id="resetBtn">🔄 清空今天的勾勾</button>
+  </div>
+
+  <p class="foot">❤️ 每天一点点，慢慢长大 🌱</p>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
