@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG 一眼看懂 · 内部组件与学习地图</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/rag.css">
+</head>
+<body>
+<div class="container">
+
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <h1>RAG 一眼看懂</h1>
+        <p>用大白话 + 流程图 + 类比，把 RAG 的核心组件、工作原理和十模块学习路径一次性讲清楚。不需要任何前置知识。</p>
+        <div class="badge-row">
+            <span class="badge hot">面向初学者</span>
+            <span class="badge green">10 模块 × 3 档</span>
+            <span class="badge">检索 · 生成 · 引用 · 评估</span>
+        </div>
+    </header>
+
+    <!-- ==================== 1. 一句话说清 RAG ==================== -->
+    <section>
+        <div class="section-title"><span class="num">1</span> RAG 到底是什么？</div>
+        <div class="section-desc">一句话：让 AI 在回答前先去“翻资料”，而不是凭记忆瞎编。</div>
+
+        <div class="analogy">
+            <strong>类比：开卷考试。</strong>传统的 AI 像“闭卷考试”——它只能靠训练时记在脑子里的东西答题，题目一超出范围就会编造（这叫“幻觉”）。RAG 就是把它变成“开卷考试”：先给它一本参考书（你的文档），它每答一道题之前，先去书里翻出相关段落，对照着回答。这样答案有据可查，还能告诉你“我是从第几页看到的”。
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="icon" style="background:rgba(88,166,255,0.12);color:var(--accent);">📚</div>
+                <h3>解决“知识过时”</h3>
+                <p>模型训练完就“冻结”了，不知道昨天的新闻、你公司的内部文档。RAG 把最新资料外挂进来，不用重新训练模型。</p>
+                <span class="tag">外部知识</span>
+            </div>
+            <div class="card">
+                <div class="icon" style="background:rgba(63,185,80,0.12);color:var(--accent2);">🎯</div>
+                <h3>解决“胡说八道”</h3>
+                <p>模型在没有依据时会编造。RAG 强制它先检索、再回答，答案里的每一句都能追溯到原文片段。</p>
+                <span class="tag green">减少幻觉</span>
+            </div>
+            <div class="card">
+                <div class="icon" style="background:rgba(210,153,34,0.12);color:var(--accent3);">🔍</div>
+                <h3>解决“找不到重点”</h3>
+                <p>你的文档可能有几百页，直接全塞给模型既贵又超长。RAG 只挑出最相关的几段，精准投喂。</p>
+                <span class="tag yellow">精准检索</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 2. 完整流程图 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">2</span> RAG 的完整流程：两个阶段</div>
+        <div class="section-desc">RAG 不是一条线，而是两条线：一条“准备资料”（离线建索引），一条“回答问题”（在线检索生成）。</div>
+
+        <h3 style="font-size:1.1em;margin-bottom:14px;color:var(--accent2);">阶段 A · 准备资料（离线，只做一次）</h3>
+        <div class="flow">
+            <div class="flow-node node">📄 加载文档<span class="sub">Markdown / 文本</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node edge">✂️ 切分<span class="sub">切成小块</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node state">🔢 向量化<span class="sub">每块 → 一串数字</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node checkpoint">🗄️ 存入向量库<span class="sub">内存 / SQLite / PG</span></div>
+        </div>
+
+        <h3 style="font-size:1.1em;margin:24px 0 14px;color:var(--accent);">阶段 B · 回答问题（在线，每次提问都跑）</h3>
+        <div class="flow">
+            <div class="flow-node node">❓ 用户问题<span class="sub">“它的第二点是什么”</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node edge">✏️ 查询改写<span class="sub">把问题变清楚</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node state">🔢 问题向量化<span class="sub">同样变成数字</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node checkpoint">🔍 检索<span class="sub">找最像的几块</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node edge">🏆 重排<span class="sub">重新排序</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node node">📝 拼上下文<span class="sub">塞进提示词</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node checkpoint">🤖 模型生成<span class="sub">带引用作答</span></div>
+        </div>
+
+        <div class="analogy">
+            <strong>把两阶段串起来看：</strong>阶段 A 像“把一本书拆成一页页卡片、每张卡片编好号、按内容分类放进柜子”；阶段 B 像“你来问一个问题，管理员先理解你到底想问什么，然后从柜子里抽出最相关的几张卡片递给你，你对照卡片给出答案，并注明‘以上来自第 3、7、12 张卡片’”。
+        </div>
+    </section>
+
+    <!-- ==================== 3. 六个核心组件 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">3</span> 六个核心组件，拼出整个 RAG</div>
+        <div class="section-desc">不管多复杂的 RAG 系统，拆开来看都离不开这六件事。搞懂它们，你就掌握了 80%。</div>
+
+        <div class="grid">
+            <div class="card" style="border-left: 3px solid var(--accent);">
+                <div class="icon" style="background:rgba(88,166,255,0.12);color:var(--accent);">✂️</div>
+                <h3>① 切分（Chunking）</h3>
+                <p>把长文档切成小块。切太大：检索不准、塞不进提示词；切太小：上下文断裂、语义不完整。好的切分要按标题层级来切，块与块之间还要留一点重叠，避免把一句话劈成两半。</p>
+                <span class="tag">M01</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent5);">
+                <div class="icon" style="background:rgba(188,140,255,0.12);color:var(--accent5);">🔢</div>
+                <h3>② 向量化（Embedding）</h3>
+                <p>把一段文字变成一串数字（比如 1024 个小数）。语义相近的文字，数字也相近。这样计算机才能“算”两段话像不像。这一步要调 embedding 模型，通常按批发送以省钱省时间。</p>
+                <span class="tag purple">M02</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent2);">
+                <div class="icon" style="background:rgba(63,185,80,0.12);color:var(--accent2);">🔍</div>
+                <h3>③ 向量检索</h3>
+                <p>把用户问题也变成向量，然后在库里找“数字最像”的几块。最朴素的算法是手写余弦相似度；数据量大时用 pgvector 的 HNSW 索引做近似检索，用一点点精度换大量速度。</p>
+                <span class="tag green">M03</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent3);">
+                <div class="icon" style="background:rgba(210,153,34,0.12);color:var(--accent3);">🏆</div>
+                <h3>④ 混合检索与重排</h3>
+                <p>光靠向量不够——专有名词、型号、人名它可能找不到。所以要同时跑一路关键词检索，再把两路结果融合（RRF 算法），最后用一个打分器重新排序，把最相关的顶上来。</p>
+                <span class="tag yellow">M04</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent4);">
+                <div class="icon" style="background:rgba(248,81,73,0.12);color:var(--accent4);">📝</div>
+                <h3>⑤ 上下文构造与生成</h3>
+                <p>把检索到的几块拼成一段提示词，告诉模型“请根据以下资料回答”。要注意 token 预算——不能全塞进去。还要处理“资料里没有答案”的情况，这时候应该拒答而不是硬编。</p>
+                <span class="tag red">M05 · M06</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent);">
+                <div class="icon" style="background:rgba(88,166,255,0.12);color:var(--accent);">📊</div>
+                <h3>⑥ 评估</h3>
+                <p>怎么知道检索好不好？用一组“问题 → 期望命中”的黄金集，算命中率、召回率、MRR 三个指标。关键是设一条基线：指标掉下去就判失败，防止改着改着越改越差。</p>
+                <span class="tag">M08</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. 向量化到底在干什么 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">4</span> 向量化到底在干什么？</div>
+        <div class="section-desc">这是 RAG 里最抽象的一步。用一张图说明：文字 → 数字 → 比距离。</div>
+
+        <div class="vector-visual">
+            <div class="vector-row">
+                <div class="vector-label">“猫喜欢吃鱼”</div>
+                <div class="vector-cells">
+                    <div class="vector-cell" style="background:#58a6ff;">0.82</div>
+                    <div class="vector-cell" style="background:#3fb950;">0.11</div>
+                    <div class="vector-cell" style="background:#d29922;">0.47</div>
+                    <div class="vector-cell" style="background:#bc8cff;">0.93</div>
+                    <div class="vector-cell" style="background:#f85149;">0.05</div>
+                </div>
+            </div>
+            <div class="vector-row">
+                <div class="vector-label">“小猫爱吃鱼”</div>
+                <div class="vector-cells">
+                    <div class="vector-cell" style="background:#58a6ff;">0.80</div>
+                    <div class="vector-cell" style="background:#3fb950;">0.13</div>
+                    <div class="vector-cell" style="background:#d29922;">0.45</div>
+                    <div class="vector-cell" style="background:#bc8cff;">0.91</div>
+                    <div class="vector-cell" style="background:#f85149;">0.07</div>
+                </div>
+            </div>
+            <div class="vector-row">
+                <div class="vector-label">“汽车需要加油”</div>
+                <div class="vector-cells">
+                    <div class="vector-cell" style="background:#58a6ff;">0.12</div>
+                    <div class="vector-cell" style="background:#3fb950;">0.88</div>
+                    <div class="vector-cell" style="background:#d29922;">0.31</div>
+                    <div class="vector-cell" style="background:#bc8cff;">0.09</div>
+                    <div class="vector-cell" style="background:#f85149;">0.74</div>
+                </div>
+            </div>
+            <p style="color:var(--text-dim);font-size:0.88em;margin-top:16px;">
+                👆 前两句的数字几乎一样（因为它们意思相近），第三句的数字差很远（意思无关）。检索时就是算“问题向量”和“每块向量”的距离，取最近的几个。这就是向量检索的全部原理。
+            </p>
+        </div>
+    </section>
+
+    <!-- ==================== 5. 十个模块 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">5</span> 十个模块，十个台阶</div>
+        <div class="section-desc">你 PRD 里的 10 个模块，每个都解决 RAG 链路里一个具体问题。每个模块分三档：basic（先跑通）、advanced（加功能）、enterprise（接真实服务）。</div>
+
+        <div class="module-grid">
+            <div class="module-card">
+                <div class="mod-num">M01</div>
+                <h4>📄 加载与切分</h4>
+                <p>怎么把文档切成合适的小块。basic 用定长切，advanced 按标题层级切并加重叠，enterprise 配置驱动 + 幂等。</p>
+                <div class="tier-row">
+                    <span class="tier basic">定长窗口</span>
+                    <span class="tier adv">结构感知</span>
+                    <span class="tier ent">配置驱动</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M02</div>
+                <h4>🔢 向量化</h4>
+                <p>把文字变成数字。basic 批量调模型，advanced 切批 + 磁盘缓存 + 413 重试，enterprise 缓存落 PG + 可续跑。</p>
+                <div class="tier-row">
+                    <span class="tier basic">批量调用</span>
+                    <span class="tier adv">磁盘缓存</span>
+                    <span class="tier ent">PG 缓存</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M03</div>
+                <h4>🔍 向量检索</h4>
+                <p>找最像的几块。basic 手写余弦相似度，advanced SQLite + 阈值 + 回环，enterprise pgvector + HNSW 调优。</p>
+                <div class="tier-row">
+                    <span class="tier basic">手写余弦</span>
+                    <span class="tier adv">SQLite</span>
+                    <span class="tier ent">pgvector</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M04</div>
+                <h4>🏆 混合检索与重排</h4>
+                <p>向量 + 关键词双路召回，再融合排序。basic 字符 bigram 倒排，advanced RRF 融合，enterprise 可替换打分器。</p>
+                <div class="tier-row">
+                    <span class="tier basic">关键词倒排</span>
+                    <span class="tier adv">RRF 融合</span>
+                    <span class="tier ent">可替换重排</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M05</div>
+                <h4>📝 上下文与生成</h4>
+                <p>把检索结果拼进提示词让模型作答。basic 直接拼，advanced 预算裁剪 + 引用编号，enterprise 拒答 + 降级 + 重试。</p>
+                <div class="tier-row">
+                    <span class="tier basic">直接拼接</span>
+                    <span class="tier adv">预算裁剪</span>
+                    <span class="tier ent">拒答降级</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M06</div>
+                <h4>🔗 引用溯源</h4>
+                <p>答案里的 [1][2] 到底来自哪一段。basic 带角标，advanced 回链到原文偏移，enterprise 可验证 + 完整溯源链。</p>
+                <div class="tier-row">
+                    <span class="tier basic">角标</span>
+                    <span class="tier adv">原文偏移</span>
+                    <span class="tier ent">可验证</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M07</div>
+                <h4>✏️ 查询改写与多轮</h4>
+                <p>用户的问题往往不适合直接检索。basic 单轮改写，advanced 指代消解 + 历史裁剪，enterprise 路由 + 缓存 + PG 会话。</p>
+                <div class="tier-row">
+                    <span class="tier basic">单轮改写</span>
+                    <span class="tier adv">指代消解</span>
+                    <span class="tier ent">查询路由</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M08</div>
+                <h4>📊 评估</h4>
+                <p>怎么知道检索好不好。basic 跑 10 条看命中，advanced 算三个指标，enterprise 黄金集 + 基线 + 回归门禁。</p>
+                <div class="tier-row">
+                    <span class="tier basic">样例跑通</span>
+                    <span class="tier adv">三个指标</span>
+                    <span class="tier ent">回归门禁</span>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="mod-num">M09</div>
+                <h4>🤖 Agentic RAG</h4>
+                <p>让模型自己决定要不要检索、检索几次。basic 把检索变成工具，advanced 自主多轮 + 步数上限，enterprise 预算护栏 + 人工审批。</p>
+                <div class="tier-row">
+                    <span class="tier basic">检索工具化</span>
+                    <span class="tier adv">自主多轮</span>
+                    <span class="tier ent">预算护栏</span>
+                </div>
+            </div>
+            <div class="module-card" style="border-color:var(--accent);">
+                <div class="mod-num">M10</div>
+                <h4>🎯 端到端实战</h4>
+                <p>把前面九个模块串成一个完整应用。basic 单命令跑通，advanced 多轮 + 流式 + 持久化，enterprise pgvector + PG 检查点 + 评估门禁 + 可观测。</p>
+                <div class="tier-row">
+                    <span class="tier basic">单命令</span>
+                    <span class="tier adv">流式多轮</span>
+                    <span class="tier ent">全企业级</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. 三档到底差在哪 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">6</span> 三档到底差在哪？</div>
+        <div class="section-desc">每个模块都有 basic / advanced / enterprise 三档。不是三份不同的代码，而是同一个问题的三层演进——加了什么、为什么加、代价是什么。</div>
+
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>维度</th>
+                    <th>basic（先跑通）</th>
+                    <th>advanced（加功能）</th>
+                    <th>enterprise（接真实服务）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>目标</td>
+                    <td>理解核心概念，一条命令跑出结果</td>
+                    <td>补上工程上必需的细节</td>
+                    <td>接真实外部服务，处理失败与代价</td>
+                </tr>
+                <tr>
+                    <td>外部依赖</td>
+                    <td>无（纯函数，可离线跑）</td>
+                    <td>本机 ollama（embedding）</td>
+                    <td>ollama + PostgreSQL + pgvector + DeepSeek Key</td>
+                </tr>
+                <tr>
+                    <td>存储</td>
+                    <td>内存</td>
+                    <td>磁盘 / SQLite</td>
+                    <td>PostgreSQL + pgvector</td>
+                </tr>
+                <tr>
+                    <td>典型新增</td>
+                    <td>—</td>
+                    <td>缓存、切批、重试、阈值、融合</td>
+                    <td>索引调优、跨进程共享、评估门禁、降级、可观测</td>
+                </tr>
+                <tr>
+                    <td>代价</td>
+                    <td>功能最少，但最容易看懂</td>
+                    <td>多一层缓存与重试逻辑</td>
+                    <td>要装数据库、要配凭据、失败面变多</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="analogy" style="margin-top:24px;">
+            <strong>为什么要有三档？</strong>因为学习曲线不是一条直线。basic 让你先看到“这个东西能跑”；advanced 让你知道“要跑得稳需要什么”；enterprise 让你面对“真实世界的复杂”。每一档都要能独立跑通一条 demo 命令，退出码为 0。
+        </div>
+    </section>
+
+    <!-- ==================== 7. 学习路径 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">7</span> 给你的学习路径</div>
+        <div class="section-desc">按四个阶段推进。每个阶段结束时，你都应该能演示出一些东西——演示不出来就不算学完。</div>
+
+        <div class="path">
+            <div class="path-item">
+                <div class="stage">阶段 S1 · 打地基</div>
+                <h4>先把文档切成块</h4>
+                <div class="mods">
+                    <span>M01 加载与切分</span>
+                </div>
+                <p>理解为什么不能把整本书塞给模型。学会按标题层级切分、加重叠窗口、给每块打元数据。这一步是后面所有环节的基础——切得不好，检索再准也没用。</p>
+            </div>
+            <div class="path-item">
+                <div class="stage">阶段 S2 · 检索链路</div>
+                <h4>向量化 + 检索 + 重排</h4>
+                <div class="mods">
+                    <span>M02 向量化</span>
+                    <span>M03 向量检索</span>
+                    <span>M04 混合重排</span>
+                </div>
+                <p>学会把文字变成向量、算相似度、找 top-k。然后补上关键词检索做混合，用 RRF 融合两路结果。最后接上 pgvector，理解 HNSW 索引“用精度换速度”的取舍。</p>
+            </div>
+            <div class="path-item">
+                <div class="stage">阶段 S3 · 生成与评估</div>
+                <h4>让答案有据可查</h4>
+                <div class="mods">
+                    <span>M05 上下文生成</span>
+                    <span>M06 引用溯源</span>
+                    <span>M07 查询改写</span>
+                    <span>M08 评估</span>
+                </div>
+                <p>学会构造提示词、控制 token 预算、处理“没答案就拒答”。然后做到每条引用都能回链到原文。再解决多轮对话里的指代消解。最后用黄金集和基线，让“检索质量”变成可判定的数字。</p>
+            </div>
+            <div class="path-item">
+                <div class="stage">阶段 S4 · 自主与实战</div>
+                <h4>让模型自己决定怎么检索</h4>
+                <div class="mods">
+                    <span>M09 Agentic RAG</span>
+                    <span>M10 端到端实战</span>
+                </div>
+                <p>把检索变成模型可以调用的工具，让它自主多轮——“证据不够？改写问题再查一次”。加上预算护栏和人工审批。最后把十个模块串成一个完整应用：可检索、可引用、可评估、可自主多轮。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 8. 避坑提示 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">8</span> 刚开始最容易踩的 5 个坑</div>
+        <div class="section-desc">这些都是概念层面最容易困惑的地方，提前知道能少走弯路。</div>
+
+        <div class="cap-list">
+            <div class="cap-item">
+                <div class="cap-icon" style="background:rgba(248,81,73,0.1);">⚠️</div>
+                <div>
+                    <h4>坑 1：以为 RAG 就是“把文档丢给模型”</h4>
+                    <p>不是。RAG 的核心是“检索”——先找到最相关的几段，再喂给模型。直接丢整个文档既超长又低效，而且模型会“中间忘掉”（lost in the middle）。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon" style="background:rgba(248,81,73,0.1);">⚠️</div>
+                <div>
+                    <h4>坑 2：切分太随意</h4>
+                    <p>很多人随手按固定字数切，结果一句话被劈成两半、一个标题和它的内容被分到两块。切分粒度直接决定检索质量——切错了，后面全白搭。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon" style="background:rgba(248,81,73,0.1);">⚠️</div>
+                <div>
+                    <h4>坑 3：只做向量检索，不做关键词</h4>
+                    <p>向量检索对“意思相近”很擅长，但对专有名词、型号、人名可能失灵。比如搜“A100 显卡”，向量可能给你一堆“GPU 相关”的内容，但搜不到精确提到 A100 的那段。所以要加一路关键词检索。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon" style="background:rgba(248,81,73,0.1);">⚠️</div>
+                <div>
+                    <h4>坑 4：不处理“检索不到”的情况</h4>
+                    <p>如果资料里根本没有答案，模型会倾向于硬编一个。正确做法是：当检索结果为空或分数全低于阈值时，明确拒答——“根据现有资料无法回答”。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon" style="background:rgba(248,81,73,0.1);">⚠️</div>
+                <div>
+                    <h4>坑 5：不评估就上线</h4>
+                    <p>“感觉还行”不是标准。你需要一组带标准答案的问题（黄金集），算出命中率、召回率、MRR，并设一条基线。否则改了参数之后，你根本不知道是变好了还是变坏了。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p>基于你的 PRD《RAG 学习教程》V1.1 整理 · 概念解释部分参考 RAG 通用实践与 LangGraph 官方文档</p>
+        <p style="margin-top:8px;">保存为 <code>.html</code> 文件后用浏览器打开即可 · 建议配合各模块 README 一起阅读</p>
+    </footer>
+
+</div>
+<script src="./js/main.js"></script>
+</body>
+</html>

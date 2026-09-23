@@ -1,8 +1,8 @@
 /**
- * LangGraph 内部组件一眼看懂 —— 页面脚本
+ * LLM_learn 页面共用脚本（langGraph.html / rag.html）
  *
- * 说明：原 langGraph.html 中没有任何内联 JS，此文件为拆分时新增的
- * 渐进增强逻辑（滚动淡入），删掉它或去掉 index 里的 <script> 不影响内容。
+ * 说明：两个页面原本都没有内联 JS，此文件为拆分时新增的
+ * 渐进增强逻辑（滚动淡入），删掉它或去掉页面里的 <script> 不影响内容。
  */
 (function () {
     'use strict';

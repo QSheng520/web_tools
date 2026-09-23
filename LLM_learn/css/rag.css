@@ -1,0 +1,144 @@
+/**
+ * RAG 一眼看懂 —— 页面专属样式
+ *
+ * 基础样式（变量、header、section、card、flow、compare-table、
+ * cap-list、path、footer）在 ./style.css 中，与 langGraph.html 共用。
+ * 这里只放本页独有的部分。
+ */
+
+/* 本页原有的两处细微差异，覆盖共用基础样式 */
+body { line-height: 1.75; }
+header p { max-width: 700px; }
+
+/* Two column layout */
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+.col-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+}
+.col-box h4 {
+    font-size: 1.05em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.col-box h4 .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.col-box ul { list-style: none; }
+.col-box li {
+    color: var(--text-dim);
+    font-size: 0.88em;
+    padding: 5px 0 5px 18px;
+    position: relative;
+}
+.col-box li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Module cards */
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+.module-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: all 0.25s;
+}
+.module-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+.module-card .mod-num {
+    font-size: 0.72em;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+.module-card h4 {
+    font-size: 1.02em;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.module-card p {
+    color: var(--text-dim);
+    font-size: 0.86em;
+    margin-bottom: 12px;
+}
+.tier-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.tier {
+    font-size: 0.7em;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: 700;
+    border: 1px solid;
+}
+.tier.basic { color: var(--accent2); border-color: rgba(63,185,80,0.3); background: rgba(63,185,80,0.08); }
+.tier.adv { color: var(--accent3); border-color: rgba(210,153,34,0.3); background: rgba(210,153,34,0.08); }
+.tier.ent { color: var(--accent5); border-color: rgba(188,140,255,0.3); background: rgba(188,140,255,0.08); }
+
+/* Vector visual */
+.vector-visual {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.vector-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.vector-label {
+    font-size: 0.85em;
+    color: var(--text-dim);
+    min-width: 130px;
+    font-weight: 600;
+}
+.vector-cells {
+    display: flex;
+    gap: 4px;
+}
+.vector-cell {
+    width: 30px; height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7em;
+    font-weight: 700;
+    color: #000;
+}
+
+/* 本页独有的响应式补充（header / .flow / .flow-arrow 在 style.css 中） */
+@media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .vector-label { min-width: 100%; }
+}
