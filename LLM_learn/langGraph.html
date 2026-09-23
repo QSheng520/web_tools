@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph 内部组件一眼看懂</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<div class="container">
+
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <h1>LangGraph 内部组件一眼看懂</h1>
+        <p>用大白话 + 类比 + 流程图，把 LangGraph 的核心组件、工作原理和实际用途一次性讲清楚。不需要任何前置知识。</p>
+        <div class="badge-row">
+            <span class="badge hot">面向初学者</span>
+            <span class="badge green">含 11 模块学习路径</span>
+            <span class="badge">状态机 · 图编排 · 持久化</span>
+        </div>
+    </header>
+
+    <!-- ==================== 1. 是什么 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">1</span> LangGraph 到底是什么？</div>
+        <div class="section-desc">一句话：它让你用“画流程图”的方式，编排多个 AI 模型和工具来协作完成复杂任务。</div>
+
+        <div class="analogy">
+            <strong>类比：</strong>传统的 AI 调用像“打电话”——你问一句，它答一句，说完就结束。而 LangGraph 像“在办公室里传文件”：每个人（或 AI）看完文件、写上意见、传给下一个人，文件一直在流转，随时可以停下来等人审批、可以回头看之前每一步写了什么、还可以同时让几个人分别处理不同的部分。
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="icon" style="background:rgba(88,166,255,0.12);color:var(--accent);">🧠</div>
+                <h3>有状态</h3>
+                <p>整个流程共享一份数据（叫 State），每个步骤都能读取和修改它。就像共享文档，所有人看到的是同一份最新版本。</p>
+                <span class="tag">State</span>
+            </div>
+            <div class="card">
+                <div class="icon" style="background:rgba(63,185,80,0.12);color:var(--accent2);">🔁</div>
+                <h3>能循环</h3>
+                <p>不像传统流水线只能一条路走到黑，LangGraph 的图可以“回头看”、反复执行，直到条件满足才结束。这正是 Agent 反复“思考→行动→观察”的基础。</p>
+                <span class="tag green">Cyclic</span>
+            </div>
+            <div class="card">
+                <div class="icon" style="background:rgba(210,153,34,0.12);color:var(--accent3);">⏸️</div>
+                <h3>可中断</h3>
+                <p>关键节点可以让流程暂停，等人确认后再继续。比如“模型想执行一个删除操作，先弹出来让你点同意”。</p>
+                <span class="tag yellow">Human-in-the-loop</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 2. 核心组件 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">2</span> 六个核心组件，拼出一切</div>
+        <div class="section-desc">LangGraph 的整个世界观就建立在这六个概念之上。把它们搞懂，你就掌握了 80%。</div>
+
+        <div class="grid">
+            <div class="card" style="border-left: 3px solid var(--accent5);">
+                <div class="icon" style="background:rgba(188,140,255,0.12);color:var(--accent5);">📦</div>
+                <h3>State（状态）</h3>
+                <p>一个共享的数据结构，在整张图中流转。通常是一个字典，里面装着消息列表、计数器、用户输入等。每个节点都能读它、改它。定义时用 <code>TypedDict</code> 描述有哪些字段，还可以用 <code>Annotated</code> 指定“新值是覆盖旧的，还是追加到后面”。</p>
+                <span class="tag purple">共享数据</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent);">
+                <div class="icon" style="background:rgba(88,166,255,0.12);color:var(--accent);">⚙️</div>
+                <h3>Node（节点）</h3>
+                <p>一个普通的 Python 函数，接收当前 State，执行一些操作（调模型、调工具、跑代码），然后返回对 State 的更新。节点是“干活的”，它不需要知道整张图长什么样。</p>
+                <span class="tag">干活的函数</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent3);">
+                <div class="icon" style="background:rgba(210,153,34,0.12);color:var(--accent3);">🔀</div>
+                <h3>Edge（边）</h3>
+                <p>决定“下一步走哪个节点”。有两种：普通边（固定走某条路）和条件边（根据 State 的内容动态决定）。边本身不干活，只负责指路。</p>
+                <span class="tag yellow">指路的规则</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent2);">
+                <div class="icon" style="background:rgba(63,185,80,0.12);color:var(--accent2);">💾</div>
+                <h3>Checkpointer（检查点）</h3>
+                <p>每执行完一步，就把整个 State 快照存一份。有了它，流程可以断点续跑、可以“时间旅行”回到之前的某一步重新走、可以让人慢慢审批而不怕状态丢失。生产环境常用数据库来存。</p>
+                <span class="tag green">自动存档</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent4);">
+                <div class="icon" style="background:rgba(248,81,73,0.12);color:var(--accent4);">⏸️</div>
+                <h3>Interrupt（中断）</h3>
+                <p>在节点内部调用 <code>interrupt()</code>，流程就会停在这里，把控制权交还给调用方。等人输入后，用 <code>Command(resume=...)</code> 继续跑。这是“人在回路”的实现基础。</p>
+                <span class="tag red">暂停等人</span>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--accent5);">
+                <div class="icon" style="background:rgba(188,140,255,0.12);color:var(--accent5);">🧩</div>
+                <h3>Subgraph（子图）</h3>
+                <p>把一张已经建好的图，当作另一张大图里的一个“节点”来用。适合多 Agent 系统——每个 Agent 有自己的内部流程，主图只管调度它们。</p>
+                <span class="tag purple">图套图</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. 执行流程 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">3</span> 一次执行到底发生了什么？</div>
+        <div class="section-desc">下面是一条最典型的 Agent 执行路径：模型决策 → 调用工具 → 再回到模型 → 判断是否结束。</div>
+
+        <div class="flow">
+            <div class="flow-node state">📦 State<span class="sub">共享状态</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node node">🧠 Agent 节点<span class="sub">调模型做决策</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node edge">🔀 条件边<span class="sub">需要工具？</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node node">🔧 Tools 节点<span class="sub">执行工具</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node checkpoint">💾 存档<span class="sub">每步都存</span></div>
+        </div>
+
+        <div class="analogy">
+            <strong>用一句话串起来：</strong>把初始数据放进 State → 第一个节点处理它、写入新内容 → 边根据 State 的内容决定下一步 → 下一个节点继续处理 → 每一步结束都自动存档 → 直到所有节点都“下班”，流程结束。
+        </div>
+
+        <div class="cap-list">
+            <div class="cap-item">
+                <div class="cap-icon">📌</div>
+                <div>
+                    <h4>“超级步”（Super-step）</h4>
+                    <p>LangGraph 的执行不是一步一步逐个节点来的，而是分“轮次”。同一轮里可以并行跑多个节点，等它们全部跑完、状态合并完，才算一轮结束。这借鉴了 Google Pregel 图计算系统的思想。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon">📬</div>
+                <div>
+                    <h4>节点靠“消息传递”被唤醒</h4>
+                    <p>节点一开始都是“睡着”的。当一条边把新状态传给它时，它才醒来干活，干完把结果沿着边传出去。所有节点都不活跃、也没有消息在路上时，整个图就结束。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. 和 LangChain 的区别 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">4</span> 它和 LangChain 是什么关系？</div>
+        <div class="section-desc">很多人搞混这两个。它们不是竞品，是同一个团队做的不同层面的东西。</div>
+
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>维度</th>
+                    <th>LangChain</th>
+                    <th>LangGraph</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>定位</td>
+                    <td>高级框架，帮你快速搭出 Agent</td>
+                    <td>底层编排引擎，给你细粒度控制</td>
+                </tr>
+                <tr>
+                    <td>编程模型</td>
+                    <td>链式调用（线性流水线）</td>
+                    <td>图结构（节点 + 边 + 循环）</td>
+                </tr>
+                <tr>
+                    <td>状态管理</td>
+                    <td>靠函数参数传递</td>
+                    <td>共享 State 对象，可持久化</td>
+                </tr>
+                <tr>
+                    <td>适合场景</td>
+                    <td>简单问答、RAG 检索、快速原型</td>
+                    <td>复杂 Agent、多步循环、需要人工审批、长期运行</td>
+                </tr>
+                <tr>
+                    <td>关系</td>
+                    <td colspan="2" style="text-align:center;">LangChain 构建在 LangGraph 之上。从 2025 年起，LangChain 自己的 Agent 底层就是 LangGraph。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="analogy" style="margin-top:24px;">
+            <strong>一句话记住：</strong>简单任务用 LangChain 更快，复杂编排用 LangGraph 更稳。如果你要做一个“会反复思考、需要人审批、跑很久也不丢状态”的 Agent，选 LangGraph。
+        </div>
+    </section>
+
+    <!-- ==================== 5. 关键能力 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">5</span> 它能帮你做到的 5 件事</div>
+        <div class="section-desc">这些能力不是“有最好”，而是很多真实 Agent 场景里“没有就做不下去”的硬需求。</div>
+
+        <div class="cap-list">
+            <div class="cap-item">
+                <div class="cap-icon">💾</div>
+                <div>
+                    <h4>持久化执行</h4>
+                    <p>流程跑到一半崩溃了，重启后能从最后一次成功的地方继续，不用从头再来。对长时间运行的任务至关重要。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon">✋</div>
+                <div>
+                    <h4>人在回路（Human-in-the-loop）</h4>
+                    <p>在关键操作前暂停，把待审批的内容展示给人。人点了“同意”才继续，点了“拒绝”就走另一条路。这是 AI 安全落地的核心机制。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon">⏪</div>
+                <div>
+                    <h4>时间旅行</h4>
+                    <p>因为每一步都存了档，你可以“回到”之前的任意一个检查点，用不同的输入重新走一遍，方便调试和探索不同方案。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon">🌊</div>
+                <div>
+                    <h4>流式输出</h4>
+                    <p>不需要等整个流程跑完才看到结果。模型每吐一个字、每个节点每完成一步，都可以实时推送到前端显示。</p>
+                </div>
+            </div>
+            <div class="cap-item">
+                <div class="cap-icon">🤝</div>
+                <div>
+                    <h4>多 Agent 协作</h4>
+                    <p>通过子图机制，让多个 Agent 各自拥有独立的内部流程，由一个“主管”负责调度和移交任务。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. 学习路径 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">6</span> 给你的学习路径（来自你的 PRD）</div>
+        <div class="section-desc">你那份 PRD 里定义的 11 个模块，本身就是一条从零到能实战的路径。下面是按阶段整理的概念地图。</div>
+
+        <div class="path">
+            <div class="path-item">
+                <div class="stage">阶段 S1 · 打地基</div>
+                <h4>最小闭环 + 状态管理</h4>
+                <div class="mods">
+                    <span>M01 顺序图</span>
+                    <span>M02 Reducer 对比</span>
+                </div>
+                <p>先跑通一张两个节点的图，理解 State 怎么在节点间流动。然后对比“覆盖”和“追加”两种状态更新方式，搞明白 <code>add_messages</code> 到底在干什么。</p>
+            </div>
+            <div class="path-item">
+                <div class="stage">阶段 S2 · 核心机制</div>
+                <h4>分支、循环、工具调用、持久化</h4>
+                <div class="mods">
+                    <span>M03 条件边</span>
+                    <span>M04 工具调用</span>
+                    <span>M05 持久化</span>
+                </div>
+                <p>学会用条件边做分支和循环，理解 <code>recursion_limit</code> 怎么防止死循环。然后实现最小的 ReAct 模式：模型决策 → 调工具 → 回到模型。最后用 Checkpointer 让同一会话连续对话、回放历史。</p>
+            </div>
+            <div class="path-item">
+                <div class="stage">阶段 S3 · 交互与控制</div>
+                <h4>人机协同、流式输出、子图</h4>
+                <div class="mods">
+                    <span>M06 人工审批</span>
+                    <span>M07 流式输出</span>
+                    <span>M08 子图</span>
+                </div>
+                <p>用 <code>interrupt</code> 让人在关键点审批；用四种 <code>stream_mode</code> 看不同粒度的输出；把一张图当作另一张图的节点来用，理解父子状态映射。</p>
+            </div>
+            <div class="path-item">
+                <div class="stage">阶段 S4 · 实战</div>
+                <h4>多 Agent + RAG + 综合项目</h4>
+                <div class="mods">
+                    <span>M09 Supervisor</span>
+                    <span>M10 Agentic RAG</span>
+                    <span>M11 综合实战</span>
+                </div>
+                <p>用一个纯函数调度器在两个专职 Agent 之间移交任务；用标准库 <code>sqlite3</code> 做关键词检索，实现“证据不足就再检索”的回环；最后把前面所有能力串成一个完整的“检索 → 起草 → 人工审批 → 成稿”应用。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. 避坑提示 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">7</span> 刚开始最容易踩的 4 个坑</div>
+        <div class="section-desc">这些是概念层面最容易困惑的地方，提前知道能少走弯路。</div>
+
+        <div class="grid">
+            <div class="card" style="border-left:3px solid var(--accent4);">
+                <h3 style="color:var(--accent4);">坑 1：节点直接调真实 API</h3>
+                <p>如果 <code>graph.py</code> 里直接 <code>ChatOpenAI()</code> 构造客户端，测试就没法离线跑了。正确做法是让模型作为参数传进来（依赖注入），测试时传一个假模型。</p>
+            </div>
+            <div class="card" style="border-left:3px solid var(--accent4);">
+                <h3 style="color:var(--accent4);">坑 2：忘了 <code>compile()</code></h3>
+                <p>定义完节点和边之后，必须调用 <code>.compile()</code> 才能得到可执行的图。<code>compile</code> 还会做结构检查（比如有没有孤儿节点），并绑定 Checkpointer。</p>
+            </div>
+            <div class="card" style="border-left:3px solid var(--accent4);">
+                <h3 style="color:var(--accent4);">坑 3：Reducer 写错导致状态“消失”</h3>
+                <p>如果用 <code>Annotated[list, add_messages]</code>，新消息会追加；如果只写 <code>list</code>，新消息会直接覆盖旧列表。很多人以为在对话，其实每次都在重写历史。</p>
+            </div>
+            <div class="card" style="border-left:3px solid var(--accent4);">
+                <h3 style="color:var(--accent4);">坑 4：模块之间横向 import</h3>
+                <p>PRD 里明确禁止 <code>m05</code> 去 import <code>m03</code>。每个模块应该是自包含的。如果两个模块需要共享逻辑，应该把共享部分放到 <code>_shared/</code> 里。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p>基于你的 PRD《LangGraph 学习教程》V1.1 整理 · 概念解释部分参考 LangGraph 官方文档与社区资料</p>
+        <p style="margin-top:8px;">保持 <code>langGraph.html</code> 与 <code>css/</code>、<code>js/</code> 目录的相对位置后用浏览器打开即可 · 建议配合模块 README 一起阅读</p>
+    </footer>
+
+</div>
+<script src="./js/main.js"></script>
+</body>
+</html>
