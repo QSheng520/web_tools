@@ -1,0 +1,63 @@
+/* LLM_learn 索引页专用样式（仅 index.html 引用，不影响各教程页） */
+
+/* 整张卡片可点击：沿用 .card 的外观，只补链接相关的重置 */
+.learn-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+}
+.learn-card p { flex: 1; }
+
+/* 标签组：教程涉及的关键概念 */
+.learn-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+}
+.learn-meta span {
+    font-size: 0.75em;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: rgba(139, 155, 180, 0.12);
+    color: var(--text-dim);
+}
+
+/* 底部一行：状态标签 + 进入箭头 */
+.learn-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 14px;
+}
+.learn-foot .tag { margin-top: 0; }
+.learn-card .arrow {
+    font-size: 0.82em;
+    font-weight: 700;
+    color: var(--accent);
+    transition: transform 0.25s;
+}
+.learn-card:hover .arrow { transform: translateX(4px); }
+
+/* 占位卡片：表示后续要加的教程，不可点击 */
+.learn-card.soon {
+    border-style: dashed;
+    background: transparent;
+    cursor: default;
+}
+.learn-card.soon:hover {
+    background: transparent;
+    border-color: var(--border);
+    transform: none;
+    box-shadow: none;
+}
+
+/* 底部返回工具箱的链接 */
+footer a {
+    color: var(--accent);
+    text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }

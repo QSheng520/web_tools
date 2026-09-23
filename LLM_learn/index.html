@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大模型一眼看懂 · 图解教程索引</title>
+    <meta name="description" content="把大模型框架和核心概念，用大白话 + 类比 + 流程图一次讲清楚：RAG、LangGraph 等图解教程索引。">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+<div class="container">
+
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <h1>大模型一眼看懂</h1>
+        <p>把大模型的框架和核心概念，用大白话 + 类比 + 流程图一次讲清楚。不需要任何前置知识，翻开就能读。</p>
+        <div class="badge-row">
+            <span class="badge hot">图解教程</span>
+            <span class="badge green">面向初学者</span>
+            <span class="badge">持续更新中</span>
+        </div>
+    </header>
+
+    <!-- ==================== 教程列表 ==================== -->
+    <section>
+        <div class="section-title"><span class="num">📖</span> 全部教程</div>
+        <div class="section-desc">每个教程都是独立的一页，按自己的节奏看，不必按顺序。</div>
+
+        <div class="grid">
+
+            <a class="card learn-card" href="./rag.html">
+                <div class="icon" style="background:rgba(88,166,255,0.12);color:var(--accent);">📚</div>
+                <h3>RAG 一眼看懂</h3>
+                <p>让 AI 在回答前先去"翻资料"，而不是凭记忆瞎编。含核心组件拆解、检索到生成的完整流程图，以及 10 模块学习路径。</p>
+                <div class="learn-meta">
+                    <span>检索</span>
+                    <span>生成</span>
+                    <span>引用</span>
+                    <span>评估</span>
+                </div>
+                <div class="learn-foot">
+                    <span class="tag green">已上线</span>
+                    <span class="arrow">开始阅读 →</span>
+                </div>
+            </a>
+
+            <a class="card learn-card" href="./langGraph.html">
+                <div class="icon" style="background:rgba(188,140,255,0.12);color:var(--accent5);">🔁</div>
+                <h3>LangGraph 一眼看懂</h3>
+                <p>用"画流程图"的方式，编排多个 AI 模型和工具来协作完成复杂任务。含状态机、节点、边、持久化等组件讲解与 11 模块学习路径。</p>
+                <div class="learn-meta">
+                    <span>状态机</span>
+                    <span>图编排</span>
+                    <span>持久化</span>
+                </div>
+                <div class="learn-foot">
+                    <span class="tag green">已上线</span>
+                    <span class="arrow">开始阅读 →</span>
+                </div>
+            </a>
+
+            <div class="card learn-card soon">
+                <div class="icon" style="background:rgba(139,155,180,0.1);color:var(--text-dim);">➕</div>
+                <h3>更多教程</h3>
+                <p>Agent、Prompt 工程、向量数据库、微调……想到哪个写哪个。</p>
+                <div class="learn-foot">
+                    <span class="tag yellow">筹备中</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p><a href="../index.html">← 返回饺子与肉包工具箱</a></p>
+        <p>&copy; <span id="year"></span> 饺子与肉包 · 大模型一眼看懂</p>
+    </footer>
+
+</div>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="./js/main.js"></script>
+
+</body>
+</html>
