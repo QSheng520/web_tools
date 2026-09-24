@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软件开发各阶段图表速查</title>
+<style>
+  :root {
+    --bg: #f8f9fb;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent-blue: #2563eb;
+    --accent-green: #059669;
+    --accent-orange: #d97706;
+    --accent-purple: #7c3aed;
+    --accent-pink: #db2777;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 32px 20px 60px;
+  }
+  header {
+    max-width: 1100px;
+    margin: 0 auto 32px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .filter-bar {
+    max-width: 1100px;
+    margin: 0 auto 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .filter-bar button {
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .filter-bar button:hover { border-color: #aaa; }
+  .filter-bar button.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+  .grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: box-shadow .2s, transform .2s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,.06);
+    transform: translateY(-2px);
+  }
+  .card.hidden { display: none; }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .card-head h3 {
+    font-size: 16px;
+    font-weight: 650;
+    line-height: 1.3;
+  }
+  .stage-tag {
+    flex-shrink: 0;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: #fff;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .tag-concept   { background: var(--accent-purple); }
+  .tag-req       { background: var(--accent-blue); }
+  .tag-design    { background: var(--accent-green); }
+  .tag-dev       { background: var(--accent-orange); }
+  .tag-report    { background: var(--accent-pink); }
+  .card p {
+    font-size: 13.5px;
+    color: #4b5563;
+    line-height: 1.65;
+  }
+  .card .phase-note {
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px dashed var(--border);
+    padding-top: 8px;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>软件开发各阶段图表速查</h1>
+  <p>按阶段整理架构图、数据流图、UML图及项目管理图表</p>
+</header>
+
+<div class="filter-bar" id="filterBar">
+  <button class="active" data-filter="all">全部</button>
+  <button data-filter="concept">立项·概念</button>
+  <button data-filter="req">需求分析</button>
+  <button data-filter="design">方案·设计</button>
+  <button data-filter="dev">开发·详细设计</button>
+  <button data-filter="report">汇报·项目管理</button>
+</div>
+
+<div class="grid" id="cardGrid">
+
+  <!-- 立项/概念 -->
+  <div class="card" data-phase="concept">
+    <div class="card-head">
+      <h3>系统上下文图</h3>
+      <span class="stage-tag tag-concept">概念</span>
+    </div>
+    <p>界定系统与外部实体（用户、外部系统）的边界，展示数据/信息如何跨越边界流动，是概念阶段最宏观的一张图。</p>
+    <div class="phase-note">概念设计 / 需求早期</div>
+  </div>
+
+  <div class="card" data-phase="concept">
+    <div class="card-head">
+      <h3>概念架构草图 / 方块图</h3>
+      <span class="stage-tag tag-concept">概念</span>
+    </div>
+    <p>以高层方块展示系统的主要功能模块及其关系，不涉及技术细节，用于向非技术干系人传达整体构想。</p>
+    <div class="phase-note">概念设计</div>
+  </div>
+
+  <div class="card" data-phase="concept">
+    <div class="card-head">
+      <h3>可行性分析结构图</h3>
+      <span class="stage-tag tag-concept">概念</span>
+    </div>
+    <p>从经济、技术、组织三维度评估项目可行性，使用系统流程图或结构图辅助论证，产出可行性研究报告。</p>
+    <div class="phase-note">立项阶段</div>
+  </div>
+
+  <!-- 需求分析 -->
+  <div class="card" data-phase="req">
+    <div class="card-head">
+      <h3>业务流程图 / 泳道图</h3>
+      <span class="stage-tag tag-req">需求</span>
+    </div>
+    <p>描述业务从起点到终点的完整流转，泳道图额外标明各部门/角色的职责边界，用于理解业务现状并识别系统支撑点。</p>
+    <div class="phase-note">需求分析</div>
+  </div>
+
+  <div class="card" data-phase="req">
+    <div class="card-head">
+      <h3>用例图</h3>
+      <span class="stage-tag tag-req">需求</span>
+    </div>
+    <p>以参与者和用例为核心描述系统对外功能集合。需求阶段使用业务用例图捕获客户需求，是SRS的核心配图。</p>
+    <div class="phase-note">需求分析</div>
+  </div>
+
+  <div class="card" data-phase="req">
+    <div class="card-head">
+      <h3>数据流图（DFD）</h3>
+      <span class="stage-tag tag-req">需求</span>
+    </div>
+    <p>从数据流动角度刻画系统，展示数据从输入到输出的加工过程，配套数据字典使用，是结构化分析的核心工具。</p>
+    <div class="phase-note">需求分析</div>
+  </div>
+
+  <div class="card" data-phase="req">
+    <div class="card-head">
+      <h3>原型图（线框图 / 高保真）</h3>
+      <span class="stage-tag tag-req">需求</span>
+    </div>
+    <p>产品经理绘制，用于与客户确认交互逻辑和界面布局，是需求确认的重要依据。</p>
+    <div class="phase-note">需求分析</div>
+  </div>
+
+  <div class="card" data-phase="req">
+    <div class="card-head">
+      <h3>状态图</h3>
+      <span class="stage-tag tag-req">需求</span>
+    </div>
+    <p>描述业务实体在生命周期中的状态变化及触发条件，适用于订单、工单、审批流等状态敏感场景。</p>
+    <div class="phase-note">需求 / 详细设计</div>
+  </div>
+
+  <div class="card" data-phase="req">
+    <div class="card-head">
+      <h3>概念 ER 图</h3>
+      <span class="stage-tag tag-req">需求</span>
+    </div>
+    <p>以实体-关系模型表达核心业务实体及其关系，用于与业务方确认数据需求，不涉及具体表结构。</p>
+    <div class="phase-note">需求 / 概念数据设计</div>
+  </div>
+
+  <!-- 方案/设计 -->
+  <div class="card" data-phase="design">
+    <div class="card-head">
+      <h3>系统架构图</h3>
+      <span class="stage-tag tag-design">方案</span>
+    </div>
+    <p>展示系统分层结构或组件拓扑关系，是方案文档中最核心的一张图，概要设计阶段的核心产物。</p>
+    <div class="phase-note">方案 / 概要设计</div>
+  </div>
+
+  <div class="card" data-phase="design">
+    <div class="card-head">
+      <h3>部署图</h3>
+      <span class="stage-tag tag-design">方案</span>
+    </div>
+    <p>描述软件组件在物理节点（服务器、容器、云资源）上的分布及节点间通信路径，方案阶段绘制有助于提前对齐运维需求。</p>
+    <div class="phase-note">方案 / 实现 / 部署</div>
+  </div>
+
+  <div class="card" data-phase="design">
+    <div class="card-head">
+      <h3>时序图 / 顺序图</h3>
+      <span class="stage-tag tag-design">方案</span>
+    </div>
+    <p>展示对象之间按时间顺序的消息交互，概要设计阶段表达模块间接口调用关系，详细设计阶段细化到方法级别。</p>
+    <div class="phase-note">方案 / 详细设计</div>
+  </div>
+
+  <div class="card" data-phase="design">
+    <div class="card-head">
+      <h3>类图</h3>
+      <span class="stage-tag tag-design">方案</span>
+    </div>
+    <p>描述系统中类、属性、方法及类间关系。概要设计阶段描述静态结构并设计接口，详细设计阶段产出指导编码的类图。</p>
+    <div class="phase-note">方案 / 详细设计</div>
+  </div>
+
+  <div class="card" data-phase="design">
+    <div class="card-head">
+      <h3>包图</h3>
+      <span class="stage-tag tag-design">方案</span>
+    </div>
+    <p>组织类和其他模型元素，展示模块划分和依赖关系，适合中大型系统的架构分层表达。</p>
+    <div class="phase-note">方案 / 概要设计</div>
+  </div>
+
+  <div class="card" data-phase="design">
+    <div class="card-head">
+      <h3>逻辑 ER 图 / 物理 ER 图</h3>
+      <span class="stage-tag tag-design">方案</span>
+    </div>
+    <p>概要设计阶段绘制逻辑 ER 模型用于团队和客户确认；详细设计阶段转换为具体表结构，确认主外键并应用范式审核。</p>
+    <div class="phase-note">方案 / 详细设计</div>
+  </div>
+
+  <div class="card" data-phase="design">
+    <div class="card-head">
+      <h3>组件图</h3>
+      <span class="stage-tag tag-design">方案</span>
+    </div>
+    <p>以组件及其关系的形式表示软件系统的高层结构，在设计阶段展示系统架构的构成单元。</p>
+    <div class="phase-note">方案 / 概要设计</div>
+  </div>
+
+  <!-- 开发/详细设计 -->
+  <div class="card" data-phase="dev">
+    <div class="card-head">
+      <h3>详细类图 / 方法级时序图</h3>
+      <span class="stage-tag tag-dev">开发</span>
+    </div>
+    <p>在概要设计基础上扩展细化，为每个模块确定算法和数据结构，直接指导代码编写。</p>
+    <div class="phase-note">详细设计 / 开发</div>
+  </div>
+
+  <div class="card" data-phase="dev">
+    <div class="card-head">
+      <h3>活动图</h3>
+      <span class="stage-tag tag-dev">开发</span>
+    </div>
+    <p>描述复杂业务逻辑或算法流程中的控制流，适合表达有分支、并发和同步的场景。</p>
+    <div class="phase-note">详细设计</div>
+  </div>
+
+  <div class="card" data-phase="dev">
+    <div class="card-head">
+      <h3>数据库 Schema 图</h3>
+      <span class="stage-tag tag-dev">开发</span>
+    </div>
+    <p>展示所有数据表的字段、类型、索引和表间关系，是开发阶段直接用于建库的蓝图。</p>
+    <div class="phase-note">详细设计 / 开发</div>
+  </div>
+
+  <!-- 汇报/项目管理 -->
+  <div class="card" data-phase="report">
+    <div class="card-head">
+      <h3>甘特图 / 路线图</h3>
+      <span class="stage-tag tag-report">汇报</span>
+    </div>
+    <p>用于进度汇报、里程碑管理和资源分配。立项阶段出具初版，迭代过程中持续更新。</p>
+    <div class="phase-note">全阶段 / 汇报</div>
+  </div>
+
+  <div class="card" data-phase="report">
+    <div class="card-head">
+      <h3>燃尽图 / 燃起图</h3>
+      <span class="stage-tag tag-report">汇报</span>
+    </div>
+    <p>敏捷开发中可视化每个 Sprint 的剩余工作量变化，每日站立会产出燃尽图。</p>
+    <div class="phase-note">敏捷迭代 / 汇报</div>
+  </div>
+
+  <div class="card" data-phase="report">
+    <div class="card-head">
+      <h3>用户故事地图</h3>
+      <span class="stage-tag tag-report">汇报</span>
+    </div>
+    <p>敏捷规划阶段将用户故事按用户旅程排列，形成产品全景图，产出“产品地图”。</p>
+    <div class="phase-note">敏捷规划 / 汇报</div>
+  </div>
+
+  <div class="card" data-phase="report">
+    <div class="card-head">
+      <h3>简化架构图（汇报版）</h3>
+      <span class="stage-tag tag-report">汇报</span>
+    </div>
+    <p>将详细架构图简化为“一页纸架构图”，突出核心分层、关键组件和外部依赖，便于非技术决策者快速理解。</p>
+    <div class="phase-note">汇报 / 评审</div>
+  </div>
+
+</div>
+
+<script>
+  const bar = document.getElementById('filterBar');
+  const cards = document.querySelectorAll('.card');
+  bar.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    bar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    const filter = e.target.dataset.filter;
+    cards.forEach(card => {
+      if (filter === 'all' || card.dataset.phase === filter) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+</script>
+</body>
+</html>
