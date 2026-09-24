@@ -69,6 +69,37 @@ header p {
   border-color: var(--text);
 }
 
+/* ===== 全局切换：一次性展开/收起所有丰富示例 ===== */
+.bulk-bar {
+  max-width: 1100px;
+  margin: -14px auto 28px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.bulk-bar .bulk-hint {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.bulk-bar button {
+  padding: 5px 18px;
+  border-radius: 999px;
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .18s;
+}
+.bulk-bar button:hover { border-color: #818cf8; }
+.bulk-bar button.on {
+  background: #4338ca;
+  border-color: #4338ca;
+  color: #fff;
+}
+
 /* ===== 卡片网格 ===== */
 .grid {
   max-width: 1100px;
@@ -125,9 +156,33 @@ header p {
 .card .phase-note {
   font-size: 12px;
   color: var(--muted);
+}
+/* 卡片底部：左侧阶段备注，右侧「简例 / 丰富示例」切换 */
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   border-top: 1px dashed var(--border);
   padding-top: 8px;
   margin-top: 2px;
+}
+.btn-rich {
+  flex-shrink: 0;
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--dc);
+  background: transparent;
+  color: var(--dc);
+  font-size: 12px;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.btn-rich:hover { background: var(--dc-bg); }
+.card.rich .btn-rich {
+  background: var(--dc);
+  color: #fff;
 }
 
 /* ===== 每个阶段的主题色，供图示例取用 ===== */
@@ -148,6 +203,21 @@ header p {
 }
 .diagram:hover { border-color: var(--dc); background: #fff; }
 .diagram svg { display: block; width: 100%; height: auto; }
+
+/* 丰富示例：默认隐藏，卡片切到 rich 时与简例互换 */
+.diagram-rich { display: none; }
+.card.rich .diagram { display: none; }
+.card.rich .diagram-rich { display: block; }
+
+/* 切换按钮的提示条，颜色随阶段主题色 */
+.diagram-rich::after {
+  content: "丰富示例";
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  color: var(--dc);
+  padding: 2px 0 0;
+}
 
 /* ===== SVG 通用元素样式 ===== */
 .dg-t  { font-size: 10px; text-anchor: middle; dominant-baseline: central; fill: var(--ink); }

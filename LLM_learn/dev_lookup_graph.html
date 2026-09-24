@@ -25,7 +25,7 @@
 
 <header>
   <h1>软件开发各阶段图表速查</h1>
-  <p>按阶段整理架构图、数据流图、UML图及项目管理图表，每张图配一个示意小样</p>
+  <p>按阶段整理架构图、数据流图、UML图及项目管理图表，每张图配一个示意小样，可切换到更丰富的示例</p>
 </header>
 
 <div class="filter-bar" id="filterBar">
@@ -35,6 +35,11 @@
   <button data-filter="design">方案·设计</button>
   <button data-filter="dev">开发·详细设计</button>
   <button data-filter="report">汇报·项目管理</button>
+</div>
+
+<div class="bulk-bar">
+  <span class="bulk-hint">每张图默认为简例，可单独切换；也可以一次展开全部：</span>
+  <button id="toggleAllRich" type="button">全部看丰富示例</button>
 </div>
 
 <div class="grid" id="cardGrid">
@@ -66,8 +71,42 @@
       <text class="dg-s" x="88" y="66">配置</text>
       <text class="dg-s" x="192" y="66">支付</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-ln-d" x="86" y="74" width="108" height="46" rx="8"/>
+      <text class="dg-sl" x="88" y="68">系统边界</text>
+      <rect class="dg-box" x="104" y="8" width="72" height="24" rx="5"/>
+      <text class="dg-t" x="140" y="20">用户</text>
+      <rect class="dg-box" x="10" y="45" width="68" height="26" rx="5"/>
+      <text class="dg-t" x="44" y="58">运营后台</text>
+      <rect class="dg-box" x="202" y="45" width="68" height="26" rx="5"/>
+      <text class="dg-t" x="236" y="58">支付网关</text>
+      <rect class="dg-box" x="10" y="124" width="68" height="24" rx="5"/>
+      <text class="dg-t" x="44" y="136">短信服务</text>
+      <rect class="dg-box" x="202" y="124" width="68" height="24" rx="5"/>
+      <text class="dg-t" x="236" y="136">风控服务</text>
+      <rect class="dg-box" x="104" y="152" width="72" height="22" rx="5"/>
+      <text class="dg-t" x="140" y="163">物流系统</text>
+      <rect class="dg-hi" x="94" y="82" width="92" height="32" rx="6"/>
+      <text class="dg-t" x="140" y="94">订单系统</text>
+      <text class="dg-s" x="140" y="106">（本系统）</text>
+      <line class="dg-ln" x1="140" y1="32" x2="140" y2="82" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="178" y="48">下单 / 查询</text>
+      <line class="dg-ln" x1="140" y1="114" x2="140" y2="152" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="178" y="134">发货单</text>
+      <path class="dg-ln" d="M78,58 L110,58 L110,82" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="94" y="50">配置</text>
+      <path class="dg-ln" d="M202,58 L170,58 L170,82" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="186" y="50">支付</text>
+      <path class="dg-ln" d="M44,124 L44,110 L94,110" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="60" y="104">通知</text>
+      <path class="dg-ln" d="M236,124 L236,110 L186,110" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="220" y="104">风控</text>
+    </svg></div>
     <p>界定系统与外部实体（用户、外部系统）的边界，展示数据/信息如何跨越边界流动，是概念阶段最宏观的一张图。</p>
-    <div class="phase-note">概念设计 / 需求早期</div>
+    <div class="card-foot">
+      <span class="phase-note">概念设计 / 需求早期</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="concept">
@@ -95,8 +134,39 @@
       <line class="dg-ln" x1="141" y1="88" x2="141" y2="116" marker-end="url(#dg-arrow)"/>
       <line class="dg-ln" x1="219" y1="88" x2="192" y2="116" marker-end="url(#dg-arrow)"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-box" x="20" y="6" width="240" height="22" rx="5"/>
+      <text class="dg-t" x="140" y="17">用户端：Web · App · 小程序 · 客服台</text>
+      <rect class="dg-ln-d" x="8" y="40" width="264" height="72" rx="8"/>
+      <text class="dg-sl" x="16" y="50">业务应用</text>
+      <rect class="dg-hi" x="18" y="56" width="76" height="22" rx="5"/>
+      <text class="dg-t" x="56" y="67">商品服务</text>
+      <rect class="dg-hi" x="102" y="56" width="76" height="22" rx="5"/>
+      <text class="dg-t" x="140" y="67">订单服务</text>
+      <rect class="dg-hi" x="186" y="56" width="76" height="22" rx="5"/>
+      <text class="dg-t" x="224" y="67">用户服务</text>
+      <rect class="dg-hi" x="18" y="84" width="76" height="22" rx="5"/>
+      <text class="dg-t" x="56" y="95">库存服务</text>
+      <rect class="dg-hi" x="102" y="84" width="76" height="22" rx="5"/>
+      <text class="dg-t" x="140" y="95">支付服务</text>
+      <rect class="dg-hi" x="186" y="84" width="76" height="22" rx="5"/>
+      <text class="dg-t" x="224" y="95">营销服务</text>
+      <rect class="dg-box" x="20" y="124" width="240" height="22" rx="5"/>
+      <text class="dg-t" x="140" y="135">消息队列 · 缓存 · 全文检索</text>
+      <rect class="dg-box" x="20" y="152" width="240" height="22" rx="5"/>
+      <text class="dg-t" x="140" y="163">MySQL 主从 · 对象存储</text>
+      <line class="dg-ln" x1="56" y1="28" x2="56" y2="56" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="28" x2="140" y2="56" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="224" y1="28" x2="224" y2="56" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="56" y1="112" x2="56" y2="124" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="224" y1="112" x2="224" y2="124" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="146" x2="140" y2="152" marker-end="url(#dg-arrow)"/>
+    </svg></div>
     <p>以高层方块展示系统的主要功能模块及其关系，不涉及技术细节，用于向非技术干系人传达整体构想。</p>
-    <div class="phase-note">概念设计</div>
+    <div class="card-foot">
+      <span class="phase-note">概念设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="concept">
@@ -129,8 +199,58 @@
       <line class="dg-ln" x1="140" y1="94" x2="140" y2="114" marker-end="url(#dg-arrow)"/>
       <line class="dg-ln" x1="230" y1="94" x2="205" y2="114" marker-end="url(#dg-arrow)"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-hi" x="80" y="4" width="120" height="22" rx="5"/>
+      <text class="dg-t" x="140" y="15">可行性研究</text>
+      <rect class="dg-box" x="8" y="42" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="38" y="54">经济可行性</text>
+      <rect class="dg-box" x="78" y="42" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="108" y="54">技术可行性</text>
+      <rect class="dg-box" x="148" y="42" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="178" y="54">组织可行性</text>
+      <rect class="dg-box" x="218" y="42" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="248" y="54">进度可行性</text>
+      <rect class="dg-box" x="8" y="74" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="38" y="82">成本估算</text>
+      <rect class="dg-box" x="78" y="74" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="108" y="82">技术选型</text>
+      <rect class="dg-box" x="148" y="74" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="178" y="82">流程适配</text>
+      <rect class="dg-box" x="218" y="74" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="248" y="82">里程碑</text>
+      <rect class="dg-box" x="8" y="95" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="38" y="103">收益预测</text>
+      <rect class="dg-box" x="78" y="95" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="108" y="103">团队能力</text>
+      <rect class="dg-box" x="148" y="95" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="178" y="103">干系人支持</text>
+      <rect class="dg-box" x="218" y="95" width="60" height="17" rx="4"/>
+      <text class="dg-s" x="248" y="103">资源到位</text>
+      <rect class="dg-hi" x="24" y="136" width="232" height="34" rx="5"/>
+      <text class="dg-t" x="140" y="147">可行性结论</text>
+      <text class="dg-s" x="140" y="161">技术可行 · 成本可控 · 风险可接受 · 建议立项</text>
+      <line class="dg-ln" x1="140" y1="26" x2="38" y2="42" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="26" x2="108" y2="42" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="26" x2="178" y2="42" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="26" x2="248" y2="42" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="38" y1="66" x2="38" y2="74" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="108" y1="66" x2="108" y2="74" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="178" y1="66" x2="178" y2="74" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="248" y1="66" x2="248" y2="74" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="38" y1="91" x2="38" y2="95" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="108" y1="91" x2="108" y2="95" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="178" y1="91" x2="178" y2="95" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="248" y1="91" x2="248" y2="95" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="38" y1="112" x2="62" y2="136" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="108" y1="112" x2="108" y2="136" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="178" y1="112" x2="178" y2="136" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="248" y1="112" x2="218" y2="136" marker-end="url(#dg-arrow)"/>
+    </svg></div>
     <p>从经济、技术、组织三维度评估项目可行性，使用系统流程图或结构图辅助论证，产出可行性研究报告。</p>
-    <div class="phase-note">立项阶段</div>
+    <div class="card-foot">
+      <span class="phase-note">立项阶段</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <!-- 需求分析 -->
@@ -164,8 +284,49 @@
       <line class="dg-ln" x1="118" y1="113" x2="200" y2="113" marker-end="url(#dg-arrow)"/>
       <line class="dg-ln" x1="231" y1="101" x2="231" y2="41" marker-end="url(#dg-arrow)"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-box" x="40" y="6" width="236" height="40"/>
+      <rect class="dg-box" x="40" y="46" width="236" height="40"/>
+      <rect class="dg-box" x="40" y="86" width="236" height="40"/>
+      <rect class="dg-box" x="40" y="126" width="236" height="40"/>
+      <rect class="dg-hi" x="4" y="6" width="34" height="40" rx="4"/>
+      <text class="dg-t" x="21" y="26">客户</text>
+      <rect class="dg-hi" x="4" y="46" width="34" height="40" rx="4"/>
+      <text class="dg-t" x="21" y="66">客服</text>
+      <rect class="dg-hi" x="4" y="86" width="34" height="40" rx="4"/>
+      <text class="dg-t" x="21" y="106">系统</text>
+      <rect class="dg-hi" x="4" y="126" width="34" height="40" rx="4"/>
+      <text class="dg-t" x="21" y="146">风控</text>
+      <rect class="dg-fill" x="48" y="15" width="60" height="22" rx="5"/>
+      <text class="dg-t" x="78" y="26">提交申请</text>
+      <rect class="dg-fill" x="204" y="15" width="60" height="22" rx="5"/>
+      <text class="dg-t" x="234" y="26">确认结果</text>
+      <rect class="dg-fill" x="118" y="55" width="60" height="22" rx="5"/>
+      <text class="dg-t" x="148" y="66">资料初审</text>
+      <rect class="dg-fill" x="204" y="55" width="60" height="22" rx="5"/>
+      <text class="dg-t" x="234" y="66">结果通知</text>
+      <rect class="dg-fill" x="48" y="95" width="60" height="22" rx="5"/>
+      <text class="dg-t" x="78" y="106">生成工单</text>
+      <rect class="dg-fill" x="130" y="95" width="60" height="22" rx="5"/>
+      <text class="dg-t" x="160" y="106">短信通知</text>
+      <polygon class="dg-hi" points="148,129 178,146 148,163 118,146"/>
+      <text class="dg-s" x="148" y="146">风控审核</text>
+      <path class="dg-ln" d="M78,37 L78,66 L118,66" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="148" y1="77" x2="148" y2="129" marker-end="url(#dg-arrow)"/>
+      <path class="dg-ln" d="M118,146 L78,146 L78,117" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="98" y="140">通过</text>
+      <path class="dg-ln" d="M178,146 L234,146 L234,77" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="206" y="140">拒绝</text>
+      <line class="dg-ln" x1="108" y1="106" x2="130" y2="106" marker-end="url(#dg-arrow)"/>
+      <path class="dg-ln" d="M190,106 L272,106 L272,26 L264,26" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="266" y="96">通知</text>
+      <line class="dg-ln" x1="234" y1="55" x2="234" y2="37" marker-end="url(#dg-arrow)"/>
+    </svg></div>
     <p>描述业务从起点到终点的完整流转，泳道图额外标明各部门/角色的职责边界，用于理解业务现状并识别系统支撑点。</p>
-    <div class="phase-note">需求分析</div>
+    <div class="card-foot">
+      <span class="phase-note">需求分析</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="req">
@@ -201,8 +362,49 @@
       <line class="dg-ln" x1="38" y1="74" x2="97" y2="100"/>
       <line class="dg-ln" x1="238" y1="80" x2="183" y2="124"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-ln-d" x="64" y="6" width="152" height="170" rx="4"/>
+      <text class="dg-t" x="140" y="20">订单系统</text>
+      <ellipse class="dg-hi" cx="140" cy="40" rx="44" ry="11"/>
+      <text class="dg-t" x="140" y="40">下单</text>
+      <ellipse class="dg-hi" cx="140" cy="70" rx="44" ry="11"/>
+      <text class="dg-t" x="140" y="70">支付</text>
+      <ellipse class="dg-hi" cx="140" cy="100" rx="44" ry="11"/>
+      <text class="dg-t" x="140" y="100">查询订单</text>
+      <ellipse class="dg-hi" cx="140" cy="130" rx="44" ry="11"/>
+      <text class="dg-t" x="140" y="130">取消订单</text>
+      <ellipse class="dg-hi" cx="140" cy="160" rx="44" ry="11"/>
+      <text class="dg-t" x="140" y="160">申请退款</text>
+      <circle class="dg-ln" cx="26" cy="80" r="6"/>
+      <line class="dg-ln" x1="26" y1="86" x2="26" y2="102"/>
+      <line class="dg-ln" x1="15" y1="92" x2="37" y2="92"/>
+      <line class="dg-ln" x1="26" y1="102" x2="18" y2="112"/>
+      <line class="dg-ln" x1="26" y1="102" x2="34" y2="112"/>
+      <text class="dg-s" x="26" y="122">客户</text>
+      <circle class="dg-ln" cx="254" cy="56" r="6"/>
+      <line class="dg-ln" x1="254" y1="62" x2="254" y2="78"/>
+      <line class="dg-ln" x1="243" y1="68" x2="265" y2="68"/>
+      <line class="dg-ln" x1="254" y1="78" x2="246" y2="88"/>
+      <line class="dg-ln" x1="254" y1="78" x2="262" y2="88"/>
+      <text class="dg-s" x="254" y="98">支付网关</text>
+      <circle class="dg-ln" cx="254" cy="132" r="6"/>
+      <line class="dg-ln" x1="254" y1="138" x2="254" y2="154"/>
+      <line class="dg-ln" x1="243" y1="144" x2="265" y2="144"/>
+      <line class="dg-ln" x1="254" y1="154" x2="246" y2="164"/>
+      <line class="dg-ln" x1="254" y1="154" x2="262" y2="164"/>
+      <text class="dg-s" x="254" y="174">运营人员</text>
+      <line class="dg-ln" x1="37" y1="92" x2="96" y2="40"/>
+      <line class="dg-ln" x1="37" y1="92" x2="96" y2="100"/>
+      <line class="dg-ln" x1="37" y1="92" x2="96" y2="130"/>
+      <line class="dg-ln" x1="243" y1="68" x2="184" y2="70"/>
+      <line class="dg-ln" x1="243" y1="144" x2="184" y2="160"/>
+      <line class="dg-ln" x1="243" y1="144" x2="184" y2="130"/>
+    </svg></div>
     <p>以参与者和用例为核心描述系统对外功能集合。需求阶段使用业务用例图捕获客户需求，是SRS的核心配图。</p>
-    <div class="phase-note">需求分析</div>
+    <div class="card-foot">
+      <span class="phase-note">需求分析</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="req">
@@ -230,8 +432,47 @@
       <path class="dg-ln" d="M112,118 L40,118 L40,42" marker-end="url(#dg-arrow)"/>
       <text class="dg-s" x="78" y="110">处理结果</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-box" x="4" y="20" width="54" height="26" rx="4"/>
+      <text class="dg-t" x="31" y="33">客户</text>
+      <ellipse class="dg-hi" cx="114" cy="32" rx="40" ry="19"/>
+      <text class="dg-t" x="114" y="32">1 校验订单</text>
+      <ellipse class="dg-hi" cx="114" cy="90" rx="40" ry="19"/>
+      <text class="dg-t" x="114" y="90">2 生成工单</text>
+      <ellipse class="dg-hi" cx="114" cy="148" rx="40" ry="19"/>
+      <text class="dg-t" x="114" y="148">3 扣减库存</text>
+      <rect class="dg-box" x="180" y="20" width="96" height="24"/>
+      <line class="dg-ln" x1="194" y1="20" x2="194" y2="44"/>
+      <text class="dg-t" x="187" y="32">D1</text>
+      <text class="dg-s" x="238" y="32">订单表</text>
+      <rect class="dg-box" x="180" y="78" width="96" height="24"/>
+      <line class="dg-ln" x1="194" y1="78" x2="194" y2="102"/>
+      <text class="dg-t" x="187" y="90">D2</text>
+      <text class="dg-s" x="238" y="90">客户表</text>
+      <rect class="dg-box" x="180" y="136" width="96" height="24"/>
+      <line class="dg-ln" x1="194" y1="136" x2="194" y2="160"/>
+      <text class="dg-t" x="187" y="148">D3</text>
+      <text class="dg-s" x="238" y="148">库存表</text>
+      <line class="dg-ln" x1="58" y1="33" x2="74" y2="33" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="66" y="25">订单</text>
+      <line class="dg-ln" x1="114" y1="51" x2="114" y2="71" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="142" y="61">校验通过</text>
+      <line class="dg-ln" x1="114" y1="109" x2="114" y2="129" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="142" y="119">锁定库存</text>
+      <line class="dg-ln" x1="154" y1="28" x2="180" y2="28" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="167" y="20">写入</text>
+      <line class="dg-ln" x1="154" y1="86" x2="180" y2="86" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="167" y="78">读取</text>
+      <line class="dg-ln" x1="154" y1="144" x2="180" y2="144" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="167" y="136">扣减</text>
+      <path class="dg-ln" d="M74,155 L31,155 L31,46" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="54" y="166">处理结果</text>
+    </svg></div>
     <p>从数据流动角度刻画系统，展示数据从输入到输出的加工过程，配套数据字典使用，是结构化分析的核心工具。</p>
-    <div class="phase-note">需求分析</div>
+    <div class="card-foot">
+      <span class="phase-note">需求分析</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="req">
@@ -259,8 +500,54 @@
       <rect class="dg-hi" x="106" y="126" width="52" height="14" rx="7"/>
       <text class="dg-s" x="132" y="133">提交</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-box" x="6" y="10" width="126" height="150" rx="8"/>
+      <line class="dg-thin" x1="6" y1="30" x2="132" y2="30"/>
+      <circle class="dg-dot" cx="16" cy="20" r="2.5"/>
+      <circle class="dg-dot" cx="24" cy="20" r="2.5"/>
+      <circle class="dg-dot" cx="32" cy="20" r="2.5"/>
+      <rect class="dg-fill" x="14" y="36" width="110" height="13" rx="6"/>
+      <text class="dg-fl" x="20" y="42">搜索商品</text>
+      <rect class="dg-box" x="14" y="55" width="110" height="18"/>
+      <rect class="dg-fill" x="18" y="58" width="14" height="12"/>
+      <rect class="dg-fill" x="36" y="60" width="58" height="5" rx="2.5"/>
+      <rect class="dg-fill" x="36" y="68" width="36" height="4" rx="2"/>
+      <rect class="dg-box" x="14" y="77" width="110" height="18"/>
+      <rect class="dg-fill" x="18" y="80" width="14" height="12"/>
+      <rect class="dg-fill" x="36" y="82" width="58" height="5" rx="2.5"/>
+      <rect class="dg-fill" x="36" y="90" width="36" height="4" rx="2"/>
+      <rect class="dg-box" x="14" y="99" width="110" height="18"/>
+      <rect class="dg-fill" x="18" y="102" width="14" height="12"/>
+      <rect class="dg-fill" x="36" y="104" width="58" height="5" rx="2.5"/>
+      <rect class="dg-fill" x="36" y="112" width="36" height="4" rx="2"/>
+      <line class="dg-thin" x1="14" y1="126" x2="124" y2="126"/>
+      <circle class="dg-fill" cx="36" cy="138" r="3.5"/>
+      <circle class="dg-fill" cx="69" cy="138" r="3.5"/>
+      <circle class="dg-fill" cx="102" cy="138" r="3.5"/>
+      <rect class="dg-box" x="148" y="10" width="126" height="150" rx="8"/>
+      <line class="dg-thin" x1="148" y1="30" x2="274" y2="30"/>
+      <circle class="dg-dot" cx="158" cy="20" r="2.5"/>
+      <circle class="dg-dot" cx="166" cy="20" r="2.5"/>
+      <circle class="dg-dot" cx="174" cy="20" r="2.5"/>
+      <rect class="dg-box" x="156" y="36" width="110" height="46"/>
+      <line class="dg-thin" x1="156" y1="36" x2="266" y2="82"/>
+      <line class="dg-thin" x1="266" y1="36" x2="156" y2="82"/>
+      <rect class="dg-fill" x="156" y="88" width="80" height="6" rx="3"/>
+      <rect class="dg-fill" x="156" y="100" width="42" height="6" rx="3"/>
+      <rect class="dg-fill" x="156" y="112" width="110" height="4" rx="2"/>
+      <rect class="dg-fill" x="156" y="120" width="86" height="4" rx="2"/>
+      <rect class="dg-hi" x="156" y="132" width="110" height="16" rx="8"/>
+      <text class="dg-s" x="211" y="140">立即购买</text>
+      <line class="dg-ln" x1="132" y1="90" x2="148" y2="90" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="140" y="81">跳转</text>
+      <text class="dg-s" x="69" y="170">列表页</text>
+      <text class="dg-s" x="211" y="170">详情页</text>
+    </svg></div>
     <p>产品经理绘制，用于与客户确认交互逻辑和界面布局，是需求确认的重要依据。</p>
-    <div class="phase-note">需求分析</div>
+    <div class="card-foot">
+      <span class="phase-note">需求分析</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="req">
@@ -293,8 +580,46 @@
       <text class="dg-s" x="226" y="69">签收</text>
       <line class="dg-ln" x1="236" y1="109" x2="244" y2="109" marker-end="url(#dg-arrow)"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <circle class="dg-dot" cx="6" cy="24" r="4.5"/>
+      <rect class="dg-hi" x="18" y="12" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="48" y="24">待支付</text>
+      <rect class="dg-box" x="108" y="12" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="138" y="24">已支付</text>
+      <rect class="dg-box" x="198" y="12" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="228" y="24">待发货</text>
+      <rect class="dg-box" x="18" y="76" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="48" y="88">已取消</text>
+      <rect class="dg-box" x="108" y="76" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="138" y="88">退款中</text>
+      <rect class="dg-box" x="198" y="76" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="228" y="88">已发货</text>
+      <rect class="dg-box" x="198" y="140" width="60" height="24" rx="5"/>
+      <text class="dg-t" x="228" y="152">已完成</text>
+      <circle class="dg-box" cx="270" cy="152" r="8"/>
+      <circle class="dg-dot" cx="270" cy="152" r="4"/>
+      <line class="dg-ln" x1="10.5" y1="24" x2="18" y2="24" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="78" y1="24" x2="108" y2="24" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="93" y="16">支付</text>
+      <line class="dg-ln" x1="168" y1="24" x2="198" y2="24" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="183" y="16">备货</text>
+      <line class="dg-ln" x1="228" y1="36" x2="228" y2="76" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="248" y="56">发货</text>
+      <line class="dg-ln" x1="228" y1="100" x2="228" y2="140" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="248" y="120">签收</text>
+      <line class="dg-ln" x1="258" y1="152" x2="262" y2="152" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="48" y1="36" x2="48" y2="76" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="66" y="56">取消</text>
+      <line class="dg-ln" x1="138" y1="36" x2="138" y2="76" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="164" y="56">申请退款</text>
+      <line class="dg-ln" x1="108" y1="88" x2="78" y2="88" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="93" y="79">退款完成</text>
+    </svg></div>
     <p>描述业务实体在生命周期中的状态变化及触发条件，适用于订单、工单、审批流等状态敏感场景。</p>
-    <div class="phase-note">需求 / 详细设计</div>
+    <div class="card-foot">
+      <span class="phase-note">需求 / 详细设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="req">
@@ -325,8 +650,52 @@
       <text class="dg-s" x="85" y="63">1</text>
       <text class="dg-s" x="179" y="63">N</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <ellipse class="dg-box" cx="34" cy="22" rx="30" ry="12"/>
+      <text class="dg-s" x="34" y="22">客户编号</text>
+      <line class="dg-ln" x1="23" y1="29" x2="45" y2="29"/>
+      <ellipse class="dg-box" cx="34" cy="126" rx="30" ry="12"/>
+      <text class="dg-s" x="34" y="126">客户等级</text>
+      <ellipse class="dg-box" cx="140" cy="22" rx="30" ry="12"/>
+      <text class="dg-s" x="140" y="22">订单号</text>
+      <line class="dg-ln" x1="132" y1="29" x2="148" y2="29"/>
+      <ellipse class="dg-box" cx="140" cy="126" rx="30" ry="12"/>
+      <text class="dg-s" x="140" y="126">下单时间</text>
+      <ellipse class="dg-box" cx="246" cy="22" rx="30" ry="12"/>
+      <text class="dg-s" x="246" y="22">商品编号</text>
+      <line class="dg-ln" x1="231" y1="29" x2="261" y2="29"/>
+      <ellipse class="dg-box" cx="246" cy="126" rx="30" ry="12"/>
+      <text class="dg-s" x="246" y="126">库存量</text>
+      <rect class="dg-box" x="4" y="60" width="60" height="26" rx="4"/>
+      <text class="dg-t" x="34" y="73">客户</text>
+      <rect class="dg-box" x="110" y="60" width="60" height="26" rx="4"/>
+      <text class="dg-t" x="140" y="73">订单</text>
+      <rect class="dg-box" x="216" y="60" width="60" height="26" rx="4"/>
+      <text class="dg-t" x="246" y="73">商品</text>
+      <polygon class="dg-hi" points="88,55 106,73 88,91 70,73"/>
+      <text class="dg-s" x="88" y="73">下单</text>
+      <polygon class="dg-hi" points="194,55 212,73 194,91 176,73"/>
+      <text class="dg-s" x="194" y="73">包含</text>
+      <line class="dg-ln" x1="34" y1="34" x2="34" y2="60"/>
+      <line class="dg-ln" x1="34" y1="86" x2="34" y2="114"/>
+      <line class="dg-ln" x1="140" y1="34" x2="140" y2="60"/>
+      <line class="dg-ln" x1="140" y1="86" x2="140" y2="114"/>
+      <line class="dg-ln" x1="246" y1="34" x2="246" y2="60"/>
+      <line class="dg-ln" x1="246" y1="86" x2="246" y2="114"/>
+      <line class="dg-ln" x1="64" y1="73" x2="70" y2="73"/>
+      <line class="dg-ln" x1="106" y1="73" x2="110" y2="73"/>
+      <line class="dg-ln" x1="170" y1="73" x2="176" y2="73"/>
+      <line class="dg-ln" x1="212" y1="73" x2="216" y2="73"/>
+      <text class="dg-s" x="67" y="65">1</text>
+      <text class="dg-s" x="109" y="65">N</text>
+      <text class="dg-s" x="173" y="65">1</text>
+      <text class="dg-s" x="215" y="65">N</text>
+    </svg></div>
     <p>以实体-关系模型表达核心业务实体及其关系，用于与业务方确认数据需求，不涉及具体表结构。</p>
-    <div class="phase-note">需求 / 概念数据设计</div>
+    <div class="card-foot">
+      <span class="phase-note">需求 / 概念数据设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <!-- 方案/设计 -->
@@ -362,8 +731,47 @@
       <line class="dg-ln-d" x1="184" y1="56" x2="204" y2="42" marker-end="url(#dg-arrow)"/>
       <line class="dg-ln-d" x1="184" y1="128" x2="204" y2="110" marker-end="url(#dg-arrow)"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-hi" x="6" y="6" width="176" height="26" rx="5"/>
+      <text class="dg-t" x="94" y="14">表现层</text>
+      <text class="dg-s" x="94" y="24">Web · App · 小程序</text>
+      <rect class="dg-box" x="6" y="38" width="176" height="26" rx="5"/>
+      <text class="dg-t" x="94" y="46">接入层</text>
+      <text class="dg-s" x="94" y="56">网关 · 鉴权 · 限流</text>
+      <rect class="dg-box" x="6" y="70" width="176" height="26" rx="5"/>
+      <text class="dg-t" x="94" y="78">应用层</text>
+      <text class="dg-s" x="94" y="88">订单 · 商品 · 用户</text>
+      <rect class="dg-box" x="6" y="102" width="176" height="26" rx="5"/>
+      <text class="dg-t" x="94" y="110">领域层</text>
+      <text class="dg-s" x="94" y="120">聚合根 · 领域服务</text>
+      <rect class="dg-fill" x="6" y="134" width="176" height="26" rx="5"/>
+      <text class="dg-t" x="94" y="142">基础设施层</text>
+      <text class="dg-s" x="94" y="152">DB · Cache · MQ</text>
+      <rect class="dg-ln-d" x="190" y="6" width="84" height="100" rx="6"/>
+      <text class="dg-sl" x="198" y="18">外部依赖</text>
+      <rect class="dg-box" x="196" y="26" width="72" height="22" rx="4"/>
+      <text class="dg-s" x="232" y="37">支付网关</text>
+      <rect class="dg-box" x="196" y="52" width="72" height="22" rx="4"/>
+      <text class="dg-s" x="232" y="63">短信服务</text>
+      <rect class="dg-box" x="196" y="78" width="72" height="22" rx="4"/>
+      <text class="dg-s" x="232" y="89">对象存储</text>
+      <rect class="dg-ln-d" x="190" y="114" width="84" height="56" rx="6"/>
+      <text class="dg-sl" x="198" y="126">横切关注点</text>
+      <text class="dg-sl" x="196" y="138">· 日志 / 链路追踪</text>
+      <text class="dg-sl" x="196" y="151">· 监控 / 告警</text>
+      <text class="dg-sl" x="196" y="164">· 安全 / 限流</text>
+      <line class="dg-ln" x1="94" y1="32" x2="94" y2="38" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="94" y1="64" x2="94" y2="70" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="94" y1="96" x2="94" y2="102" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="94" y1="128" x2="94" y2="134" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln-d" x1="182" y1="83" x2="190" y2="83" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln-d" x1="182" y1="147" x2="190" y2="147" marker-end="url(#dg-arrow)"/>
+    </svg></div>
     <p>展示系统分层结构或组件拓扑关系，是方案文档中最核心的一张图，概要设计阶段的核心产物。</p>
-    <div class="phase-note">方案 / 概要设计</div>
+    <div class="card-foot">
+      <span class="phase-note">方案 / 概要设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="design">
@@ -393,8 +801,74 @@
       <line class="dg-ln" x1="192" y1="86" x2="238" y2="52" marker-end="url(#dg-arrow)"/>
       <text class="dg-s" x="220" y="78">JDBC</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <polygon class="dg-fill" points="6,8 12,2 88,2 82,8"/>
+      <polygon class="dg-fill" points="82,8 88,2 88,34 82,40"/>
+      <rect class="dg-hi" x="6" y="8" width="76" height="32"/>
+      <text class="dg-s" x="44" y="20">«device»</text>
+      <text class="dg-t" x="44" y="31">浏览器</text>
+      <polygon class="dg-fill" points="102,8 108,2 184,2 178,8"/>
+      <polygon class="dg-fill" points="178,8 184,2 184,34 178,40"/>
+      <rect class="dg-hi" x="102" y="8" width="76" height="32"/>
+      <text class="dg-s" x="140" y="20">«node»</text>
+      <text class="dg-t" x="140" y="31">Nginx 集群</text>
+      <polygon class="dg-fill" points="194,8 200,2 276,2 270,8"/>
+      <polygon class="dg-fill" points="270,8 276,2 276,34 270,40"/>
+      <rect class="dg-box" x="194" y="8" width="76" height="32"/>
+      <text class="dg-s" x="232" y="20">«node»</text>
+      <text class="dg-t" x="232" y="31">对象存储</text>
+      <polygon class="dg-fill" points="6,70 12,64 88,64 82,70"/>
+      <polygon class="dg-fill" points="82,70 88,64 88,104 82,110"/>
+      <rect class="dg-hi" x="6" y="70" width="76" height="40"/>
+      <text class="dg-s" x="44" y="83">«container»</text>
+      <text class="dg-t" x="44" y="94">应用节点 A</text>
+      <text class="dg-s" x="44" y="105">Spring Boot</text>
+      <polygon class="dg-fill" points="102,70 108,64 184,64 178,70"/>
+      <polygon class="dg-fill" points="178,70 184,64 184,104 178,110"/>
+      <rect class="dg-hi" x="102" y="70" width="76" height="40"/>
+      <text class="dg-s" x="140" y="83">«container»</text>
+      <text class="dg-t" x="140" y="94">应用节点 B</text>
+      <text class="dg-s" x="140" y="105">Spring Boot</text>
+      <polygon class="dg-fill" points="194,70 200,64 276,64 270,70"/>
+      <polygon class="dg-fill" points="270,70 276,64 276,104 270,110"/>
+      <rect class="dg-box" x="194" y="70" width="76" height="40"/>
+      <text class="dg-s" x="232" y="83">«database»</text>
+      <text class="dg-t" x="232" y="94">MySQL 主</text>
+      <text class="dg-s" x="232" y="105">3306</text>
+      <polygon class="dg-fill" points="6,136 12,130 88,130 82,136"/>
+      <polygon class="dg-fill" points="82,136 88,130 88,164 82,170"/>
+      <rect class="dg-box" x="6" y="136" width="76" height="34"/>
+      <text class="dg-s" x="44" y="148">«cache»</text>
+      <text class="dg-t" x="44" y="160">Redis 缓存</text>
+      <polygon class="dg-fill" points="102,136 108,130 184,130 178,136"/>
+      <polygon class="dg-fill" points="178,136 184,130 184,164 178,170"/>
+      <rect class="dg-box" x="102" y="136" width="76" height="34"/>
+      <text class="dg-s" x="140" y="148">«queue»</text>
+      <text class="dg-t" x="140" y="160">Kafka</text>
+      <polygon class="dg-fill" points="194,136 200,130 276,130 270,136"/>
+      <polygon class="dg-fill" points="270,136 276,130 276,164 270,170"/>
+      <rect class="dg-box" x="194" y="136" width="76" height="34"/>
+      <text class="dg-s" x="232" y="148">«database»</text>
+      <text class="dg-t" x="232" y="160">MySQL 从</text>
+      <line class="dg-ln" x1="82" y1="24" x2="102" y2="24" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="92" y="50">HTTPS</text>
+      <path class="dg-ln" d="M128,40 L128,56 L44,56 L44,70" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="62" y="62">反向代理</text>
+      <line class="dg-ln" x1="140" y1="40" x2="140" y2="68" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="178" y1="90" x2="194" y2="90" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="186" y="79">读写</text>
+      <line class="dg-ln" x1="44" y1="110" x2="44" y2="136" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="62" y="123">缓存</text>
+      <line class="dg-ln" x1="140" y1="110" x2="140" y2="136" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="158" y="123">消息</text>
+      <line class="dg-ln" x1="232" y1="110" x2="232" y2="136" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="252" y="123">复制</text>
+    </svg></div>
     <p>描述软件组件在物理节点（服务器、容器、云资源）上的分布及节点间通信路径，方案阶段绘制有助于提前对齐运维需求。</p>
-    <div class="phase-note">方案 / 实现 / 部署</div>
+    <div class="card-foot">
+      <span class="phase-note">方案 / 实现 / 部署</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="design">
@@ -431,8 +905,50 @@
       <line class="dg-ln-d" x1="104" y1="130" x2="36" y2="130" marker-end="url(#dg-arrow)"/>
       <text class="dg-s" x="70" y="141">下单成功</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-box" x="8" y="6" width="48" height="22" rx="4"/>
+      <text class="dg-t" x="32" y="17">用户</text>
+      <rect class="dg-hi" x="61" y="6" width="48" height="22" rx="4"/>
+      <text class="dg-t" x="85" y="17">Web</text>
+      <rect class="dg-hi" x="114" y="6" width="48" height="22" rx="4"/>
+      <text class="dg-t" x="138" y="17">订单服务</text>
+      <rect class="dg-hi" x="167" y="6" width="48" height="22" rx="4"/>
+      <text class="dg-t" x="191" y="17">库存服务</text>
+      <rect class="dg-box" x="220" y="6" width="48" height="22" rx="4"/>
+      <text class="dg-t" x="244" y="17">数据库</text>
+      <line class="dg-life" x1="32" y1="28" x2="32" y2="176"/>
+      <line class="dg-life" x1="85" y1="28" x2="85" y2="176"/>
+      <line class="dg-life" x1="138" y1="28" x2="138" y2="176"/>
+      <line class="dg-life" x1="191" y1="28" x2="191" y2="176"/>
+      <line class="dg-life" x1="244" y1="28" x2="244" y2="176"/>
+      <rect class="dg-act" x="82" y="38" width="6" height="136"/>
+      <rect class="dg-act" x="135" y="50" width="6" height="112"/>
+      <rect class="dg-act" x="188" y="64" width="6" height="60"/>
+      <rect class="dg-act" x="241" y="84" width="6" height="22"/>
+      <line class="dg-ln" x1="32" y1="42" x2="82" y2="42" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="57" y="34">提交订单</text>
+      <line class="dg-ln" x1="85" y1="58" x2="135" y2="58" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="110" y="50">createOrder()</text>
+      <line class="dg-ln" x1="138" y1="74" x2="188" y2="74" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="163" y="66">lockStock()</text>
+      <line class="dg-ln" x1="191" y1="90" x2="241" y2="90" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="216" y="82">UPDATE stock</text>
+      <line class="dg-ln-d" x1="241" y1="102" x2="191" y2="102" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="216" y="110">OK</text>
+      <line class="dg-ln-d" x1="188" y1="118" x2="138" y2="118" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="163" y="110">锁定成功</text>
+      <path class="dg-ln" d="M141,134 L171,134 L171,146 L141,146" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="155" y="128">校验金额</text>
+      <line class="dg-ln-d" x1="135" y1="156" x2="85" y2="156" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="110" y="148">订单号</text>
+      <line class="dg-ln-d" x1="82" y1="168" x2="32" y2="168" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="57" y="160">下单成功</text>
+    </svg></div>
     <p>展示对象之间按时间顺序的消息交互，概要设计阶段表达模块间接口调用关系，详细设计阶段细化到方法级别。</p>
-    <div class="phase-note">方案 / 详细设计</div>
+    <div class="card-foot">
+      <span class="phase-note">方案 / 详细设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="design">
@@ -465,8 +981,55 @@
       <path class="dg-ln-d" d="M196,62 L228,90" marker-end="url(#dg-arrowo)"/>
       <text class="dg-s" x="224" y="72">«use»</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-hi" x="104" y="6" width="76" height="40" rx="4"/>
+      <text class="dg-s" x="142" y="15">«interface»</text>
+      <text class="dg-t" x="142" y="26">Payment</text>
+      <line class="dg-ln" x1="104" y1="33" x2="180" y2="33"/>
+      <text class="dg-fl" x="110" y="40">+ pay(): bool</text>
+      <rect class="dg-box" x="6" y="60" width="88" height="44" rx="4"/>
+      <text class="dg-t" x="50" y="70">AlipayPay</text>
+      <line class="dg-ln" x1="6" y1="78" x2="94" y2="78"/>
+      <text class="dg-fl" x="12" y="88">+ pay(): bool</text>
+      <text class="dg-fl" x="12" y="98">+ refund()</text>
+      <rect class="dg-box" x="100" y="60" width="86" height="44" rx="4"/>
+      <text class="dg-t" x="143" y="70">WechatPay</text>
+      <line class="dg-ln" x1="100" y1="78" x2="186" y2="78"/>
+      <text class="dg-fl" x="106" y="88">+ pay(): bool</text>
+      <text class="dg-fl" x="106" y="98">+ refund()</text>
+      <rect class="dg-hi" x="198" y="60" width="78" height="56" rx="4"/>
+      <text class="dg-t" x="237" y="70">Order</text>
+      <line class="dg-ln" x1="198" y1="78" x2="276" y2="78"/>
+      <text class="dg-fl" x="204" y="88">- id: Long</text>
+      <text class="dg-fl" x="204" y="98">- amount</text>
+      <line class="dg-ln" x1="198" y1="106" x2="276" y2="106"/>
+      <text class="dg-fl" x="204" y="114">+ pay(): bool</text>
+      <rect class="dg-box" x="100" y="130" width="86" height="46" rx="4"/>
+      <text class="dg-t" x="143" y="140">OrderItem</text>
+      <line class="dg-ln" x1="100" y1="148" x2="186" y2="148"/>
+      <text class="dg-fl" x="106" y="158">- qty: int</text>
+      <text class="dg-fl" x="106" y="168">- price: Money</text>
+      <rect class="dg-box" x="198" y="130" width="78" height="46" rx="4"/>
+      <text class="dg-t" x="237" y="140">Customer</text>
+      <line class="dg-ln" x1="198" y1="148" x2="276" y2="148"/>
+      <text class="dg-fl" x="204" y="158">- id: Long</text>
+      <text class="dg-fl" x="204" y="168">- name: String</text>
+      <path class="dg-ln-d" d="M50,60 L50,52 L134,52 L134,46" marker-end="url(#dg-arrowo)"/>
+      <path class="dg-ln-d" d="M143,60 L143,46" marker-end="url(#dg-arrowo)"/>
+      <path class="dg-ln-d" d="M198,80 L192,80 L192,36 L180,36" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="192" y="44">«use»</text>
+      <path class="dg-ln" d="M198,100 L192,100 L192,152 L186,152"/>
+      <text class="dg-s" x="195" y="92">1</text>
+      <text class="dg-s" x="194" y="164">N</text>
+      <line class="dg-ln" x1="238" y1="116" x2="238" y2="130"/>
+      <text class="dg-s" x="231" y="124">N</text>
+      <text class="dg-s" x="245" y="124">1</text>
+    </svg></div>
     <p>描述系统中类、属性、方法及类间关系。概要设计阶段描述静态结构并设计接口，详细设计阶段产出指导编码的类图。</p>
-    <div class="phase-note">方案 / 详细设计</div>
+    <div class="card-foot">
+      <span class="phase-note">方案 / 详细设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="design">
@@ -491,8 +1054,46 @@
       <line class="dg-ln-d" x1="212" y1="59" x2="176" y2="94" marker-end="url(#dg-arrowo)"/>
       <text class="dg-s" x="206" y="78">import</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-hdr" x="10" y="8" width="60" height="12" rx="3"/>
+      <rect class="dg-hi" x="10" y="20" width="116" height="42" rx="4"/>
+      <text class="dg-t" x="68" y="35">表现层</text>
+      <text class="dg-s" x="68" y="49">ui</text>
+      <rect class="dg-hdr" x="140" y="8" width="72" height="12" rx="3"/>
+      <rect class="dg-hi" x="140" y="20" width="134" height="42" rx="4"/>
+      <text class="dg-t" x="207" y="35">应用层</text>
+      <text class="dg-s" x="207" y="49">application</text>
+      <rect class="dg-hdr" x="10" y="76" width="60" height="12" rx="3"/>
+      <rect class="dg-hi" x="10" y="88" width="116" height="42" rx="4"/>
+      <text class="dg-t" x="68" y="103">领域层</text>
+      <text class="dg-s" x="68" y="117">domain</text>
+      <rect class="dg-hdr" x="140" y="76" width="72" height="12" rx="3"/>
+      <rect class="dg-hi" x="140" y="88" width="134" height="42" rx="4"/>
+      <text class="dg-t" x="207" y="103">基础设施层</text>
+      <text class="dg-s" x="207" y="117">infrastructure</text>
+      <rect class="dg-hdr" x="10" y="144" width="60" height="12" rx="3"/>
+      <rect class="dg-fill" x="10" y="156" width="116" height="20" rx="4"/>
+      <text class="dg-t" x="68" y="166">公共模块 · common</text>
+      <line class="dg-ln-d" x1="126" y1="41" x2="140" y2="41" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="133" y="33">«use»</text>
+      <line class="dg-ln-d" x1="68" y1="62" x2="68" y2="88" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="86" y="75">«use»</text>
+      <path class="dg-ln-d" d="M170,62 L170,72 L100,72 L100,88" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="132" y="66">«use»</text>
+      <line class="dg-ln-d" x1="220" y1="62" x2="220" y2="88" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="238" y="75">«use»</text>
+      <line class="dg-ln-d" x1="126" y1="109" x2="140" y2="109" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="133" y="101">«use»</text>
+      <line class="dg-ln-d" x1="68" y1="130" x2="68" y2="156" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="86" y="143">«use»</text>
+      <path class="dg-ln-d" d="M220,130 L220,164 L126,164" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="170" y="158">«use»</text>
+    </svg></div>
     <p>组织类和其他模型元素，展示模块划分和依赖关系，适合中大型系统的架构分层表达。</p>
-    <div class="phase-note">方案 / 概要设计</div>
+    <div class="card-foot">
+      <span class="phase-note">方案 / 概要设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="design">
@@ -539,8 +1140,60 @@
       <text class="dg-s" x="136" y="62">1</text>
       <text class="dg-s" x="146" y="86">N</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-box" x="4" y="10" width="112" height="102" rx="5"/>
+      <rect class="dg-hdr" x="4" y="10" width="112" height="22" rx="5"/>
+      <text class="dg-hd" x="60" y="21">客户表 customer</text>
+      <line class="dg-thin" x1="4" y1="48" x2="116" y2="48"/>
+      <line class="dg-thin" x1="4" y1="64" x2="116" y2="64"/>
+      <line class="dg-thin" x1="4" y1="80" x2="116" y2="80"/>
+      <line class="dg-thin" x1="4" y1="96" x2="116" y2="96"/>
+      <text class="dg-pk" x="12" y="40">id</text>
+      <text class="dg-tr" x="108" y="40">BIGINT PK</text>
+      <text class="dg-fl" x="12" y="56">name</text>
+      <text class="dg-tr" x="108" y="56">VARCHAR(50)</text>
+      <text class="dg-fl" x="12" y="72">phone</text>
+      <text class="dg-tr" x="108" y="72">VARCHAR(20)</text>
+      <text class="dg-fl" x="12" y="88">level</text>
+      <text class="dg-tr" x="108" y="88">TINYINT</text>
+      <text class="dg-fl" x="12" y="104">created_at</text>
+      <text class="dg-tr" x="108" y="104">DATETIME</text>
+      <rect class="dg-box" x="164" y="10" width="112" height="132" rx="5"/>
+      <rect class="dg-hdr" x="164" y="10" width="112" height="22" rx="5"/>
+      <text class="dg-hd" x="220" y="21">订单表 orders</text>
+      <line class="dg-thin" x1="164" y1="54" x2="276" y2="54"/>
+      <line class="dg-thin" x1="164" y1="76" x2="276" y2="76"/>
+      <line class="dg-thin" x1="164" y1="98" x2="276" y2="98"/>
+      <line class="dg-thin" x1="164" y1="120" x2="276" y2="120"/>
+      <text class="dg-pk" x="172" y="43">id</text>
+      <text class="dg-tr" x="268" y="43">BIGINT PK</text>
+      <text class="dg-pk" x="172" y="65">customer_id</text>
+      <text class="dg-tr" x="268" y="65">BIGINT FK</text>
+      <text class="dg-fl" x="172" y="87">amount</text>
+      <text class="dg-tr" x="268" y="87">DECIMAL(10,2)</text>
+      <text class="dg-fl" x="172" y="109">status</text>
+      <text class="dg-tr" x="268" y="109">TINYINT</text>
+      <text class="dg-fl" x="172" y="131">created_at</text>
+      <text class="dg-tr" x="268" y="131">DATETIME</text>
+      <rect class="dg-box" x="64" y="150" width="140" height="28" rx="5"/>
+      <rect class="dg-hdr" x="64" y="150" width="140" height="14" rx="5"/>
+      <text class="dg-hd" x="134" y="157">order_item 明细</text>
+      <text class="dg-s" x="134" y="172">order_id + product_id 联合主键</text>
+      <line class="dg-ln" x1="116" y1="60" x2="164" y2="60"/>
+      <line class="dg-ln" x1="122" y1="54" x2="122" y2="66"/>
+      <line class="dg-ln" x1="164" y1="60" x2="156" y2="54"/>
+      <line class="dg-ln" x1="164" y1="60" x2="156" y2="66"/>
+      <text class="dg-s" x="132" y="51">1</text>
+      <text class="dg-s" x="148" y="74">N</text>
+      <path class="dg-ln" d="M220,142 L220,164 L204,164"/>
+      <text class="dg-s" x="230" y="154">1</text>
+      <text class="dg-s" x="212" y="172">N</text>
+    </svg></div>
     <p>概要设计阶段绘制逻辑 ER 模型用于团队和客户确认；详细设计阶段转换为具体表结构，确认主外键并应用范式审核。</p>
-    <div class="phase-note">方案 / 详细设计</div>
+    <div class="card-foot">
+      <span class="phase-note">方案 / 详细设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="design">
@@ -567,8 +1220,50 @@
       <line class="dg-ln-d" x1="166" y1="74" x2="118" y2="74" marker-end="url(#dg-arrowo)"/>
       <text class="dg-s" x="142" y="66">«use»</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <line class="dg-ln" x1="40" y1="32" x2="40" y2="28"/>
+      <circle class="dg-box" cx="40" cy="21" r="7"/>
+      <text class="dg-s" x="40" y="6">IOrderService</text>
+      <rect class="dg-hdr" x="10" y="36" width="8" height="9" rx="2"/>
+      <rect class="dg-hdr" x="10" y="49" width="8" height="9" rx="2"/>
+      <rect class="dg-hi" x="10" y="32" width="112" height="54" rx="4"/>
+      <text class="dg-s" x="66" y="49">«component»</text>
+      <text class="dg-t" x="66" y="61">订单组件</text>
+      <text class="dg-s" x="66" y="74">OrderComponent</text>
+      <line class="dg-ln" x1="192" y1="32" x2="192" y2="28"/>
+      <circle class="dg-box" cx="192" cy="21" r="7"/>
+      <text class="dg-s" x="192" y="6">IPayService</text>
+      <rect class="dg-hdr" x="162" y="36" width="8" height="9" rx="2"/>
+      <rect class="dg-hdr" x="162" y="49" width="8" height="9" rx="2"/>
+      <rect class="dg-hi" x="162" y="32" width="110" height="54" rx="4"/>
+      <text class="dg-s" x="217" y="49">«component»</text>
+      <text class="dg-t" x="217" y="61">支付组件</text>
+      <text class="dg-s" x="217" y="74">PayComponent</text>
+      <rect class="dg-hdr" x="10" y="124" width="7" height="9" rx="2"/>
+      <rect class="dg-hdr" x="10" y="136" width="7" height="9" rx="2"/>
+      <rect class="dg-fill" x="10" y="120" width="68" height="44" rx="4"/>
+      <text class="dg-s" x="44" y="139">«component»</text>
+      <text class="dg-t" x="44" y="152">库存组件</text>
+      <rect class="dg-hdr" x="110" y="124" width="8" height="10" rx="2"/>
+      <rect class="dg-hdr" x="110" y="138" width="8" height="10" rx="2"/>
+      <rect class="dg-hi" x="110" y="120" width="112" height="52" rx="4"/>
+      <text class="dg-s" x="166" y="139">«component»</text>
+      <text class="dg-t" x="166" y="152">仓储组件</text>
+      <text class="dg-s" x="166" y="164">RepoComponent</text>
+      <line class="dg-ln-d" x1="122" y1="58" x2="162" y2="58" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="142" y="50">«use»</text>
+      <path class="dg-ln-d" d="M60,86 L60,104 L166,104 L166,120" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="100" y="98">«use»</text>
+      <path class="dg-ln-d" d="M240,86 L240,110 L200,110 L200,120" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="222" y="100">«use»</text>
+      <line class="dg-ln-d" x1="78" y1="142" x2="110" y2="142" marker-end="url(#dg-arrowo)"/>
+      <text class="dg-s" x="94" y="134">«use»</text>
+    </svg></div>
     <p>以组件及其关系的形式表示软件系统的高层结构，在设计阶段展示系统架构的构成单元。</p>
-    <div class="phase-note">方案 / 概要设计</div>
+    <div class="card-foot">
+      <span class="phase-note">方案 / 概要设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <!-- 开发/详细设计 -->
@@ -595,8 +1290,43 @@
       <line class="dg-ln-d" x1="215" y1="134" x2="85" y2="134" marker-end="url(#dg-arrow)"/>
       <text class="dg-s" x="150" y="145">Order(id=1)</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-hi" x="8" y="6" width="76" height="22" rx="4"/>
+      <text class="dg-t" x="46" y="17">:Controller</text>
+      <rect class="dg-hi" x="102" y="6" width="76" height="22" rx="4"/>
+      <text class="dg-t" x="140" y="17">:OrderService</text>
+      <rect class="dg-box" x="196" y="6" width="76" height="22" rx="4"/>
+      <text class="dg-t" x="234" y="17">:OrderRepo</text>
+      <line class="dg-life" x1="46" y1="28" x2="46" y2="176"/>
+      <line class="dg-life" x1="140" y1="28" x2="140" y2="176"/>
+      <line class="dg-life" x1="234" y1="28" x2="234" y2="176"/>
+      <rect class="dg-act" x="43" y="38" width="6" height="116"/>
+      <rect class="dg-act" x="137" y="56" width="6" height="66"/>
+      <rect class="dg-act" x="231" y="72" width="6" height="34"/>
+      <rect class="dg-act" x="137" y="130" width="6" height="42"/>
+      <rect class="dg-act" x="231" y="144" width="6" height="24"/>
+      <line class="dg-ln" x1="46" y1="46" x2="137" y2="46" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="91" y="38">submit(req)</text>
+      <line class="dg-ln" x1="140" y1="64" x2="231" y2="64" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="185" y="56">save(entity)</text>
+      <path class="dg-ln" d="M234,80 L256,80 L256,90 L234,90" marker-end="url(#dg-arrow)"/>
+      <text class="dg-fl" x="260" y="85">SQL</text>
+      <line class="dg-ln-d" x1="234" y1="100" x2="137" y2="100" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="185" y="108">id</text>
+      <line class="dg-ln-d" x1="140" y1="116" x2="46" y2="116" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="91" y="108">orderId</text>
+      <line class="dg-ln" x1="46" y1="134" x2="137" y2="134" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="91" y="126">audit()</text>
+      <line class="dg-ln" x1="140" y1="150" x2="231" y2="150" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="185" y="142">insertLog()</text>
+      <line class="dg-ln-d" x1="234" y1="164" x2="137" y2="164" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="185" y="172">ok</text>
+    </svg></div>
     <p>在概要设计基础上扩展细化，为每个模块确定算法和数据结构，直接指导代码编写。</p>
-    <div class="phase-note">详细设计 / 开发</div>
+    <div class="card-foot">
+      <span class="phase-note">详细设计 / 开发</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="dev">
@@ -625,8 +1355,46 @@
       <path class="dg-ln" d="M262,31 Q278,50 266,69" marker-end="url(#dg-arrow)"/>
       <path class="dg-ln" d="M262,119 Q278,100 266,81" marker-end="url(#dg-arrow)"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <circle class="dg-dot" cx="12" cy="30" r="5"/>
+      <rect class="dg-hi" x="24" y="18" width="70" height="24" rx="5"/>
+      <text class="dg-t" x="59" y="30">接收订单</text>
+      <polygon class="dg-box" points="140,10 164,30 140,50 116,30"/>
+      <text class="dg-s" x="140" y="30">参数合法？</text>
+      <rect class="dg-box" x="196" y="19" width="76" height="22" rx="5"/>
+      <text class="dg-t" x="234" y="30">返回校验失败</text>
+      <rect class="dg-dot" x="46" y="68" width="188" height="4"/>
+      <rect class="dg-hi" x="34" y="88" width="72" height="24" rx="5"/>
+      <text class="dg-t" x="70" y="100">校验库存</text>
+      <rect class="dg-hi" x="104" y="88" width="72" height="24" rx="5"/>
+      <text class="dg-t" x="140" y="100">校验优惠</text>
+      <rect class="dg-hi" x="174" y="88" width="72" height="24" rx="5"/>
+      <text class="dg-t" x="210" y="100">冻结额度</text>
+      <rect class="dg-dot" x="46" y="132" width="188" height="4"/>
+      <rect class="dg-hi" x="96" y="146" width="88" height="24" rx="5"/>
+      <text class="dg-t" x="140" y="158">生成订单</text>
+      <circle class="dg-box" cx="240" cy="158" r="7"/>
+      <circle class="dg-dot" cx="240" cy="158" r="4"/>
+      <line class="dg-ln" x1="17" y1="30" x2="24" y2="30" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="94" y1="30" x2="116" y2="30" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="164" y1="30" x2="196" y2="30" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="180" y="22">否</text>
+      <line class="dg-ln" x1="140" y1="50" x2="140" y2="68" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="152" y="59">是</text>
+      <line class="dg-ln" x1="70" y1="72" x2="70" y2="88" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="72" x2="140" y2="88" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="210" y1="72" x2="210" y2="88" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="70" y1="112" x2="70" y2="132" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="112" x2="140" y2="132" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="210" y1="112" x2="210" y2="132" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="140" y1="136" x2="140" y2="146" marker-end="url(#dg-arrow)"/>
+      <line class="dg-ln" x1="184" y1="158" x2="233" y2="158" marker-end="url(#dg-arrow)"/>
+    </svg></div>
     <p>描述复杂业务逻辑或算法流程中的控制流，适合表达有分支、并发和同步的场景。</p>
-    <div class="phase-note">详细设计</div>
+    <div class="card-foot">
+      <span class="phase-note">详细设计</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="dev">
@@ -655,8 +1423,60 @@
       <text class="dg-tr" x="244" y="117">DATETIME</text>
       <text class="dg-sl" x="36" y="134">INDEX idx_user_status (user_id, status)</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-box" x="4" y="8" width="116" height="107" rx="5"/>
+      <rect class="dg-hdr" x="4" y="8" width="116" height="22" rx="5"/>
+      <text class="dg-hd" x="62" y="19">users · 用户表</text>
+      <line class="dg-thin" x1="4" y1="47" x2="120" y2="47"/>
+      <line class="dg-thin" x1="4" y1="64" x2="120" y2="64"/>
+      <line class="dg-thin" x1="4" y1="81" x2="120" y2="81"/>
+      <line class="dg-thin" x1="4" y1="98" x2="120" y2="98"/>
+      <text class="dg-pk" x="12" y="38">id</text>
+      <text class="dg-tr" x="112" y="38">BIGINT PK</text>
+      <text class="dg-pk" x="12" y="55">phone</text>
+      <text class="dg-tr" x="112" y="55">VARCHAR(20) UK</text>
+      <text class="dg-fl" x="12" y="72">nickname</text>
+      <text class="dg-tr" x="112" y="72">VARCHAR(50)</text>
+      <text class="dg-fl" x="12" y="89">status</text>
+      <text class="dg-tr" x="112" y="89">TINYINT</text>
+      <text class="dg-fl" x="12" y="106">created_at</text>
+      <text class="dg-tr" x="112" y="106">DATETIME</text>
+      <rect class="dg-box" x="160" y="4" width="116" height="136" rx="5"/>
+      <rect class="dg-hdr" x="160" y="4" width="116" height="22" rx="5"/>
+      <text class="dg-hd" x="218" y="15">orders · 订单表</text>
+      <line class="dg-thin" x1="160" y1="49" x2="276" y2="49"/>
+      <line class="dg-thin" x1="160" y1="72" x2="276" y2="72"/>
+      <line class="dg-thin" x1="160" y1="95" x2="276" y2="95"/>
+      <line class="dg-thin" x1="160" y1="118" x2="276" y2="118"/>
+      <text class="dg-pk" x="168" y="37">id</text>
+      <text class="dg-tr" x="268" y="37">BIGINT PK</text>
+      <text class="dg-pk" x="168" y="60">user_id</text>
+      <text class="dg-tr" x="268" y="60">BIGINT FK</text>
+      <text class="dg-fl" x="168" y="83">amount</text>
+      <text class="dg-tr" x="268" y="83">DECIMAL(10,2)</text>
+      <text class="dg-fl" x="168" y="106">status</text>
+      <text class="dg-tr" x="268" y="106">TINYINT</text>
+      <text class="dg-fl" x="168" y="129">created_at</text>
+      <text class="dg-tr" x="268" y="129">DATETIME</text>
+      <rect class="dg-box" x="36" y="152" width="204" height="26" rx="5"/>
+      <rect class="dg-hdr" x="36" y="152" width="204" height="14" rx="5"/>
+      <text class="dg-hd" x="138" y="159">order_item · 订单明细表</text>
+      <text class="dg-s" x="138" y="172">order_id + product_id 联合主键 · qty INT</text>
+      <line class="dg-ln" x1="120" y1="62" x2="160" y2="62"/>
+      <line class="dg-ln" x1="126" y1="56" x2="126" y2="68"/>
+      <line class="dg-ln" x1="160" y1="62" x2="152" y2="56"/>
+      <line class="dg-ln" x1="160" y1="62" x2="152" y2="68"/>
+      <text class="dg-s" x="136" y="53">1</text>
+      <text class="dg-s" x="148" y="76">N</text>
+      <line class="dg-ln" x1="218" y1="140" x2="218" y2="152"/>
+      <text class="dg-s" x="211" y="147">1</text>
+      <text class="dg-s" x="225" y="147">N</text>
+    </svg></div>
     <p>展示所有数据表的字段、类型、索引和表间关系，是开发阶段直接用于建库的蓝图。</p>
-    <div class="phase-note">详细设计 / 开发</div>
+    <div class="card-foot">
+      <span class="phase-note">详细设计 / 开发</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <!-- 汇报/项目管理 -->
@@ -689,8 +1509,45 @@
       <polygon class="dg-bar" points="256,118 264,126.5 256,135 248,126.5"/>
       <text class="dg-tr" x="242" y="126.5">里程碑</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <line class="dg-grid" x1="84" y1="20" x2="84" y2="176"/>
+      <line class="dg-grid" x1="122" y1="20" x2="122" y2="176"/>
+      <line class="dg-grid" x1="160" y1="20" x2="160" y2="176"/>
+      <line class="dg-grid" x1="198" y1="20" x2="198" y2="176"/>
+      <line class="dg-grid" x1="236" y1="20" x2="236" y2="176"/>
+      <line class="dg-grid" x1="274" y1="20" x2="274" y2="176"/>
+      <line class="dg-thin" x1="84" y1="20" x2="274" y2="20"/>
+      <text class="dg-s" x="103" y="12">1月</text>
+      <text class="dg-s" x="141" y="12">2月</text>
+      <text class="dg-s" x="179" y="12">3月</text>
+      <text class="dg-s" x="217" y="12">4月</text>
+      <text class="dg-s" x="255" y="12">5月</text>
+      <text class="dg-sl" x="4" y="12">阶段</text>
+      <line class="dg-ln-a" x1="190" y1="20" x2="190" y2="176"/>
+      <text class="dg-s" x="190" y="171">今天</text>
+      <text class="dg-sl" x="4" y="36">需求调研</text>
+      <rect class="dg-bar" x="84" y="30" width="34" height="12" rx="6"/>
+      <text class="dg-sl" x="4" y="62">方案设计</text>
+      <rect class="dg-bar" x="112" y="56" width="40" height="12" rx="6"/>
+      <text class="dg-sl" x="4" y="88">编码开发</text>
+      <rect class="dg-bar" x="146" y="82" width="76" height="12" rx="6"/>
+      <text class="dg-sl" x="4" y="114">测试验收</text>
+      <rect class="dg-bar" x="206" y="108" width="48" height="12" rx="6"/>
+      <text class="dg-sl" x="4" y="140">上线发布</text>
+      <rect class="dg-bar" x="250" y="134" width="20" height="12" rx="6"/>
+      <text class="dg-sl" x="4" y="166">里程碑</text>
+      <polygon class="dg-bar" points="270,158 276,166 270,174 264,166"/>
+      <path class="dg-ln-d" d="M118,42 L118,49 L112,49 L112,56" marker-end="url(#dg-arrowo)"/>
+      <path class="dg-ln-d" d="M152,68 L152,75 L146,75 L146,82" marker-end="url(#dg-arrowo)"/>
+      <path class="dg-ln-d" d="M222,94 L222,101 L206,101 L206,108" marker-end="url(#dg-arrowo)"/>
+      <path class="dg-ln-d" d="M254,120 L254,127 L250,127 L250,134" marker-end="url(#dg-arrowo)"/>
+      <line class="dg-ln-d" x1="270" y1="146" x2="270" y2="158" marker-end="url(#dg-arrowo)"/>
+    </svg></div>
     <p>用于进度汇报、里程碑管理和资源分配。立项阶段出具初版，迭代过程中持续更新。</p>
-    <div class="phase-note">全阶段 / 汇报</div>
+    <div class="card-foot">
+      <span class="phase-note">全阶段 / 汇报</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="report">
@@ -724,8 +1581,42 @@
       <line class="dg-ln-a" x1="196" y1="38" x2="216" y2="38"/>
       <text class="dg-sl" x="222" y="38">实际</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <line class="dg-thin" x1="36" y1="14" x2="272" y2="14"/>
+      <line class="dg-thin" x1="36" y1="48" x2="272" y2="48"/>
+      <line class="dg-thin" x1="36" y1="82" x2="272" y2="82"/>
+      <line class="dg-thin" x1="36" y1="116" x2="272" y2="116"/>
+      <line class="dg-ln" x1="36" y1="14" x2="36" y2="150"/>
+      <line class="dg-ln" x1="36" y1="150" x2="272" y2="150"/>
+      <text class="dg-tr" x="30" y="14">80h</text>
+      <text class="dg-tr" x="30" y="48">60h</text>
+      <text class="dg-tr" x="30" y="82">40h</text>
+      <text class="dg-tr" x="30" y="116">20h</text>
+      <text class="dg-tr" x="30" y="150">0</text>
+      <text class="dg-s" x="36" y="160">D0</text>
+      <text class="dg-s" x="95" y="160">D2</text>
+      <text class="dg-s" x="154" y="160">D4</text>
+      <text class="dg-s" x="213" y="160">D6</text>
+      <text class="dg-s" x="272" y="160">D8</text>
+      <line class="dg-ln-d" x1="36" y1="14" x2="272" y2="150"/>
+      <polyline class="dg-ln-a" points="36,14 70,20 104,30 138,38 172,46 172,24 206,60 240,110 272,140"/>
+      <circle class="dg-ln-a" cx="36" cy="14" r="2.5"/>
+      <circle class="dg-ln-a" cx="104" cy="30" r="2.5"/>
+      <circle class="dg-ln-a" cx="172" cy="46" r="2.5"/>
+      <circle class="dg-ln-a" cx="206" cy="60" r="2.5"/>
+      <circle class="dg-ln-a" cx="272" cy="140" r="2.5"/>
+      <line class="dg-ln-d" x1="172" y1="24" x2="172" y2="46"/>
+      <text class="dg-s" x="140" y="20">需求新增 +8h</text>
+      <line class="dg-ln-d" x1="196" y1="24" x2="216" y2="24"/>
+      <text class="dg-sl" x="222" y="24">理想</text>
+      <line class="dg-ln-a" x1="196" y1="32" x2="216" y2="32"/>
+      <text class="dg-sl" x="222" y="32">实际</text>
+    </svg></div>
     <p>敏捷开发中可视化每个 Sprint 的剩余工作量变化，每日站立会产出燃尽图。</p>
-    <div class="phase-note">敏捷迭代 / 汇报</div>
+    <div class="card-foot">
+      <span class="phase-note">敏捷迭代 / 汇报</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="report">
@@ -772,8 +1663,74 @@
       <text class="dg-sl" x="4" y="85">V1.1</text>
       <text class="dg-sl" x="4" y="107">V2.0</text>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <rect class="dg-hi" x="24" y="14" width="48" height="20" rx="4"/>
+      <text class="dg-s" x="48" y="24">浏览商品</text>
+      <rect class="dg-hi" x="74" y="14" width="48" height="20" rx="4"/>
+      <text class="dg-s" x="98" y="24">购物车</text>
+      <rect class="dg-hi" x="124" y="14" width="48" height="20" rx="4"/>
+      <text class="dg-s" x="148" y="24">下单支付</text>
+      <rect class="dg-hi" x="174" y="14" width="48" height="20" rx="4"/>
+      <text class="dg-s" x="198" y="24">查看订单</text>
+      <rect class="dg-hi" x="224" y="14" width="48" height="20" rx="4"/>
+      <text class="dg-s" x="248" y="24">售后服务</text>
+      <line class="dg-ln-d" x1="73" y1="14" x2="73" y2="146"/>
+      <line class="dg-ln-d" x1="123" y1="14" x2="123" y2="146"/>
+      <line class="dg-ln-d" x1="173" y1="14" x2="173" y2="146"/>
+      <line class="dg-ln-d" x1="223" y1="14" x2="223" y2="146"/>
+      <line class="dg-ln-d" x1="20" y1="40" x2="274" y2="40"/>
+      <text class="dg-sl" x="4" y="40">MVP</text>
+      <rect class="dg-box" x="24" y="46" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="48" y="54">商品列表</text>
+      <rect class="dg-box" x="74" y="46" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="98" y="54">加入购物车</text>
+      <rect class="dg-box" x="124" y="46" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="148" y="54">提交订单</text>
+      <rect class="dg-box" x="174" y="46" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="198" y="54">订单列表</text>
+      <line class="dg-ln-d" x1="20" y1="68" x2="274" y2="68"/>
+      <text class="dg-sl" x="4" y="68">V1.1</text>
+      <rect class="dg-box" x="24" y="74" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="48" y="82">分类筛选</text>
+      <rect class="dg-box" x="74" y="74" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="98" y="82">修改数量</text>
+      <rect class="dg-box" x="124" y="74" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="148" y="82">在线支付</text>
+      <rect class="dg-box" x="174" y="74" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="198" y="82">物流跟踪</text>
+      <rect class="dg-box" x="224" y="74" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="248" y="82">申请退款</text>
+      <line class="dg-ln-d" x1="20" y1="96" x2="274" y2="96"/>
+      <text class="dg-sl" x="4" y="96">V2.0</text>
+      <rect class="dg-box" x="24" y="102" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="48" y="110">商品评价</text>
+      <rect class="dg-box" x="74" y="102" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="98" y="110">收藏夹</text>
+      <rect class="dg-box" x="124" y="102" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="148" y="110">优惠券</text>
+      <rect class="dg-box" x="174" y="102" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="198" y="110">发票管理</text>
+      <rect class="dg-box" x="224" y="102" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="248" y="110">售后工单</text>
+      <line class="dg-ln-d" x1="20" y1="124" x2="274" y2="124"/>
+      <text class="dg-sl" x="4" y="124">V3.0</text>
+      <rect class="dg-box" x="24" y="130" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="48" y="138">智能推荐</text>
+      <rect class="dg-box" x="74" y="130" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="98" y="138">拼团</text>
+      <rect class="dg-box" x="124" y="130" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="148" y="138">分期支付</text>
+      <rect class="dg-box" x="174" y="130" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="198" y="138">订阅提醒</text>
+      <rect class="dg-box" x="224" y="130" width="48" height="16" rx="3"/>
+      <text class="dg-s" x="248" y="138">在线客服</text>
+      <text class="dg-sl" x="24" y="164">发布边界：MVP 只做下单主流程，其余按版本递进</text>
+    </svg></div>
     <p>敏捷规划阶段将用户故事按用户旅程排列，形成产品全景图，产出“产品地图”。</p>
-    <div class="phase-note">敏捷规划 / 汇报</div>
+    <div class="card-foot">
+      <span class="phase-note">敏捷规划 / 汇报</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
   <div class="card" data-phase="report">
@@ -794,8 +1751,37 @@
       <line class="dg-ln" x1="155" y1="40" x2="155" y2="56" marker-end="url(#dg-arrow)"/>
       <line class="dg-ln" x1="155" y1="94" x2="155" y2="110" marker-end="url(#dg-arrow)"/>
     </svg></div>
+    <div class="diagram diagram-rich"><svg viewBox="0 0 280 180">
+      <text class="dg-sl" x="6" y="25">接入层</text>
+      <rect class="dg-hi" x="46" y="12" width="150" height="26" rx="5"/>
+      <text class="dg-t" x="121" y="25">Web · App · 小程序 · 公众号</text>
+      <rect class="dg-ln-d" x="204" y="12" width="72" height="26" rx="5"/>
+      <text class="dg-s" x="240" y="25">日均 10w 请求</text>
+      <text class="dg-sl" x="6" y="73">业务层</text>
+      <rect class="dg-hi" x="46" y="60" width="150" height="26" rx="5"/>
+      <text class="dg-t" x="121" y="73">订单 · 商品 · 用户 · 支付</text>
+      <rect class="dg-ln-d" x="204" y="60" width="72" height="26" rx="5"/>
+      <text class="dg-s" x="240" y="73">核心 5 个业务域</text>
+      <text class="dg-sl" x="6" y="121">数据层</text>
+      <rect class="dg-fill" x="46" y="108" width="150" height="26" rx="5"/>
+      <text class="dg-t" x="121" y="121">MySQL · Redis · MQ · ES</text>
+      <rect class="dg-ln-d" x="204" y="108" width="72" height="26" rx="5"/>
+      <text class="dg-s" x="240" y="121">可用性 99.9%</text>
+      <text class="dg-sl" x="6" y="163">运维保障</text>
+      <rect class="dg-box" x="46" y="150" width="150" height="26" rx="5"/>
+      <text class="dg-t" x="121" y="163">监控告警 · 日志 · 灰度发布</text>
+      <rect class="dg-ln-d" x="204" y="150" width="72" height="26" rx="5"/>
+      <text class="dg-s" x="240" y="163">7×24 值守</text>
+      <line class="dg-ln" x1="121" y1="38" x2="121" y2="60" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="145" y="49">HTTPS</text>
+      <line class="dg-ln" x1="121" y1="86" x2="121" y2="108" marker-end="url(#dg-arrow)"/>
+      <text class="dg-s" x="152" y="97">SQL / Cache</text>
+    </svg></div>
     <p>将详细架构图简化为“一页纸架构图”，突出核心分层、关键组件和外部依赖，便于非技术决策者快速理解。</p>
-    <div class="phase-note">汇报 / 评审</div>
+    <div class="card-foot">
+      <span class="phase-note">汇报 / 评审</span>
+      <button class="btn-rich" type="button">看丰富示例</button>
+    </div>
   </div>
 
 </div>
