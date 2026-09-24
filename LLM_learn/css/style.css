@@ -307,6 +307,11 @@ footer {
     color: var(--text-dim);
     font-size: 0.85em;
 }
+footer a {
+    color: var(--accent);
+    text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
 
 @media (max-width: 640px) {
     header h1 { font-size: 1.8em; }
