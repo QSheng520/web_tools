@@ -76,3 +76,64 @@ body[data-mode="code"] .editor{flex:1}
   max-height:45%;overflow:auto;
 }
 #error[hidden]{display:none}
+
+/* ---------------- 模板选择对话框 ---------------- */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:1000;
+  align-items:center;justify-content:center;
+  background:rgba(15,23,42,.6);backdrop-filter:blur(4px);
+}
+.modal-overlay.active{display:flex}
+
+.modal-content{
+  display:flex;flex-direction:column;
+  width:90%;max-width:900px;max-height:85vh;
+  background:var(--panel);border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.modal-header{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,#f8fafc 0%,#eef2ff 100%);
+}
+.modal-header h3{margin:0;font-size:15px;font-weight:600;color:#1e293b}
+.modal-close{
+  width:32px;height:32px;padding:0;font-size:14px;line-height:1;
+  color:#64748b;background:transparent;border:0;border-radius:8px;
+}
+.modal-close:hover{background:#eef2ff;color:var(--accent)}
+.modal-body{padding:20px 24px;overflow-y:auto}
+
+.template-grid{
+  display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+}
+.template-card{
+  display:flex;flex-direction:column;
+  padding:14px;border:2px solid var(--border);border-radius:12px;
+  background:#fff;cursor:pointer;transition:.2s;
+}
+.template-card:hover{
+  border-color:var(--accent);transform:translateY(-4px);
+  box-shadow:0 12px 24px rgba(37,99,235,.12);
+}
+
+/* 缩略图：固定高度裁切，svg 按 viewBox 等比缩到容器内 */
+.template-preview{
+  display:flex;align-items:center;justify-content:center;
+  height:96px;margin-bottom:10px;padding:4px;overflow:hidden;
+  background:#f8fafc;border-radius:8px;
+}
+.template-preview svg{max-width:100%;max-height:100%}
+.template-preview-failed{
+  font-size:12px;color:#94a3b8;
+}
+
+.template-icon{font-size:20px;line-height:1}
+.template-title{margin:6px 0 4px;font-size:13.5px;font-weight:600;color:#1e293b}
+.template-desc{margin:0 0 10px;font-size:12px;line-height:1.5;color:#64748b}
+.template-tag{
+  align-self:flex-start;margin-top:auto;padding:2px 9px;border-radius:20px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:11px;color:#475569;background:#f1f5f9;
+}

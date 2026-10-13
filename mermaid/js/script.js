@@ -6,20 +6,18 @@
   const errorEl  = document.getElementById('error');
   const themeSel = document.getElementById('theme');
 
-  /* ---------------- 默认示例 ---------------- */
-  codeEl.value = [
-    'graph TD',
-    '  A[开始] --> B{用户已登录?}',
-    '  B -- 是 --> C[进入首页]',
-    '  B -- 否 --> D[跳转登录页]',
-    '  D --> E[输入账号密码]',
-    '  E --> C',
-    '  C --> F([结束])'
-  ].join('\n');
+  /* ---------------- 初始内容：模板库中的流程图 ---------------- */
+  const DEFAULT_TEMPLATE = MERMAID_TEMPLATES.find(t => t.id === 'flowchart');
+
+  // 记录上次载入的内容，用户没手动改过时载入模板不再二次确认
+  let lastLoadedCode = DEFAULT_TEMPLATE.code;
+  codeEl.value = lastLoadedCode;
 
   /* -------- 隐藏容器：承接 mermaid 渲染时的临时 DOM -------- */
+  // 必须给出真实尺寸：甘特图等图型按容器宽度计算 viewBox，
+  // 容器为 0 宽时会渲染出 viewBox="0 0 0 148" 的空图
   const sandbox = document.createElement('div');
-  sandbox.style.cssText = 'position:absolute;left:-9999px;top:0;width:0;height:0;overflow:hidden;';
+  sandbox.style.cssText = 'position:absolute;left:-9999px;top:0;width:1200px;height:800px;overflow:hidden;';
   document.body.appendChild(sandbox);
 
   /* ---------------- 渲染 ---------------- */
@@ -41,6 +39,33 @@
     errorEl.textContent = msg;
   }
 
+  // 让 svg 自适应容器
+  // mermaid 输出的 svg 是 width="100%"，直接塞进预览区会被撑满整个宽度、图被放大好几倍，
+  // 这里按 viewBox 还原固有尺寸，再由 CSS 限宽，图只会缩小、不会放大
+  function normalizeSvg(el) {
+    if (!el) return;
+    const vb = el.viewBox && el.viewBox.baseVal;
+    if (vb && vb.width && vb.height) {
+      el.setAttribute('width', vb.width);
+      el.setAttribute('height', vb.height);
+    }
+    el.style.maxWidth = '100%';
+    el.style.height = 'auto';
+  }
+
+  // 渲染到隐藏容器后取出 svg 字符串
+  // 甘特图等图型按容器宽度计算 viewBox，所以容器宽度取预览区实际宽度（图才不会被缩得很小）；
+  // 预览区不可见（纯代码模式）时退回默认宽度
+  async function renderToSvg(code, id) {
+    sandbox.style.width = (outputEl.clientWidth > 200 ? outputEl.clientWidth : 1200) + 'px';
+    try {
+      const { svg } = await mermaid.render(id, code, sandbox);
+      return svg;
+    } finally {
+      sandbox.innerHTML = '';
+    }
+  }
+
   async function renderDiagram() {
     const code = codeEl.value;
     if (!code.trim()) {
@@ -48,23 +73,12 @@
       showError('');
       return;
     }
-    const id = 'mmd-' + (++renderSeq);
     try {
-      const { svg } = await mermaid.render(id, code, sandbox);
-      outputEl.innerHTML = svg;
-
-      // 让图自适应预览区宽度
-      const el = outputEl.querySelector('svg');
-      if (el) {
-        el.removeAttribute('height');
-        el.style.maxWidth = '100%';
-        el.style.height = 'auto';
-      }
+      outputEl.innerHTML = await renderToSvg(code, 'mmd-' + (++renderSeq));
+      normalizeSvg(outputEl.querySelector('svg'));
       showError('');
     } catch (err) {
       showError('语法错误：\n' + (err && err.message ? err.message : String(err)));
-    } finally {
-      sandbox.innerHTML = '';
     }
   }
 
@@ -165,6 +179,91 @@
   splitter.addEventListener('dblclick', () => {
     applyRatio(DEFAULT_RATIO);
     saveRatio();
+  });
+
+  /* ---------------- 模板选择对话框 ---------------- */
+  const templateModal = document.getElementById('templateModal');
+  const templateGrid  = document.getElementById('templateGrid');
+  const closeModalBtn = document.getElementById('closeModal');
+
+  // 缩略图缓存：模板 id -> svg 字符串，二次打开无需重新渲染
+  const thumbCache = new Map();
+
+  function showTemplateModal() {
+    renderTemplateCards();
+    templateModal.classList.add('active');
+    renderThumbnails();
+  }
+
+  function hideTemplateModal() {
+    templateModal.classList.remove('active');
+  }
+
+  function renderTemplateCards() {
+    templateGrid.innerHTML = MERMAID_TEMPLATES.map(t => `
+      <div class="template-card" data-id="${t.id}">
+        <div class="template-preview" data-preview="${t.id}"></div>
+        <span class="template-icon">${t.icon}</span>
+        <h4 class="template-title">${t.title}</h4>
+        <p class="template-desc">${t.description}</p>
+        <span class="template-tag">${t.syntax}</span>
+      </div>
+    `).join('');
+  }
+
+  // 按当前 DOM 里的卡片回填缩略图；卡片已被重绘时静默跳过
+  function fillThumb(id, svg) {
+    const box = templateGrid.querySelector('[data-preview="' + id + '"]');
+    if (!box) return;
+    box.innerHTML = svg;
+    normalizeSvg(box.querySelector('svg'));
+  }
+
+  // mermaid 内部串行渲染，这里逐张出图；失败只影响该张卡片
+  async function renderThumbnails() {
+    for (const t of MERMAID_TEMPLATES) {
+      if (thumbCache.has(t.id)) { fillThumb(t.id, thumbCache.get(t.id)); continue; }
+      try {
+        const svg = await renderToSvg(t.code, 'thumb-' + t.id + '-' + (++renderSeq));
+        thumbCache.set(t.id, svg);
+        fillThumb(t.id, svg);
+      } catch (e) {
+        fillThumb(t.id, '<div class="template-preview-failed">预览失败</div>');
+      }
+    }
+  }
+
+  function loadTemplate(template) {
+    if (codeEl.value !== lastLoadedCode &&
+        !confirm('载入「' + template.title + '」模板将覆盖当前代码，确定继续？')) {
+      return;
+    }
+    codeEl.value = template.code;
+    codeEl.scrollTop = 0;
+    lastLoadedCode = template.code;
+    renderDiagram();
+    hideTemplateModal();
+  }
+
+  document.getElementById('btn-template').addEventListener('click', showTemplateModal);
+  closeModalBtn.addEventListener('click', hideTemplateModal);
+
+  // 卡片点击：事件委托，卡片重绘后无需重新绑定
+  templateGrid.addEventListener('click', e => {
+    const card = e.target.closest('.template-card');
+    if (!card) return;
+    const template = MERMAID_TEMPLATES.find(t => t.id === card.dataset.id);
+    if (template) loadTemplate(template);
+  });
+
+  // 点击遮罩层关闭
+  templateModal.addEventListener('click', e => {
+    if (e.target === templateModal) hideTemplateModal();
+  });
+
+  // ESC 键关闭
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && templateModal.classList.contains('active')) hideTemplateModal();
   });
 
   /* ---------------- 导出核心工具 ---------------- */

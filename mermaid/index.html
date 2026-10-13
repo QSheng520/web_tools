@@ -18,6 +18,7 @@
     <option value="dark">暗色</option>
     <option value="base">基础</option>
   </select>
+  <button id="btn-template" title="载入内置模板">📋 模板</button>
   <div class="mode-switch" id="mode-switch" title="视图模式">
     <button type="button" data-mode="code">代码</button>
     <button type="button" data-mode="split" class="active">分屏</button>
@@ -40,8 +41,24 @@
   </section>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<!-- 模板选择对话框 -->
+<div class="modal-overlay" id="templateModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>📋 选择图表模板</h3>
+      <button class="modal-close" id="closeModal" title="关闭">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="template-grid" id="templateGrid">
+        <!-- 模板卡片由 templates.js 的数据动态生成 -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="js/templates.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
