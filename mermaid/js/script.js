@@ -42,8 +42,9 @@
 
   // 让 svg 回到固有尺寸
   // mermaid 输出的 svg 是 width="100%"，直接塞进预览区会被撑满整个宽度、图被放大好几倍，
-  // 这里按 viewBox 还原成固有尺寸，尺寸怎么用交给各自的 CSS：
-  // 预览区靠 transform 缩放，模板缩略图靠 max-width/max-height 限位
+  // 这里按 viewBox 还原成固有尺寸，并把 mermaid 留下的内联 max-width 清掉
+  // —— 否则预览区改宽高做缩放时会被那个上限卡住；
+  // 限位改由各自的 CSS 负责：模板缩略图用 max-width/max-height，预览区用视角计算
   function normalizeSvg(el) {
     if (!el) return;
     const vb = el.viewBox && el.viewBox.baseVal;
@@ -51,6 +52,8 @@
       el.setAttribute('width', vb.width);
       el.setAttribute('height', vb.height);
     }
+    el.style.maxWidth = '';
+    el.style.maxHeight = '';
   }
 
   // 渲染到隐藏容器后取出 svg 字符串
@@ -76,8 +79,11 @@
     }
     try {
       outputEl.innerHTML = await renderToSvg(code, 'mmd-' + (++renderSeq));
-      normalizeSvg(outputEl.querySelector('svg'));
-      if (!fitted) fitView();  // 只在新图入场时自适应，改代码重渲染保留当前视角
+      const svg = outputEl.querySelector('svg');
+      normalizeSvg(svg);
+      measureNatural(svg);
+      // 只在新图入场时自适应；改代码重渲染保留当前视角，但要按新图的固有尺寸重算宽高
+      if (fitted) applyView(); else fitView();
       showError('');
     } catch (err) {
       showError('语法错误：\n' + (err && err.message ? err.message : String(err)));
@@ -91,22 +97,40 @@
   const PAD = 20;                     // 初始视角四周留白，与旧版预览区内边距一致
 
   let scale = 1, tx = 0, ty = 0;
+  let naturalW = 0, naturalH = 0;   // svg 固有尺寸（viewBox 尺寸），不含缩放
   let fitted = false;
 
-  function applyTransform() {
-    outputEl.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+  // 平移：只写 transform 的位移
+  function applyPan() {
+    outputEl.style.transform = 'translate(' + tx + 'px,' + ty + 'px)';
+  }
+
+  // 缩放：改 svg 自身的宽高，让浏览器按新尺寸矢量重绘
+  // 用 transform: scale() 会走合成层——浏览器缓存放大前的位图再拉伸，文字就会糊；
+  // 平移不涉及重采样，仍走 transform，避免拖动时反复重排
+  function applyView() {
+    const svg = outputEl.querySelector('svg');
+    if (!svg || !naturalW) return;
+    svg.setAttribute('width', naturalW * scale);
+    svg.setAttribute('height', naturalH * scale);
+    applyPan();
+  }
+
+  // 记录 svg 固有尺寸；applyView 会改 svg 的宽高，所以只在重渲染后量一次
+  function measureNatural(svg) {
+    const vb = svg.viewBox && svg.viewBox.baseVal;
+    naturalW = (vb && vb.width)  || svg.getBoundingClientRect().width  || 0;
+    naturalH = (vb && vb.height) || svg.getBoundingClientRect().height || 0;
   }
 
   // 初始视角：小图按原始尺寸，大图等比缩到放得下；水平居中、顶部留白
   function fitView() {
-    if (!outputEl.querySelector('svg') || !viewportEl.clientWidth) return;  // 预览区不可见时先不定，切回来自适应
-    const nw = outputEl.offsetWidth, nh = outputEl.offsetHeight;
-    if (!nw || !nh) return;
-    scale = Math.min(1, (viewportEl.clientWidth - PAD * 2) / nw);
-    tx = (viewportEl.clientWidth - nw * scale) / 2;
+    if (!outputEl.querySelector('svg') || !naturalW || !viewportEl.clientWidth) return;  // 预览区不可见时先不定，切回来自适应
+    scale = Math.min(1, (viewportEl.clientWidth - PAD * 2) / naturalW);
+    tx = (viewportEl.clientWidth - naturalW * scale) / 2;
     ty = PAD;
     fitted = true;
-    applyTransform();
+    applyView();
   }
 
   // 以光标所在点为锚点缩放：该点下的图形位置保持不动
@@ -118,7 +142,7 @@
     tx = cx - (cx - tx) * (next / scale);
     ty = cy - (cy - ty) * (next / scale);
     scale = next;
-    applyTransform();
+    applyView();
   }
 
   viewportEl.addEventListener('wheel', e => {
@@ -143,7 +167,7 @@
     if (!panning) return;
     tx = panBaseX + (e.clientX - panStartX);
     ty = panBaseY + (e.clientY - panStartY);
-    applyTransform();
+    applyPan();
   });
 
   function endPan(e) {

@@ -71,12 +71,11 @@ body[data-mode="code"] .editor{flex:1}
 }
 #viewport.dragging{cursor:grabbing}
 
-/* 画布层：宽度贴合 svg 固有尺寸，平移缩放一律走 transform
-   （不动 svg 自身的 width/height，导出时才拿得到干净的原始尺寸）
-   transform-origin 取左上角，缩放按光标位置换算偏移最简单 */
+/* 画布层：宽度贴合 svg 尺寸，左上角对齐视口原点
+   缩放改的是 svg 自身宽高（矢量重绘），这里只承担平移，所以不设 will-change：
+   一旦提示浏览器为 transform 建合成层，放大时就会拿缓存位图拉伸，文字发虚 */
 #output{
   position:absolute;left:0;top:0;width:max-content;
-  transform-origin:0 0;will-change:transform;
 }
 #output svg{display:block}
 #error{
