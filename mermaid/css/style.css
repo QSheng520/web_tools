@@ -1,0 +1,47 @@
+:root{
+  --bg:#f6f7f9; --panel:#fff; --border:#e3e6ea;
+  --text:#1f2328; --accent:#2563eb;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  display:flex;flex-direction:column;overflow:hidden;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+}
+header{
+  flex:0 0 auto;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);
+}
+header h1{font-size:15px;font-weight:600;margin:0 8px 0 0}
+header .spacer{flex:1}
+button,select{
+  font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--border);
+  border-radius:6px;background:#fff;color:var(--text);cursor:pointer;transition:.15s;
+}
+button:hover{background:#f0f2f5;border-color:#cbd2da}
+button:disabled{opacity:.6;cursor:not-allowed}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.primary:hover{background:#1d4ed8}
+
+main{flex:1;display:flex;min-height:0}
+.pane{display:flex;flex-direction:column;min-width:0;min-height:0}
+.editor{flex:0 0 42%;background:#fff;border-right:1px solid var(--border)}
+.preview{flex:1;background:#fff;position:relative}
+
+#code{
+  flex:1;width:100%;border:0;outline:0;resize:none;padding:16px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13.5px;line-height:1.7;tab-size:2;color:#0f172a;background:#fff;
+}
+#output{
+  flex:1;overflow:auto;padding:20px;
+  display:flex;justify-content:center;align-items:flex-start;
+}
+#output svg{max-width:100%;height:auto}
+#error{
+  position:absolute;left:12px;right:12px;bottom:12px;padding:10px 12px;
+  border-radius:8px;font-size:12.5px;line-height:1.5;white-space:pre-wrap;
+  background:#fee2e2;color:#991b1b;border:1px solid #fecaca;
+  max-height:45%;overflow:auto;
+}
+#error[hidden]{display:none}

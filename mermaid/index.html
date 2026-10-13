@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mermaid 实时编辑器</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <h1>🧜 Mermaid 实时编辑器</h1>
+  <select id="theme" title="图表主题">
+    <option value="default">默认主题</option>
+    <option value="neutral">中性</option>
+    <option value="forest">森林</option>
+    <option value="dark">暗色</option>
+    <option value="base">基础</option>
+  </select>
+  <span class="spacer"></span>
+  <button id="btn-svg">下载 SVG</button>
+  <button id="btn-png">下载 PNG</button>
+  <button id="btn-pdf" class="primary">下载 PDF</button>
+</header>
+
+<main>
+  <section class="pane editor">
+    <textarea id="code" spellcheck="false"></textarea>
+  </section>
+  <section class="pane preview">
+    <div id="output"></div>
+    <div id="error" hidden></div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
