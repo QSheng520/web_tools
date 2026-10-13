@@ -18,6 +18,11 @@
     <option value="dark">暗色</option>
     <option value="base">基础</option>
   </select>
+  <div class="mode-switch" id="mode-switch" title="视图模式">
+    <button type="button" data-mode="code">代码</button>
+    <button type="button" data-mode="split" class="active">分屏</button>
+    <button type="button" data-mode="preview">预览</button>
+  </div>
   <span class="spacer"></span>
   <button id="btn-svg">下载 SVG</button>
   <button id="btn-png">下载 PNG</button>
@@ -28,6 +33,7 @@
   <section class="pane editor">
     <textarea id="code" spellcheck="false"></textarea>
   </section>
+  <div id="splitter" class="splitter" role="separator" aria-orientation="vertical" title="拖动调整宽度，双击恢复默认"></div>
   <section class="pane preview">
     <div id="output"></div>
     <div id="error" hidden></div>

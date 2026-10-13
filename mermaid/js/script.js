@@ -89,6 +89,84 @@
     renderDiagram();
   });
 
+  /* -------- 视图模式：代码 / 分屏 / 预览 -------- */
+  const modeSwitch = document.getElementById('mode-switch');
+
+  function setMode(mode) {
+    document.body.dataset.mode = mode;
+    modeSwitch.querySelectorAll('button[data-mode]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+  }
+
+  modeSwitch.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-mode]');
+    if (btn) setMode(btn.dataset.mode);
+  });
+
+  /* -------- 分割线拖拽 -------- */
+  const mainEl   = document.querySelector('main');
+  const splitter = document.getElementById('splitter');
+
+  const DEFAULT_RATIO = 42;   // 代码区占 main 宽度的百分比
+  const MIN_RATIO = 20;
+  const MAX_RATIO = 80;
+  const LS_KEY = 'mermaid.splitRatio';
+
+  let ratio = DEFAULT_RATIO;
+
+  function applyRatio(p) {
+    ratio = Math.min(MAX_RATIO, Math.max(MIN_RATIO, p));
+    mainEl.style.setProperty('--editor-w', ratio + '%');
+  }
+
+  // 以 file:// 打开时部分浏览器访问 localStorage 会抛异常，读写一律兜底
+  function saveRatio() {
+    try { localStorage.setItem(LS_KEY, String(ratio)); } catch (e) { /* 忽略 */ }
+  }
+
+  function loadRatio() {
+    try {
+      const v = parseFloat(localStorage.getItem(LS_KEY));
+      if (Number.isFinite(v)) applyRatio(v);
+    } catch (e) { /* 忽略 */ }
+  }
+
+  let dragging = false;
+
+  // 用 pointer 事件 + 指针捕获，拖动经过 textarea / svg 时不会丢事件
+  splitter.addEventListener('pointerdown', e => {
+    if (e.button !== 0) return;   // 此处不 preventDefault，否则 dblclick 不再触发
+    dragging = true;
+    splitter.classList.add('dragging');
+    document.body.classList.add('resizing');
+    splitter.setPointerCapture(e.pointerId);
+  });
+
+  splitter.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    const rect = mainEl.getBoundingClientRect();
+    applyRatio((e.clientX - rect.left) / rect.width * 100);
+  });
+
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    splitter.classList.remove('dragging');
+    document.body.classList.remove('resizing');
+    if (splitter.hasPointerCapture(e.pointerId)) splitter.releasePointerCapture(e.pointerId);
+    saveRatio();
+  }
+
+  splitter.addEventListener('pointerup', endDrag);
+  splitter.addEventListener('pointercancel', endDrag);
+
+  // 双击分割线恢复默认比例
+  splitter.addEventListener('dblclick', () => {
+    applyRatio(DEFAULT_RATIO);
+    saveRatio();
+  });
+
   /* ---------------- 导出核心工具 ---------------- */
 
   // 把当前 SVG 克隆、补全属性并加白底，返回序列化字符串和尺寸
@@ -240,6 +318,8 @@
   });
 
   /* ---------------- 启动 ---------------- */
+  setMode('split');
+  loadRatio();
   initMermaid('default');
   renderDiagram();
 
