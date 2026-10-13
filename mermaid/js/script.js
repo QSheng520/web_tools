@@ -1,10 +1,11 @@
 (function () {
   'use strict';
 
-  const codeEl   = document.getElementById('code');
-  const outputEl = document.getElementById('output');
-  const errorEl  = document.getElementById('error');
-  const themeSel = document.getElementById('theme');
+  const codeEl     = document.getElementById('code');
+  const outputEl   = document.getElementById('output');
+  const viewportEl = document.getElementById('viewport');
+  const errorEl    = document.getElementById('error');
+  const themeSel   = document.getElementById('theme');
 
   /* ---------------- 初始内容：模板库中的流程图 ---------------- */
   const DEFAULT_TEMPLATE = MERMAID_TEMPLATES.find(t => t.id === 'flowchart');
@@ -39,9 +40,10 @@
     errorEl.textContent = msg;
   }
 
-  // 让 svg 自适应容器
+  // 让 svg 回到固有尺寸
   // mermaid 输出的 svg 是 width="100%"，直接塞进预览区会被撑满整个宽度、图被放大好几倍，
-  // 这里按 viewBox 还原固有尺寸，再由 CSS 限宽，图只会缩小、不会放大
+  // 这里按 viewBox 还原成固有尺寸，尺寸怎么用交给各自的 CSS：
+  // 预览区靠 transform 缩放，模板缩略图靠 max-width/max-height 限位
   function normalizeSvg(el) {
     if (!el) return;
     const vb = el.viewBox && el.viewBox.baseVal;
@@ -49,15 +51,13 @@
       el.setAttribute('width', vb.width);
       el.setAttribute('height', vb.height);
     }
-    el.style.maxWidth = '100%';
-    el.style.height = 'auto';
   }
 
   // 渲染到隐藏容器后取出 svg 字符串
   // 甘特图等图型按容器宽度计算 viewBox，所以容器宽度取预览区实际宽度（图才不会被缩得很小）；
   // 预览区不可见（纯代码模式）时退回默认宽度
   async function renderToSvg(code, id) {
-    sandbox.style.width = (outputEl.clientWidth > 200 ? outputEl.clientWidth : 1200) + 'px';
+    sandbox.style.width = (viewportEl.clientWidth > 200 ? viewportEl.clientWidth : 1200) + 'px';
     try {
       const { svg } = await mermaid.render(id, code, sandbox);
       return svg;
@@ -70,17 +70,94 @@
     const code = codeEl.value;
     if (!code.trim()) {
       outputEl.innerHTML = '';
+      fitted = false;          // 清空后重新出图时，重新做一次自适应
       showError('');
       return;
     }
     try {
       outputEl.innerHTML = await renderToSvg(code, 'mmd-' + (++renderSeq));
       normalizeSvg(outputEl.querySelector('svg'));
+      if (!fitted) fitView();  // 只在新图入场时自适应，改代码重渲染保留当前视角
       showError('');
     } catch (err) {
       showError('语法错误：\n' + (err && err.message ? err.message : String(err)));
     }
   }
+
+  /* -------- 预览区视角：拖动平移 + 滚轮缩放 -------- */
+  const MIN_SCALE = 0.1;
+  const MAX_SCALE = 8;
+  const WHEEL_SENSITIVITY = 0.0015;   // deltaY -> 缩放倍数，取指数关系滚动才匀
+  const PAD = 20;                     // 初始视角四周留白，与旧版预览区内边距一致
+
+  let scale = 1, tx = 0, ty = 0;
+  let fitted = false;
+
+  function applyTransform() {
+    outputEl.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+  }
+
+  // 初始视角：小图按原始尺寸，大图等比缩到放得下；水平居中、顶部留白
+  function fitView() {
+    if (!outputEl.querySelector('svg') || !viewportEl.clientWidth) return;  // 预览区不可见时先不定，切回来自适应
+    const nw = outputEl.offsetWidth, nh = outputEl.offsetHeight;
+    if (!nw || !nh) return;
+    scale = Math.min(1, (viewportEl.clientWidth - PAD * 2) / nw);
+    tx = (viewportEl.clientWidth - nw * scale) / 2;
+    ty = PAD;
+    fitted = true;
+    applyTransform();
+  }
+
+  // 以光标所在点为锚点缩放：该点下的图形位置保持不动
+  function zoomAt(clientX, clientY, factor) {
+    const rect = viewportEl.getBoundingClientRect();
+    const cx = clientX - rect.left, cy = clientY - rect.top;
+    const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale * factor));
+    if (next === scale) return;
+    tx = cx - (cx - tx) * (next / scale);
+    ty = cy - (cy - ty) * (next / scale);
+    scale = next;
+    applyTransform();
+  }
+
+  viewportEl.addEventListener('wheel', e => {
+    if (!outputEl.querySelector('svg')) return;
+    e.preventDefault();
+    const delta = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;   // 行模式换算成像素
+    zoomAt(e.clientX, e.clientY, Math.exp(-delta * WHEEL_SENSITIVITY));
+  }, { passive: false });
+
+  let panning = false, panStartX = 0, panStartY = 0, panBaseX = 0, panBaseY = 0;
+
+  viewportEl.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || !outputEl.querySelector('svg')) return;   // 同样不 preventDefault，否则 dblclick 不再触发
+    panning = true;
+    panStartX = e.clientX; panStartY = e.clientY;
+    panBaseX = tx; panBaseY = ty;
+    viewportEl.classList.add('dragging');
+    viewportEl.setPointerCapture(e.pointerId);
+  });
+
+  viewportEl.addEventListener('pointermove', e => {
+    if (!panning) return;
+    tx = panBaseX + (e.clientX - panStartX);
+    ty = panBaseY + (e.clientY - panStartY);
+    applyTransform();
+  });
+
+  function endPan(e) {
+    if (!panning) return;
+    panning = false;
+    viewportEl.classList.remove('dragging');
+    if (viewportEl.hasPointerCapture(e.pointerId)) viewportEl.releasePointerCapture(e.pointerId);
+  }
+
+  viewportEl.addEventListener('pointerup', endPan);
+  viewportEl.addEventListener('pointercancel', endPan);
+
+  // 双击预览区回到初始视角
+  viewportEl.addEventListener('dblclick', fitView);
 
   /* 输入防抖 */
   let debounceTimer = null;
@@ -111,6 +188,8 @@
     modeSwitch.querySelectorAll('button[data-mode]').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.mode === mode);
     });
+    // 纯代码模式下预览区宽度为 0、出图时做不了自适应，切回可见模式时补做一次
+    if (mode !== 'code' && !fitted) fitView();
   }
 
   modeSwitch.addEventListener('click', e => {

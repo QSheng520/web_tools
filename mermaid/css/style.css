@@ -64,11 +64,21 @@ body[data-mode="code"] .editor{flex:1}
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   font-size:13.5px;line-height:1.7;tab-size:2;color:#0f172a;background:#fff;
 }
-#output{
-  flex:1;overflow:auto;padding:20px;
-  display:flex;justify-content:center;align-items:flex-start;
+/* 预览视口：裁掉溢出的部分，拖动与滚轮事件都挂在这一层 */
+#viewport{
+  flex:1;position:relative;overflow:hidden;
+  cursor:grab;touch-action:none;user-select:none;
 }
-#output svg{max-width:100%;height:auto}
+#viewport.dragging{cursor:grabbing}
+
+/* 画布层：宽度贴合 svg 固有尺寸，平移缩放一律走 transform
+   （不动 svg 自身的 width/height，导出时才拿得到干净的原始尺寸）
+   transform-origin 取左上角，缩放按光标位置换算偏移最简单 */
+#output{
+  position:absolute;left:0;top:0;width:max-content;
+  transform-origin:0 0;will-change:transform;
+}
+#output svg{display:block}
 #error{
   position:absolute;left:12px;right:12px;bottom:12px;padding:10px 12px;
   border-radius:8px;font-size:12.5px;line-height:1.5;white-space:pre-wrap;

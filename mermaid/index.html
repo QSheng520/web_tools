@@ -36,7 +36,10 @@
   </section>
   <div id="splitter" class="splitter" role="separator" aria-orientation="vertical" title="拖动调整宽度，双击恢复默认"></div>
   <section class="pane preview">
-    <div id="output"></div>
+    <!-- 视口负责裁切与接收拖动/滚轮事件，画布层负责 transform 平移缩放 -->
+    <div id="viewport">
+      <div id="output"></div>
+    </div>
     <div id="error" hidden></div>
   </section>
 </main>
